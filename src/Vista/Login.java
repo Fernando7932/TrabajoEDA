@@ -74,6 +74,9 @@ public class Login extends javax.swing.JFrame {
         if (indice != -1 && contraseñas.get(indice).equals(contraseña)) {
             //Prueba
             JOptionPane.showMessageDialog(this, "Login Exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+            dispose();
         } else if (usuario.isEmpty() || contraseña.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Complete todos los campos", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
         } else {
