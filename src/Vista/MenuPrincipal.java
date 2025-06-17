@@ -8,6 +8,7 @@ package Vista;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
@@ -15,12 +16,19 @@ import javax.swing.JPanel;
  * @author fernando
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
+    Principal viewPrincipal;
+    Seguimiento viewSeguimiento;
+    RGSTExpediente viewExpediente;
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
+        viewPrincipal = new Principal();
+        viewSeguimiento = new Seguimiento();
+        viewExpediente = new RGSTExpediente();
+        
+        ShowJPanel(viewPrincipal);
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
         setTitle("Menu"); //Titulo.
@@ -37,6 +45,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -57,6 +67,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
+        bttnPrincipal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -94,6 +105,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         bttnSeguimiento.setBorderPainted(false);
         bttnSeguimiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         bttnSeguimiento.setIconTextGap(15);
+        bttnSeguimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnSeguimientoActionPerformed(evt);
+            }
+        });
         jPanel2.add(bttnSeguimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 160, 40));
 
         bttnConsultar.setBackground(new java.awt.Color(255, 153, 0));
@@ -137,6 +153,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 430, 280));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 410, -1));
 
+        bttnPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hogar (1).png"))); // NOI18N
+        bttnPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnPrincipalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(544, 10, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,9 +177,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bttnExpedienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExpedienteActionPerformed
         // TODO add your handling code here:
-        RGSTExpediente viewExpediente = new RGSTExpediente();
         ShowJPanel(viewExpediente);
     }//GEN-LAST:event_bttnExpedienteActionPerformed
+
+    private void bttnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnPrincipalActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(viewPrincipal);
+    }//GEN-LAST:event_bttnPrincipalActionPerformed
+
+    private void bttnSeguimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSeguimientoActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(viewSeguimiento);
+    }//GEN-LAST:event_bttnSeguimientoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -196,6 +229,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnConsultar;
     private javax.swing.JButton bttnExpediente;
+    private javax.swing.JButton bttnPrincipal;
     private javax.swing.JButton bttnSeguimiento;
     private javax.swing.JPanel content;
     private javax.swing.JLabel jLabel1;

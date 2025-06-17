@@ -5,6 +5,7 @@
 package Modelo;
 import TDA.Fecha;
 import java.util.Calendar;
+import TDA.Lista;
 /**
  *
  * @author YUSTIN
@@ -17,6 +18,7 @@ public class Expediente {
     private String DocumentoReferencia;
     private String Finicio, Ffinal;
     private boolean Completado;
+    private Lista<Documento> DocumentoResultante;
 
     public String getId() {
         return id;
@@ -30,6 +32,20 @@ public class Expediente {
         return Completado;
     }
 
+    public Lista<Documento> getDocumentoResultante() {
+        return DocumentoResultante;
+    }
+
+    public String getFinicio() {
+        return Finicio;
+    }
+
+    public String getFfinal() {
+        return Ffinal;
+    }
+    
+    
+
 
     public Expediente() {
     }
@@ -42,6 +58,7 @@ public class Expediente {
         this.DocumentoReferencia = DocumentoReferencia;
         this.Finicio = "fecha_actual";
         this.Completado = false;
+        this.DocumentoResultante = new Lista<>();
     }
 
     public void CompletarTramite(String Ffinal) {
