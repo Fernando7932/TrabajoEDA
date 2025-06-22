@@ -1,5 +1,8 @@
 package TDA;
-
+/**
+ * @author Yustin
+ * @param <T>
+ */
 public class NodoDoble<T> {
     // ATRIBUTOS
     private T item; // Datos

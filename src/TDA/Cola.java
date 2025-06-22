@@ -1,5 +1,9 @@
 package TDA;
-
+/**
+ *
+ * @author Yustin
+ * @param <T>
+ */
 public class Cola<T> {
     private Nodo<T> frente; // apunta al primer item de la cola
     private Nodo<T> ultimo; // apunta al ultimo item de la cola

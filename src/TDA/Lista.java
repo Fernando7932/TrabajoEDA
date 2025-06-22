@@ -1,5 +1,9 @@
 package TDA;
-
+/**
+ *
+ * @author Yustin
+ * @param <T>
+ */
 public class Lista<T> {
     // Atributos
     private Nodo<T> cabeza;

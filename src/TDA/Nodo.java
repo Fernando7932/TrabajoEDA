@@ -1,5 +1,9 @@
 package TDA;
-
+/**
+ *
+ * @author Yustin
+ * @param <T>
+ */
 public class Nodo<T> {
     // ATRIBUTOS
     private T item; // Datos

@@ -1,5 +1,9 @@
 package TDA;
-
+/**
+ *
+ * @author Yustin
+ * @param <T>
+ */
 public class ListaCircularDoble<T> {
 
     private NodoDoble<T> cabeza;
