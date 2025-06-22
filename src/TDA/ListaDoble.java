@@ -1,7 +1,7 @@
 package TDA;
 /**
  *
- * @author Yustin
+ * @author YUSTIN
  * @param <T>
  */
 public class ListaDoble<T> {
