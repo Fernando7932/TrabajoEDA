@@ -6,24 +6,47 @@
 package Vista;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
  * @author fernando
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
+    Principal viewPrincipal;
+    Seguimiento viewSeguimiento;
+    RGSTExpediente viewExpediente;
     /**
      * Creates new form MenuPrincipal
      */
     public MenuPrincipal() {
         initComponents();
+        viewPrincipal = new Principal();
+        viewSeguimiento = new Seguimiento();
+        viewExpediente = new RGSTExpediente();
+        
+        ShowJPanel(viewPrincipal);
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
         setTitle("Menu"); //Titulo.
-        setSize(new Dimension(610, 350)); //Tamaño del JFrame
+        setSize(new Dimension(610, 375)); //Tamaño del JFrame
     }
+
+    private void ShowJPanel(JPanel p) {
+        /* Muestra el contenido del Jpanel p para que se muestre en content. */
+        p.setSize(430, 280);
+        p.setLocation(0, 0);
+
+        content.removeAll();
+        content.add(p, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -37,18 +60,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         bttnExpediente = new javax.swing.JButton();
-        bttnTramite = new javax.swing.JButton();
+        bttnSeguimiento = new javax.swing.JButton();
         bttnConsultar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        content = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        bttnPrincipal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 153, 51));
         jPanel2.setForeground(new java.awt.Color(255, 153, 0));
@@ -70,16 +96,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jPanel2.add(bttnExpediente, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 160, 40));
 
-        bttnTramite.setBackground(new java.awt.Color(255, 153, 0));
-        bttnTramite.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
-        bttnTramite.setForeground(new java.awt.Color(255, 255, 255));
-        bttnTramite.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Copia de anadir.png"))); // NOI18N
-        bttnTramite.setText("Tramite");
-        bttnTramite.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 10, 1, 1, new java.awt.Color(255, 153, 0)));
-        bttnTramite.setBorderPainted(false);
-        bttnTramite.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        bttnTramite.setIconTextGap(15);
-        jPanel2.add(bttnTramite, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 160, 40));
+        bttnSeguimiento.setBackground(new java.awt.Color(255, 153, 0));
+        bttnSeguimiento.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
+        bttnSeguimiento.setForeground(new java.awt.Color(255, 255, 255));
+        bttnSeguimiento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Copia de anadir.png"))); // NOI18N
+        bttnSeguimiento.setText("Seguimiento");
+        bttnSeguimiento.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 10, 1, 1, new java.awt.Color(255, 153, 0)));
+        bttnSeguimiento.setBorderPainted(false);
+        bttnSeguimiento.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        bttnSeguimiento.setIconTextGap(15);
+        bttnSeguimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnSeguimientoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(bttnSeguimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 160, 40));
 
         bttnConsultar.setBackground(new java.awt.Color(255, 153, 0));
         bttnConsultar.setFont(new java.awt.Font("Lucida Grande", 1, 15)); // NOI18N
@@ -100,33 +131,35 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logo (1) (1).png"))); // NOI18N
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 100, 90));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 24)); // NOI18N
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 159, 350));
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 22)); // NOI18N
         jLabel1.setText("Sistema de Trámite");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 266, -1));
 
-        jLabel2.setText("Aca va cuerpo y caracteristicas (funciones).");
+        content.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 33, Short.MAX_VALUE))
+        javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
+        content.setLayout(contentLayout);
+        contentLayout.setHorizontalGroup(
+            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 430, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+        contentLayout.setVerticalGroup(
+            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 280, Short.MAX_VALUE)
         );
+
+        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 430, 280));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 50, 410, -1));
+
+        bttnPrincipal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hogar (1).png"))); // NOI18N
+        bttnPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnPrincipalActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(544, 10, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,7 +177,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bttnExpedienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnExpedienteActionPerformed
         // TODO add your handling code here:
+        ShowJPanel(viewExpediente);
     }//GEN-LAST:event_bttnExpedienteActionPerformed
+
+    private void bttnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnPrincipalActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(viewPrincipal);
+    }//GEN-LAST:event_bttnPrincipalActionPerformed
+
+    private void bttnSeguimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSeguimientoActionPerformed
+        // TODO add your handling code here:
+        ShowJPanel(viewSeguimiento);
+    }//GEN-LAST:event_bttnSeguimientoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,12 +229,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnConsultar;
     private javax.swing.JButton bttnExpediente;
-    private javax.swing.JButton bttnTramite;
+    private javax.swing.JButton bttnPrincipal;
+    private javax.swing.JButton bttnSeguimiento;
+    private javax.swing.JPanel content;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
