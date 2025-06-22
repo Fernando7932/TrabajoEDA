@@ -32,8 +32,8 @@ public class Documento {
         return fecha;
     }
 
-    @Override
-    public String toString() {
+
+    public String mostrar() {
         return tipo + ": " + descripcion + " (" + fecha + ")";
     }
 }

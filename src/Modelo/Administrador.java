@@ -13,7 +13,6 @@ public class Administrador {
     private String usuario;
     private String contraseña;
     
-    
     public Administrador() {
         
     }
@@ -25,9 +24,9 @@ public class Administrador {
     
     
     //Un Administrador puede crear un Expediente y Completar un Expediente
-    public Expediente crearExpediente(int id, String prioridad, Interesado interesado, 
+    public Expediente crearExpediente(int Id, String prioridad, Interesado interesado, 
                                     String asunto, String documento) {
-        return new Expediente(id, prioridad, interesado, asunto, documento);
+        return new Expediente(Id, prioridad, interesado, asunto, documento);
     }
 
     public void completarExpediente(Expediente exp, String fechaFin) {

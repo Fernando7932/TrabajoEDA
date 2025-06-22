@@ -37,7 +37,7 @@ public class Interesado {
         this.dni = dni;
         this.nombres = nombre;
         this.telefono = telefono;
-        this.tipo = tipo;
+        this.tipo =  tipo;
     }
 
     

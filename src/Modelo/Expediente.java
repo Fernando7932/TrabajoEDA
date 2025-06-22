@@ -9,7 +9,7 @@ import TDA.Lista;
  * @author YUSTIN
  */
 public class Expediente {
-    private int id;
+    private int Id;
     private String prioridad;
     private Interesado Interesado;
     private String Asunto;
@@ -19,7 +19,7 @@ public class Expediente {
     private Lista<Documento> DocumentoResultante;
 
     public int getId() {
-        return id;
+        return Id;
     }
 
     public String getAsunto() {
@@ -49,7 +49,7 @@ public class Expediente {
     }
 
     public Expediente(int id, String prioridad, Interesado Interesado, String Asunto, String DocumentoReferencia) {
-        this.id = id;
+        this.Id = id;
         this.prioridad = prioridad;
         this.Interesado = Interesado;
         this.Asunto = Asunto;
