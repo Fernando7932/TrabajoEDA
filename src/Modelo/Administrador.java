@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,26 +10,26 @@ package Modelo;
  * @author fernando
  */
 public class Administrador {
-    private String usuario;
-    private String contraseña;
-    
-    public Administrador() {
-        
-    }
-    
-    public Administrador(String usuario, String contraseña) {
-        this.usuario = usuario;
-        this.contraseña = contraseña;
-    }
-    
-    
-    //Un Administrador puede crear un Expediente y Completar un Expediente
-    public Expediente crearExpediente(int Id, String prioridad, Interesado interesado, 
-                                    String asunto, String documento) {
-        return new Expediente(Id, prioridad, interesado, asunto, documento);
+    public static String usuario;
+    public static  String contraseña;
+
+    public static String getUsuario() {
+        return usuario;
     }
 
-    public void completarExpediente(Expediente exp, String fechaFin) {
+    public static String getContraseña() {
+        return contraseña;
+    }
+
+
+    
+    //Un Administrador puede crear un Expediente y Completar un Expediente
+    public static Expediente crearExpediente(String prioridad, Interesado interesado, 
+                                    String asunto, String documento) {
+        return new Expediente(prioridad, interesado, asunto, documento);
+    }
+
+    public static void completarExpediente(Expediente exp, String fechaFin) {
         exp.CompletarTramite(fechaFin);
     }
     

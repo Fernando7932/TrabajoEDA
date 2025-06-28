@@ -11,6 +11,7 @@ package Modelo;
 public class Interesado {
     private String dni,nombres,telefono,tipo,email;
 
+    
     public String getDni() {
         return dni;
     }
@@ -33,12 +34,22 @@ public class Interesado {
     public Interesado() {
     }
 
-    public Interesado(String dni, String nombre, String telefono, String tipo) {
+    public Interesado(String dni, String nombre, String telefono, String tipo, String email) {
         this.dni = dni;
         this.nombres = nombre;
         this.telefono = telefono;
-        this.tipo =  tipo;
+        this.tipo = tipo;
+        this.email = email;
     }
 
+   
+    public void mostrar() {
+        System.out.println( "Interesado{" + "dni=" + dni + ", nombres=" + nombres + ", telefono=" + telefono + ", tipo=" + tipo + ", email=" + email + '}');
+    }
+    
+    @Override
+    public String toString() {
+        return "Interesado{" + "dni=" + dni + ", nombres=" + nombres + ", telefono=" + telefono + ", tipo=" + tipo + ", email=" + email + '}';
+    }
     
 }

@@ -11,12 +11,16 @@ package Modelo;
  */
 public class Documento {
     private String tipo;         // Ej: "Certificado", "Resolución", "Constancia"
-    private String descripcion;  // Ej: "Certificado de estudios completos 2023"
+    private String nombreDoc;  // Ej: "Certificado de estudios completos 2023"
     private String fecha;        // Formato simple: "dd/mm/aaaa"
 
-    public Documento(String tipo, String descripcion, String fecha) {
+    public Documento() {
+    }
+    
+    
+    public Documento(String tipo, String nombreDoc, String fecha) {
         this.tipo = tipo;
-        this.descripcion = descripcion;
+        this.nombreDoc = nombreDoc;
         this.fecha = fecha;
     }
 
@@ -24,16 +28,16 @@ public class Documento {
         return tipo;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombreDoc() {
+        return nombreDoc;
     }
 
     public String getFecha() {
         return fecha;
     }
 
-
-    public String mostrar() {
-        return tipo + ": " + descripcion + " (" + fecha + ")";
+    @Override
+    public String toString() {
+        return tipo  + nombreDoc  + fecha ;
     }
 }
