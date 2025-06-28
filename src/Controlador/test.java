@@ -4,9 +4,7 @@
  */
 package Controlador;
 
-import static Controlador.RegistrarExpediente.Expedientes;
 import Modelo.*;
-import TDA.Cola;
 
 /**
  *
@@ -25,6 +23,10 @@ public class test {
          RegistrarExpediente.agregar(e1);
         RegistrarExpediente.BuscarExpediente("7429").mostrar();
          //mostrar();
-        
+         RegistrarInteresado.agregar(i1);
+         RegistrarInteresado.agregar(i2);
+         RegistrarInteresado.Busquedad(i1).mostrar();
+    
+    
     }
 }
