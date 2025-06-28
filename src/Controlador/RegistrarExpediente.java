@@ -44,7 +44,7 @@ public class RegistrarExpediente {
         }
     } 
     
-    public static void BuscarExpediente(String dni){
+    public static Expediente BuscarExpediente(String dni){
         Cola<Expediente> temp = new Cola<>();
         Expediente EAux= new Expediente();
         Interesado IAux= new Interesado();
@@ -53,14 +53,14 @@ public class RegistrarExpediente {
             IAux=tmp.getInteresado();
             String Saux=IAux.getDni();
             if(Saux.equals(dni)){
-                tmp.mostrar();
+                EAux=tmp;   
             }
             temp.encolar(tmp);
         }
-        
         while (!temp.esVacia()) {
             Expedientes.encolar(temp.desencolar());
         }
+        return EAux;
     }
     
         public static <T>void CountQueue(Cola<T> cola){
