@@ -23,7 +23,7 @@ public class test {
     
          RegistrarExpediente.agregar(e2);
          RegistrarExpediente.agregar(e1);
-        RegistrarExpediente.BuscarExpediente("7429");
+        RegistrarExpediente.BuscarExpediente("7429").mostrar();
          //mostrar();
         
     }
