@@ -26,6 +26,10 @@ public class test {
          RegistrarInteresado.agregar(i1);
          RegistrarInteresado.agregar(i2);
          RegistrarInteresado.Busquedad(i1).mostrar();
+         
+         Administrador.completarExpediente(e2, "17/08/25");
+         
+        RegistrarExpediente.BuscarExpediente("9680").mostrar();
     
     
     }
