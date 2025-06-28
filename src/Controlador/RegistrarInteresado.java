@@ -12,27 +12,25 @@ import Modelo.*;
  */
 public class RegistrarInteresado
 {   //cambiar a statico
-    private ListaDoble<Interesado> Interesados;
+    public static ListaDoble<Interesado> Interesados;
     
-    public int ubicacion (Interesado pos) //verificar
-    {
-    return Interesados.ubicacion(pos); //verificar
+    static  {
+        Interesados = new ListaDoble<>();
     }
     
-    public void agregar(Interesado item)
-    {
+    public static void agregar(Interesado item){
         Interesados.agregar(item);
     }
-    
-    
-    public void eliminarInteresado(int pos)
-    {
-        Interesados.eliminar(pos);
+    public static void mostrar(){
+        Interesados.mostrar();
     }
     
-    public void mostrarInteresados() {
-    Interesados.mostrar();
+    public static Interesado Busquedad(Interesado item){
+        Interesado aux= new Interesado();
+        aux=Interesados.iesimo(Interesados.ubicacion(item));
+        return aux;
     }
+
 }
     
     
