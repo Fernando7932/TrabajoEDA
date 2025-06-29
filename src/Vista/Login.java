@@ -1,5 +1,6 @@
 package Vista;
 
+import Modelo.Administrador;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Dimension;
 import java.util.List;
@@ -8,15 +9,14 @@ import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
-    private List<String> usuarios = new ArrayList<>();
-    private List<String> contraseñas = new ArrayList<>();
+
 
     public Login() {
         initComponents();
         
         //Usuario Administrador
-        usuarios.add("admin");
-        contraseñas.add("1234");
+        Administrador.usuario = "admin";
+        Administrador.contraseña = "1234";
 
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
@@ -99,9 +99,8 @@ public class Login extends javax.swing.JFrame {
         String usuario = txtUsuario.getText();
         String contraseña = txtContraseña.getText();
         
-        int indice = usuarios.indexOf(usuario);
         
-        if (indice != -1 && contraseñas.get(indice).equals(contraseña)) {
+        if (usuario.equals(Administrador.usuario) && contraseña.equals(Administrador.contraseña)) {
             //Prueba
             JOptionPane.showMessageDialog(this, "Login Exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             MenuPrincipal menu = new MenuPrincipal();

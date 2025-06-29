@@ -16,9 +16,11 @@ import javax.swing.JPanel;
  * @author fernando
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+
     Principal viewPrincipal;
     Seguimiento viewSeguimiento;
     RGSTExpediente viewExpediente;
+
     /**
      * Creates new form MenuPrincipal
      */
@@ -27,7 +29,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         viewPrincipal = new Principal();
         viewSeguimiento = new Seguimiento();
         viewExpediente = new RGSTExpediente();
-        
+
         ShowJPanel(viewPrincipal);
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
@@ -35,7 +37,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setSize(new Dimension(610, 375)); //Tamaño del JFrame
     }
 
-    private void ShowJPanel(JPanel p) {
+    public void ShowJPanel(JPanel p) {
         /* Muestra el contenido del Jpanel p para que se muestre en content. */
         p.setSize(430, 280);
         p.setLocation(0, 0);
@@ -45,8 +47,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         content.revalidate();
         content.repaint();
     }
-    
-    
+
+    public JPanel getContentPanel() {
+        /* Método para devolver el jpanel content para manipulación en otros jpanels */
+        return content;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,6 +192,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bttnSeguimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSeguimientoActionPerformed
         // TODO add your handling code here:
+        viewSeguimiento.mostrarPorPrioridad(false);
         ShowJPanel(viewSeguimiento);
     }//GEN-LAST:event_bttnSeguimientoActionPerformed
 
@@ -231,7 +237,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton bttnExpediente;
     private javax.swing.JButton bttnPrincipal;
     private javax.swing.JButton bttnSeguimiento;
-    private javax.swing.JPanel content;
+    public static javax.swing.JPanel content;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

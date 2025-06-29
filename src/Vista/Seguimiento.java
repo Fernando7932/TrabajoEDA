@@ -5,17 +5,108 @@
  */
 package Vista;
 
+import Controlador.RegistrarExpediente;
+import Modelo.Expediente;
+import Modelo.Interesado;
+import TDA.Cola;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author fernando
  */
 public class Seguimiento extends javax.swing.JPanel {
 
+    private DefaultTableModel model;
+
     /**
      * Creates new form Seguimiento
      */
     public Seguimiento() {
         initComponents();
+
+        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto"};
+        model = new DefaultTableModel(columnas, 0);
+        TableEXP2.setModel(model);
+
+        mostrarPorPrioridad(false); // Aquí se cargan los datos ordenados
+
+    }
+
+    public void mostrarPorPrioridad(boolean esFiltro) {
+        DefaultTableModel modelo = (DefaultTableModel) TableEXP2.getModel(); //Casteo de jTable a DefaultTableModel
+        modelo.setRowCount(0); // Limpia la tabla
+
+        Cola<Expediente> original = RegistrarExpediente.Expedientes;
+        Cola<Expediente> temp = new Cola<>();
+
+        Cola<Expediente> alta = new Cola<>();
+        Cola<Expediente> media = new Cola<>();
+        Cola<Expediente> baja = new Cola<>();
+        if (!esFiltro) {
+            // Separar por prioridad
+            while (!original.esVacia()) {
+                Expediente e = original.desencolar();
+                String prioridad = e.getPrioridad();
+
+                if (prioridad.equals("Alta")) {
+                    alta.encolar(e);
+                } else if (prioridad.equals("Media")) {
+                    media.encolar(e);
+                } else {
+                    baja.encolar(e);
+                }
+
+                temp.encolar(e); // Guardar para restaurar
+            }
+
+            // Restaurar la cola original
+            while (!temp.esVacia()) {
+                original.encolar(temp.desencolar());
+            }
+        } else {
+            // Separar por prioridad
+            while (!original.esVacia()) {
+                Expediente e = original.desencolar();
+                String prioridad = e.getPrioridad();
+                Boolean completado = e.isCompletado();
+
+                if (prioridad.equals("Alta") && !completado) {
+                    alta.encolar(e);
+                } else if (prioridad.equals("Media") && !completado) {
+                    media.encolar(e);
+                } else if (prioridad.equals("Media") && !completado) {
+                    baja.encolar(e);
+                }
+
+                temp.encolar(e); // Guardar para restaurar
+            }
+
+            // Restaurar la cola original
+            while (!temp.esVacia()) {
+                original.encolar(temp.desencolar());
+            }            
+        }
+
+        // Mostrar primero los de prioridad Alta, luego Media, luego Baja
+        agregarColaATabla(alta, modelo);
+        agregarColaATabla(media, modelo);
+        agregarColaATabla(baja, modelo);
+    }
+
+    private void agregarColaATabla(Cola<Expediente> cola, DefaultTableModel modelo) {
+        while (!cola.esVacia()) {
+            Expediente e = cola.desencolar();
+            Interesado i = e.getInteresado();
+
+            modelo.addRow(new Object[]{
+                e.getId(),
+                i.getDni(),
+                i.getNombre(),
+                e.getPrioridad(),
+                e.getAsunto()
+            });
+        }
     }
 
     /**
@@ -30,17 +121,17 @@ public class Seguimiento extends javax.swing.JPanel {
         Filtro = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        TableEXP2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         bttnDetalles = new javax.swing.JButton();
         bttnCompletar = new javax.swing.JButton();
+        checkEstado = new javax.swing.JCheckBox();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        TableEXP2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -51,15 +142,11 @@ public class Seguimiento extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setSize(new java.awt.Dimension(401, 70));
-        jTable1.setSurrendersFocusOnKeystroke(true);
-        jScrollPane1.setViewportView(jTable1);
+        TableEXP2.setSize(new java.awt.Dimension(401, 70));
+        TableEXP2.setSurrendersFocusOnKeystroke(true);
+        jScrollPane1.setViewportView(TableEXP2);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 410, 190));
-
-        Filtro.add(jRadioButton1);
-        jRadioButton1.setText("Estado");
-        jPanel1.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, -1, 30));
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel1.setText(" Filtro");
@@ -76,6 +163,14 @@ public class Seguimiento extends javax.swing.JPanel {
         bttnCompletar.setText("Completar Trámite");
         jPanel1.add(bttnCompletar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 150, 60));
 
+        checkEstado.setText("Estado");
+        checkEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkEstadoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(checkEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,16 +183,28 @@ public class Seguimiento extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void checkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEstadoActionPerformed
+        // TODO add your handling code here:
+        if (checkEstado.isSelected()) {
+            mostrarPorPrioridad(true);
+        } else {
+            mostrarPorPrioridad(false);
+            
+        }
+
+
+    }//GEN-LAST:event_checkEstadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Filtro;
+    private javax.swing.JTable TableEXP2;
     private javax.swing.JButton bttnCompletar;
     private javax.swing.JButton bttnDetalles;
+    private javax.swing.JCheckBox checkEstado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

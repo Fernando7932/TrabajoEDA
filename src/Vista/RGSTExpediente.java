@@ -5,17 +5,39 @@
  */
 package Vista;
 
+import Controlador.RegistrarExpediente;
+import Modelo.Administrador;
+import Modelo.Expediente;
+import Modelo.Interesado;
+import java.awt.BorderLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author fernando
  */
 public class RGSTExpediente extends javax.swing.JPanel {
 
+    String nombre_archivo;
+
     /**
      * Creates new form NewJPanel
      */
     public RGSTExpediente() {
         initComponents();
+    }
+
+    private void ShowJPanel(JPanel p) {
+
+        //Metodo para mostrar el Jpanel en content (Jpanel del Frame principal).
+        p.setSize(430, 280);
+        p.setLocation(0, 0);
+        
+        MenuPrincipal.content.removeAll();
+        MenuPrincipal.content.add(p, BorderLayout.CENTER);
+        MenuPrincipal.content.revalidate();
+        MenuPrincipal.content.repaint();
     }
 
     /**
@@ -37,15 +59,16 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxAsunto = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
-        txtAsunto = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         bttnRegistrar = new javax.swing.JButton();
+        bttnSeleccionar = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        DateChooser = new com.toedter.calendar.JDateChooser();
+        bttnVer = new javax.swing.JButton();
+        cbxPrioridad = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(410, 280));
 
@@ -55,30 +78,27 @@ public class RGSTExpediente extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel1.setText("Expediente");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, -1, -1));
-        jPanel1.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 120, -1));
-        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 120, -1));
-        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 120, -1));
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 120, -1));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+        jPanel1.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, -1));
+        jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 120, -1));
+        jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 120, -1));
+        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 120, -1));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel2.setText(" DNI");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 23, 20, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 20, 20));
 
         jLabel3.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel3.setText(" Nombres");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, -1, 20));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, -1, 20));
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
-        jLabel4.setText(" Teléfono");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, 10));
+        jLabel4.setText("Documento");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, -1, 20));
 
         jLabel5.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel5.setText(" Email");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 77, -1, -1));
-
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 10, 130));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 83, -1, 20));
 
         jLabel6.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel6.setText("Interesado");
@@ -86,35 +106,48 @@ public class RGSTExpediente extends javax.swing.JPanel {
 
         jLabel7.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel7.setText(" Asunto");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 60, 20));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 60, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 120, -1));
+        cbxAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Constancia de Matricula", "Constancia de Rendimiento Academico", "Constacia de Egresados" }));
+        jPanel1.add(cbxAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 120, -1));
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel8.setText(" Prioridad");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 60, 20));
-        jPanel1.add(txtAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 90, 120, -1));
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTable1.setSize(new java.awt.Dimension(100, 44));
-        jScrollPane1.setViewportView(jTable1);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 410, 110));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 60, 20));
 
         bttnRegistrar.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         bttnRegistrar.setText("Registrar");
-        jPanel1.add(bttnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 120, 30));
+        bttnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnRegistrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 190, 130, 80));
+
+        bttnSeleccionar.setText("Adjuntar");
+        bttnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnSeleccionarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 50, 130, -1));
+
+        jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
+        jLabel9.setText(" Teléfono");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, 20));
+        jPanel1.add(DateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 120, -1));
+
+        bttnVer.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        bttnVer.setText("Ver");
+        bttnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnVerActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 120, -1));
+
+        cbxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
+        jPanel1.add(cbxPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 120, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -130,10 +163,63 @@ public class RGSTExpediente extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bttnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnSeleccionarActionPerformed
+        JFileChooser j = new JFileChooser();
+        FileNameExtensionFilter fi = new FileNameExtensionFilter("pdf", "pdf");
+        j.setFileFilter(fi);
+
+        int se = j.showOpenDialog(this);
+
+        if (se == 0) {
+            this.bttnSeleccionar.setText("" + j.getSelectedFile().getName());
+            nombre_archivo = j.getSelectedFile().getName();
+        }
+    }//GEN-LAST:event_bttnSeleccionarActionPerformed
+
+    private void bttnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnVerActionPerformed
+        // TODO add your handling code here:
+        TablaRGSTE t = new TablaRGSTE();
+        t.actualizarTabla(); 
+        ShowJPanel(t);
+        System.out.println(nombre_archivo);
+
+    }//GEN-LAST:event_bttnVerActionPerformed
+
+    private void bttnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegistrarActionPerformed
+        // TODO add your handling code here:
+        String DNI = txtDNI.getText();
+        String Nombres = txtNombre.getText();
+        String Telefono = txtTelefono.getText();
+        String Email = txtEmail.getText();
+        
+        if (nombre_archivo != null) {
+            String documento = nombre_archivo;
+        } 
+        String documento = "no aplica";
+        
+        //Con fines de prueba se remplazará despues.
+        String Tipo = "Alumn UL";
+        Interesado i = new Interesado(DNI, Nombres, Telefono, Tipo, Email);
+        
+        String prioridad = cbxPrioridad.getSelectedItem().toString();
+        String asunto = cbxAsunto.getSelectedItem().toString();
+        
+        //(int id, String prioridad, Interesado Interesado, String Asunto, String DocumentoReferencia)
+        Expediente e = Administrador.crearExpediente(prioridad, i, asunto, documento);
+        
+        RegistrarExpediente.agregar(e);
+        RegistrarExpediente.mostrar();
+       
+    }//GEN-LAST:event_bttnRegistrarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser DateChooser;
     private javax.swing.JButton bttnRegistrar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JButton bttnSeleccionar;
+    private javax.swing.JButton bttnVer;
+    private javax.swing.JComboBox<String> cbxAsunto;
+    private javax.swing.JComboBox<String> cbxPrioridad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -142,11 +228,8 @@ public class RGSTExpediente extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtAsunto;
     private javax.swing.JTextField txtDNI;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNombre;
