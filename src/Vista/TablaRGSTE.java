@@ -103,7 +103,6 @@ public class TablaRGSTE extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tablaEXP1);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/volver.png"))); // NOI18N
         jButton1.setText("Volver");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

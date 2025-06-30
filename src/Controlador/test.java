@@ -23,11 +23,8 @@ public class test {
          RegistrarExpediente.agregar(e1);
         RegistrarExpediente.BuscarExpediente("7429").mostrar();
          //mostrar();
-         RegistrarInteresado.agregar(i1);
-         RegistrarInteresado.agregar(i2);
-         RegistrarInteresado.Busquedad(i1).mostrar();
          
-         Administrador.completarExpediente(e2, "17/08/25");
+         //Administrador.completarExpediente(e2, "17/08/25");
          
         RegistrarExpediente.BuscarExpediente("9680").mostrar();
     

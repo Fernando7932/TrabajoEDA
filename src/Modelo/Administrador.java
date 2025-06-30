@@ -6,12 +6,12 @@
 package Modelo;
 
 /**
- *
+ * Clase de utilidad para las acciones que puede realizar un administrador.
  * @author fernando
  */
 public class Administrador {
     public static String usuario;
-    public static  String contraseña;
+    public static String contraseña;
 
     public static String getUsuario() {
         return usuario;
@@ -21,16 +21,33 @@ public class Administrador {
         return contraseña;
     }
 
-
-    
-    //Un Administrador puede crear un Expediente y Completar un Expediente
-    public static Expediente crearExpediente(String prioridad, Interesado interesado, 
+    /**
+     * Crea una nueva instancia de Expediente.
+     * @param prioridad La prioridad del expediente.
+     * @param interesado El interesado que inicia el trámite.
+     * @param asunto El asunto del expediente.
+     * @param documento El documento de referencia.
+     * @return Un nuevo objeto Expediente.
+     */
+    public static Expediente crearExpediente(String prioridad, Interesado interesado,
                                     String asunto, String documento) {
         return new Expediente(prioridad, interesado, asunto, documento);
     }
+    
+    /**
+     * Deriva un expediente, cambiando su estado a "En proceso".
+     * @param exp El expediente a derivar.
+     */
+    public static void derivarExpediente(Expediente exp) {
+        exp.derivarTramite();
+    }
 
-    public static void completarExpediente(Expediente exp, String fechaFin) {
-        exp.CompletarTramite(fechaFin);
+    /**
+     * Completa un expediente, cambiando su estado a "Finalizado".
+     * @param exp El expediente a completar.
+     */
+    public static void completarExpediente(Expediente exp) {
+        exp.completarTramite();
     }
     
     

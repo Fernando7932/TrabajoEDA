@@ -11,11 +11,12 @@ package TDA;
  */
 public class Pila<T> {    
 
-  private Nodo<T> cima;
+  public  Nodo<T> cima;
 
   public Pila() {
     this.cima = null;
   }
+  
   
   public boolean esVacia(){
     return cima == null;

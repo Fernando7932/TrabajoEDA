@@ -6,106 +6,104 @@
 package Vista;
 
 import Controlador.RegistrarExpediente;
+import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
 import TDA.Cola;
 import javax.swing.table.DefaultTableModel;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
+ * Panel para el seguimiento de expedientes, permitiendo derivar, completar y
+ * modificar fechas.
  *
  * @author fernando
  */
 public class Seguimiento extends javax.swing.JPanel {
 
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
 
     /**
-     * Creates new form Seguimiento
+     * Crea un nuevo panel de seguimiento.
      */
     public Seguimiento() {
         initComponents();
 
-        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto"};
+        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "F. Final"};
         model = new DefaultTableModel(columnas, 0);
         TableEXP2.setModel(model);
 
-        mostrarPorPrioridad(false); // Aquí se cargan los datos ordenados
-
+        mostrarPorPrioridad(false);
     }
 
-    public void mostrarPorPrioridad(boolean esFiltro) {
-        DefaultTableModel modelo = (DefaultTableModel) TableEXP2.getModel(); //Casteo de jTable a DefaultTableModel
-        modelo.setRowCount(0); // Limpia la tabla
+    /**
+     * Muestra los expedientes en la tabla, ordenados por prioridad y filtrados
+     * por estado.
+     *
+     * @param enProceso Si es verdadero, muestra solo expedientes "En proceso".
+     * Si es falso, muestra "Sin derivar".
+     */
+    public void mostrarPorPrioridad(boolean enProceso) {
+        DefaultTableModel modelo = (DefaultTableModel) TableEXP2.getModel();
+        modelo.setRowCount(0);
 
         Cola<Expediente> original = RegistrarExpediente.Expedientes;
         Cola<Expediente> temp = new Cola<>();
-
         Cola<Expediente> alta = new Cola<>();
         Cola<Expediente> media = new Cola<>();
         Cola<Expediente> baja = new Cola<>();
-        if (!esFiltro) {
-            // Separar por prioridad
-            while (!original.esVacia()) {
-                Expediente e = original.desencolar();
-                String prioridad = e.getPrioridad();
 
-                if (prioridad.equals("Alta")) {
-                    alta.encolar(e);
-                } else if (prioridad.equals("Media")) {
-                    media.encolar(e);
-                } else {
-                    baja.encolar(e);
+        int estadoFiltrar = enProceso ? 2 : 1;
+
+        while (!original.esVacia()) {
+            Expediente e = original.desencolar();
+            if (e.getEstado() == estadoFiltrar) {
+                switch (e.getPrioridad()) {
+                    case "Alta":
+                        alta.encolar(e);
+                        break;
+                    case "Media":
+                        media.encolar(e);
+                        break;
+                    case "Baja":
+                        baja.encolar(e);
+                        break;
                 }
-
-                temp.encolar(e); // Guardar para restaurar
             }
-
-            // Restaurar la cola original
-            while (!temp.esVacia()) {
-                original.encolar(temp.desencolar());
-            }
-        } else {
-            // Separar por prioridad
-            while (!original.esVacia()) {
-                Expediente e = original.desencolar();
-                String prioridad = e.getPrioridad();
-                Boolean completado = e.isCompletado();
-
-                if (prioridad.equals("Alta") && !completado) {
-                    alta.encolar(e);
-                } else if (prioridad.equals("Media") && !completado) {
-                    media.encolar(e);
-                } else if (prioridad.equals("Media") && !completado) {
-                    baja.encolar(e);
-                }
-
-                temp.encolar(e); // Guardar para restaurar
-            }
-
-            // Restaurar la cola original
-            while (!temp.esVacia()) {
-                original.encolar(temp.desencolar());
-            }            
+            temp.encolar(e);
         }
 
-        // Mostrar primero los de prioridad Alta, luego Media, luego Baja
+        while (!temp.esVacia()) {
+            original.encolar(temp.desencolar());
+        }
+
         agregarColaATabla(alta, modelo);
         agregarColaATabla(media, modelo);
         agregarColaATabla(baja, modelo);
     }
 
     private void agregarColaATabla(Cola<Expediente> cola, DefaultTableModel modelo) {
+        Cola<Expediente> temp = new Cola<>();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
         while (!cola.esVacia()) {
             Expediente e = cola.desencolar();
             Interesado i = e.getInteresado();
+            String fechaFinal = (e.getFfinal() != null) ? sdf.format(e.getFfinal()) : "N/A";
 
             modelo.addRow(new Object[]{
                 e.getId(),
                 i.getDni(),
                 i.getNombre(),
                 e.getPrioridad(),
-                e.getAsunto()
+                e.getAsunto(),
+                fechaFinal
             });
+            temp.encolar(e);
+        }
+        // Restaurar la cola original
+        while (!temp.esVacia()) {
+            cola.encolar(temp.desencolar());
         }
     }
 
@@ -122,11 +120,11 @@ public class Seguimiento extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         TableEXP2 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        bttnDetalles = new javax.swing.JButton();
-        bttnCompletar = new javax.swing.JButton();
+        bttnDerivar = new javax.swing.JButton();
         checkEstado = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        bttnCompletar1 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -148,28 +146,38 @@ public class Seguimiento extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 410, 190));
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        jLabel1.setText(" Filtro");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, -1));
+        bttnDerivar.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        bttnDerivar.setText("DERIVAR");
+        bttnDerivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnDerivarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 140, 60));
 
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 0, 10, 70));
-
-        bttnDetalles.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        bttnDetalles.setText("Ver Detalle");
-        jPanel1.add(bttnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, 60));
-
-        bttnCompletar.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        bttnCompletar.setText("Completar Trámite");
-        jPanel1.add(bttnCompletar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 150, 60));
-
-        checkEstado.setText("Estado");
+        checkEstado.setText("En Proceso");
         checkEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkEstadoActionPerformed(evt);
             }
         });
         jPanel1.add(checkEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        jLabel2.setText(" Filtro");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, -1));
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, 10, 70));
+
+        bttnCompletar1.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        bttnCompletar1.setText("COMPLETAR");
+        bttnCompletar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnCompletar1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(bttnCompletar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 130, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -189,22 +197,116 @@ public class Seguimiento extends javax.swing.JPanel {
             mostrarPorPrioridad(true);
         } else {
             mostrarPorPrioridad(false);
-            
+
         }
 
 
     }//GEN-LAST:event_checkEstadoActionPerformed
 
+    private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
+        int filaSeleccionada = TableEXP2.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            // Obtener el ID del expediente desde la tabla
+            int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
+
+            // Buscar el expediente en la cola y actualizar su estado
+            Cola<Expediente> original = RegistrarExpediente.Expedientes;
+            Cola<Expediente> temporal = new Cola<>();
+            boolean cambiado = false;
+
+            while (!original.esVacia()) {
+                Expediente e = original.desencolar();
+
+                if (e.getId() == idSeleccionado) {
+                    e.setEstado(2); // Cambiar estado a "En proceso"
+                    cambiado = true;
+                }
+
+                temporal.encolar(e);
+            }
+
+            // Restaurar la cola original
+            while (!temporal.esVacia()) {
+                original.encolar(temporal.desencolar());
+            }
+
+            // Refrescar tabla
+            mostrarPorPrioridad(checkEstado.isSelected());
+
+            // Mostrar mensaje de confirmación
+            if (cambiado) {
+                javax.swing.JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: En proceso).");
+            }
+
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar.");
+        }
+
+    }//GEN-LAST:event_bttnDerivarActionPerformed
+
+    private void bttnCompletar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnCompletar1ActionPerformed
+        int filaSeleccionada = TableEXP2.getSelectedRow();
+
+        if (filaSeleccionada != -1) {
+            // Obtener el ID del expediente desde la tabla
+            int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
+            // Obtener la fecha y hora actual del sistema
+            Date fechaActual = new Date();
+
+            // Buscar el expediente en la cola y actualizar su estado
+            Cola<Expediente> original = RegistrarExpediente.Expedientes;
+            Cola<Expediente> temporal = new Cola<>();
+            boolean cambiado = false;
+
+            while (!original.esVacia()) {
+                Expediente e = original.desencolar();
+
+                if (e.getId() == idSeleccionado) {
+                    if (e.getEstado() == 1) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "ERROR: Primero se tiene que derivar un Expediente.");
+                    } else {
+                        e.setEstado(3); // Cambiar estado a "Finalizado"
+                        cambiado = true;
+                        e.setFfinal(fechaActual); // Asignar fecha actual como fecha de finalización
+                        Administrador.completarExpediente(e);
+                    }
+
+                }
+
+                temporal.encolar(e);
+            }
+
+            // Restaurar la cola original
+            while (!temporal.esVacia()) {
+                original.encolar(temporal.desencolar());
+            }
+
+            // Refrescar tabla
+            mostrarPorPrioridad(checkEstado.isSelected());
+
+            // Mostrar mensaje de confirmación
+            if (cambiado) {
+                JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: Finalizado).");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar.");
+        }
+    }//GEN-LAST:event_bttnCompletar1ActionPerformed
+
+    private void bttnGuardarFechaActionPerformed(java.awt.event.ActionEvent evt) {
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup Filtro;
     private javax.swing.JTable TableEXP2;
-    private javax.swing.JButton bttnCompletar;
-    private javax.swing.JButton bttnDetalles;
+    private javax.swing.JButton bttnCompletar1;
+    private javax.swing.JButton bttnDerivar;
     private javax.swing.JCheckBox checkEstado;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }

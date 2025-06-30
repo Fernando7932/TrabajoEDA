@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Administrador;
+import Controlador.CargadorDatos;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Dimension;
 import java.util.List;
@@ -138,6 +139,9 @@ public class Login extends javax.swing.JFrame {
         }
         //</editor-fold>
         FlatMacLightLaf.setup();
+        
+        // Cargar datos iniciales desde el archivo de texto
+        CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -13,7 +13,9 @@ import java.awt.BorderLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
+ * Panel para el registro de nuevos expedientes.
  *
  * @author fernando
  */
@@ -22,18 +24,16 @@ public class RGSTExpediente extends javax.swing.JPanel {
     String nombre_archivo;
 
     /**
-     * Creates new form NewJPanel
+     * Crea un nuevo panel de registro de expedientes.
      */
     public RGSTExpediente() {
         initComponents();
     }
 
     private void ShowJPanel(JPanel p) {
-
-        //Metodo para mostrar el Jpanel en content (Jpanel del Frame principal).
         p.setSize(430, 280);
         p.setLocation(0, 0);
-        
+
         MenuPrincipal.content.removeAll();
         MenuPrincipal.content.add(p, BorderLayout.CENTER);
         MenuPrincipal.content.revalidate();
@@ -66,7 +66,6 @@ public class RGSTExpediente extends javax.swing.JPanel {
         bttnRegistrar = new javax.swing.JButton();
         bttnSeleccionar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        DateChooser = new com.toedter.calendar.JDateChooser();
         bttnVer = new javax.swing.JButton();
         cbxPrioridad = new javax.swing.JComboBox<>();
 
@@ -79,6 +78,12 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 1, 16)); // NOI18N
         jLabel1.setText("Expediente");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        txtDNI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtDNIActionPerformed(evt);
+            }
+        });
         jPanel1.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, -1));
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 120, -1));
         jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 120, -1));
@@ -135,7 +140,6 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
         jLabel9.setText(" Teléfono");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 30, -1, 20));
-        jPanel1.add(DateChooser, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 190, 120, -1));
 
         bttnVer.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         bttnVer.setText("Ver");
@@ -144,7 +148,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
                 bttnVerActionPerformed(evt);
             }
         });
-        jPanel1.add(bttnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 240, 120, -1));
+        jPanel1.add(bttnVer, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 189, 120, 80));
 
         cbxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
         jPanel1.add(cbxPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 120, -1));
@@ -179,9 +183,9 @@ public class RGSTExpediente extends javax.swing.JPanel {
     private void bttnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnVerActionPerformed
         // TODO add your handling code here:
         TablaRGSTE t = new TablaRGSTE();
-        t.actualizarTabla(); 
+        t.actualizarTabla();
         ShowJPanel(t);
-        System.out.println(nombre_archivo);
+        //System.out.println(nombre_archivo);
 
     }//GEN-LAST:event_bttnVerActionPerformed
 
@@ -191,30 +195,47 @@ public class RGSTExpediente extends javax.swing.JPanel {
         String Nombres = txtNombre.getText();
         String Telefono = txtTelefono.getText();
         String Email = txtEmail.getText();
-        
-        if (nombre_archivo != null) {
-            String documento = nombre_archivo;
-        } 
+
         String documento = "no aplica";
-        
+
+        if (nombre_archivo != null) {
+            documento = nombre_archivo;
+        }
+
         //Con fines de prueba se remplazará despues.
-        String Tipo = "Alumn UL";
+        String Tipo = "Alumno UL";
         Interesado i = new Interesado(DNI, Nombres, Telefono, Tipo, Email);
-        
+
         String prioridad = cbxPrioridad.getSelectedItem().toString();
         String asunto = cbxAsunto.getSelectedItem().toString();
-        
+
         //(int id, String prioridad, Interesado Interesado, String Asunto, String DocumentoReferencia)
         Expediente e = Administrador.crearExpediente(prioridad, i, asunto, documento);
-        
+
         RegistrarExpediente.agregar(e);
         RegistrarExpediente.mostrar();
-       
+        Limpiar();
+
     }//GEN-LAST:event_bttnRegistrarActionPerformed
+
+    //Limpia los campos de los TextFields
+    private void Limpiar() {
+        this.txtDNI.setText("");
+        this.txtEmail.setText("");
+        this.txtNombre.setText("");
+        this.txtTelefono.setText("");
+
+    }
+    
+    
+    
+    
+    private void txtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDNIActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser DateChooser;
     private javax.swing.JButton bttnRegistrar;
     private javax.swing.JButton bttnSeleccionar;
     private javax.swing.JButton bttnVer;
