@@ -104,6 +104,7 @@ public class Login extends javax.swing.JFrame {
         if (usuario.equals(Administrador.usuario) && contraseña.equals(Administrador.contraseña)) {
             //Prueba
             JOptionPane.showMessageDialog(this, "Login Exitoso", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            
             MenuPrincipal menu = new MenuPrincipal();
             menu.setVisible(true);
             dispose();
@@ -116,6 +117,13 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_bttnIniciarSesionActionPerformed
 
     public static void main(String args[]) {
+//        boolean usarlogin=true;
+//            if(usarlogin){
+//                new Login().setVisible(true);
+//            }else{
+//                MenuPrincipal menu = new MenuPrincipal();
+//                menu.setVisible(true);
+//            }
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -144,10 +152,8 @@ public class Login extends javax.swing.JFrame {
         CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 

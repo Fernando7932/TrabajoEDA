@@ -209,33 +209,33 @@ public class Seguimiento extends javax.swing.JPanel {
         if (filaSeleccionada != -1) {
             // Obtener el ID del expediente desde la tabla
             int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
-
-            // Buscar el expediente en la cola y actualizar su estado
-            Cola<Expediente> original = RegistrarExpediente.Expedientes;
-            Cola<Expediente> temporal = new Cola<>();
-            boolean cambiado = false;
-
-            while (!original.esVacia()) {
-                Expediente e = original.desencolar();
-
-                if (e.getId() == idSeleccionado) {
-                    e.setEstado(2); // Cambiar estado a "En proceso"
-                    cambiado = true;
-                }
-
-                temporal.encolar(e);
-            }
-
-            // Restaurar la cola original
-            while (!temporal.esVacia()) {
-                original.encolar(temporal.desencolar());
-            }
+            RegistrarExpediente.CambiarEstado(idSeleccionado);
+//            // Buscar el expediente en la cola y actualizar su estado
+//            Cola<Expediente> original = RegistrarExpediente.Expedientes;
+//            Cola<Expediente> temporal = new Cola<>();
+//            boolean cambiado = false;
+//
+//            while (!original.esVacia()) {
+//                Expediente e = original.desencolar();
+//
+//                if (e.getId() == idSeleccionado) {
+//                    e.setEstado(2); // Cambiar estado a "En proceso"
+//                    cambiado = true;
+//                }
+//
+//                temporal.encolar(e);
+//            }
+//
+//            // Restaurar la cola original
+//            while (!temporal.esVacia()) {
+//                original.encolar(temporal.desencolar());
+//            }
 
             // Refrescar tabla
             mostrarPorPrioridad(checkEstado.isSelected());
 
             // Mostrar mensaje de confirmación
-            if (cambiado) {
+            if (RegistrarExpediente.CambiarEstadoCR(idSeleccionado)) {
                 javax.swing.JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: En proceso).");
             }
 
@@ -253,40 +253,40 @@ public class Seguimiento extends javax.swing.JPanel {
             int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
             // Obtener la fecha y hora actual del sistema
             Date fechaActual = new Date();
-
+            RegistrarExpediente.CompletarExpediente(fechaActual,idSeleccionado);
             // Buscar el expediente en la cola y actualizar su estado
-            Cola<Expediente> original = RegistrarExpediente.Expedientes;
-            Cola<Expediente> temporal = new Cola<>();
-            boolean cambiado = false;
-
-            while (!original.esVacia()) {
-                Expediente e = original.desencolar();
-
-                if (e.getId() == idSeleccionado) {
-                    if (e.getEstado() == 1) {
-                        javax.swing.JOptionPane.showMessageDialog(this, "ERROR: Primero se tiene que derivar un Expediente.");
-                    } else {
-                        e.setEstado(3); // Cambiar estado a "Finalizado"
-                        cambiado = true;
-                        e.setFfinal(fechaActual); // Asignar fecha actual como fecha de finalización
-                        Administrador.completarExpediente(e);
-                    }
-
-                }
-
-                temporal.encolar(e);
-            }
-
-            // Restaurar la cola original
-            while (!temporal.esVacia()) {
-                original.encolar(temporal.desencolar());
-            }
+//            Cola<Expediente> original = RegistrarExpediente.Expedientes;
+//            Cola<Expediente> temporal = new Cola<>();
+//            boolean cambiado = false;
+//
+//            while (!original.esVacia()) {
+//                Expediente e = original.desencolar();
+//
+//                if (e.getId() == idSeleccionado) {
+//                    if (e.getEstado() == 1) {
+//                        javax.swing.JOptionPane.showMessageDialog(this, "ERROR: Primero se tiene que derivar un Expediente.");
+//                    } else {
+//                        e.setEstado(3); // Cambiar estado a "Finalizado"
+//                        cambiado = true;
+//                        e.setFfinal(fechaActual); // Asignar fecha actual como fecha de finalización
+//                        Administrador.completarExpediente(e);
+//                    }
+//
+//                }
+//
+//                temporal.encolar(e);
+//            }
+//
+//            // Restaurar la cola original
+//            while (!temporal.esVacia()) {
+//                original.encolar(temporal.desencolar());
+//            }
 
             // Refrescar tabla
             mostrarPorPrioridad(checkEstado.isSelected());
 
             // Mostrar mensaje de confirmación
-            if (cambiado) {
+            if (RegistrarExpediente.CompletarExpedienteCR(fechaActual,idSeleccionado)) {
                 JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: Finalizado).");
             }
 

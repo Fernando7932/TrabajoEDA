@@ -63,9 +63,6 @@
                     <Column editable="true" title="Title 4" type="java.lang.Object"/>
                   </Table>
                 </Property>
-                <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                  <Dimension value="[401, 70]"/>
-                </Property>
                 <Property name="surrendersFocusOnKeystroke" type="boolean" value="true"/>
               </Properties>
             </Component>

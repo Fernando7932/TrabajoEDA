@@ -42,6 +42,10 @@ public class Consultar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
+         if(!dni.matches("\\d{8}")){
+             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         Expediente expediente = RegistrarExpediente.BuscarExpediente(dni);
         model.setRowCount(0);
@@ -169,20 +173,12 @@ public class Consultar extends javax.swing.JPanel {
 
             // Convertir el código numérico del estado a texto legible
             String estado;
-            switch (expediente.getEstado()) {
-                case 1:
-                    estado = "Sin derivar";
-                    break;
-                case 2:
-                    estado = "En proceso";
-                    break;
-                case 3:
-                    estado = "Finalizado";
-                    break;
-                default:
-                    estado = "Desconocido";
-                    break;
-            }
+            estado = switch (expediente.getEstado()) {
+                case 1 -> "Sin derivar";
+                case 2 -> "En proceso";
+                case 3 -> "Finalizado";
+                default -> "Desconocido";
+            };
 
             // Construir el mensaje con todos los detalles
             String detalles = "--- Detalles del Interesado ---\n"

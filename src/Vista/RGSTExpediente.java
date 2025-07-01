@@ -11,6 +11,7 @@ import Modelo.Expediente;
 import Modelo.Interesado;
 import java.awt.BorderLayout;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -195,7 +196,14 @@ public class RGSTExpediente extends javax.swing.JPanel {
         String Nombres = txtNombre.getText();
         String Telefono = txtTelefono.getText();
         String Email = txtEmail.getText();
-
+        if(!DNI.matches("\\d{8}")){
+             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if(!Telefono.matches("\\d{9}")){
+             JOptionPane.showMessageDialog(this, "Por favor, El número teléfonico debe tener 9 digitos", "Teléfono invalido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String documento = "no aplica";
 
         if (nombre_archivo != null) {
