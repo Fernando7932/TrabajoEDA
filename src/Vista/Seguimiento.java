@@ -291,7 +291,7 @@ public class Seguimiento extends javax.swing.JPanel {
             }
 
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar.");
+            JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar/completar.");
         }
     }//GEN-LAST:event_bttnCompletar1ActionPerformed
 
