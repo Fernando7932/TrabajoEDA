@@ -116,7 +116,7 @@ public class RegistrarExpediente {
 
                 if (e.getId() == idSeleccionado) {
                     if (e.getEstado() == 1) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "Se debe de  Primero se tiene que derivar un Expediente.");
+                        javax.swing.JOptionPane.showMessageDialog(null, "Primero se tiene que derivar un Expediente.");
                     } else {
                         e.setEstado(3); // Cambiar estado a "Finalizado"
                         cambiado = true;
@@ -143,7 +143,7 @@ public class RegistrarExpediente {
 
                 if (e.getId() == idSeleccionado) {
                     if (e.getEstado() == 1) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "ERROR: Primero se tiene que derivar un Expediente.");
+                        javax.swing.JOptionPane.showMessageDialog(null, "ERROR");
                     } else {
                         e.setEstado(3); // Cambiar estado a "Finalizado"
                         cambiado = true;
