@@ -225,18 +225,11 @@ public class Seguimiento extends javax.swing.JPanel {
         );
 
         if (opcion == JOptionPane.OK_OPTION) {
-            String destinoSeleccionado = (String) comboBox.getSelectedItem();
+            String dependencia = (String) comboBox.getSelectedItem();
 
-            // Aquí puedes:
-            // 1. Mostrarlo en un label
-            // lblDestino.setText(destinoSeleccionado);
-            // 2. Pasarlo a otro JPanel (ejemplo con un setter)
-            // otroPanel.setDestino(destinoSeleccionado);
-            // 3. Imprimirlo en consola para pruebas
-            System.out.println("Destino seleccionado: " + destinoSeleccionado);
+            System.out.println("Destino seleccionado: " + dependencia);
 
-            // Ejemplo de lógica adicional: cambiar de panel o actualizar tabla
-            // ShowJPanel(otroPanel);
+
         }
 
 
