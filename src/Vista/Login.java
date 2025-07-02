@@ -22,7 +22,7 @@ public class Login extends javax.swing.JFrame {
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
         setTitle("Login"); //Titulo.
-        setSize(new Dimension(500, 320)); //Tamaño del JFrame
+        setSize(new Dimension(520, 320)); //Tamaño del JFrame
     }
 
     @SuppressWarnings("unchecked")
@@ -77,6 +77,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("© Grupo 2");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 230, 80, -1));
 
@@ -149,7 +150,7 @@ public class Login extends javax.swing.JFrame {
         FlatMacLightLaf.setup();
         
         // Cargar datos iniciales desde el archivo de texto
-        CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
+        //CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {

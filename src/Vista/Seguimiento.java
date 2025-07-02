@@ -12,6 +12,7 @@ import Modelo.Interesado;
 import TDA.Cola;
 import javax.swing.table.DefaultTableModel;
 import java.util.Date;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -140,7 +141,6 @@ public class Seguimiento extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        TableEXP2.setSize(new java.awt.Dimension(401, 70));
         TableEXP2.setSurrendersFocusOnKeystroke(true);
         jScrollPane1.setViewportView(TableEXP2);
 
@@ -206,42 +206,39 @@ public class Seguimiento extends javax.swing.JPanel {
     private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
         int filaSeleccionada = TableEXP2.getSelectedRow();
 
-        if (filaSeleccionada != -1) {
-            // Obtener el ID del expediente desde la tabla
-            int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
-            RegistrarExpediente.CambiarEstado(idSeleccionado);
-//            // Buscar el expediente en la cola y actualizar su estado
-//            Cola<Expediente> original = RegistrarExpediente.Expedientes;
-//            Cola<Expediente> temporal = new Cola<>();
-//            boolean cambiado = false;
-//
-//            while (!original.esVacia()) {
-//                Expediente e = original.desencolar();
-//
-//                if (e.getId() == idSeleccionado) {
-//                    e.setEstado(2); // Cambiar estado a "En proceso"
-//                    cambiado = true;
-//                }
-//
-//                temporal.encolar(e);
-//            }
-//
-//            // Restaurar la cola original
-//            while (!temporal.esVacia()) {
-//                original.encolar(temporal.desencolar());
-//            }
-
-            // Refrescar tabla
-            mostrarPorPrioridad(checkEstado.isSelected());
-
-            // Mostrar mensaje de confirmación
-            if (RegistrarExpediente.CambiarEstadoCR(idSeleccionado)) {
-                javax.swing.JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: En proceso).");
-            }
-
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar.");
+        if (filaSeleccionada == -1) {
+            // No hay fila seleccionada
+            JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
+            return;
         }
+
+        // Opciones de derivación
+        String[] opciones = {"Admision", "Alumnos y Egresados", "Matricula"};
+        JComboBox<String> comboBox = new JComboBox<>(opciones);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                comboBox,
+                "¿A dónde deseas derivar?",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            String destinoSeleccionado = (String) comboBox.getSelectedItem();
+
+            // Aquí puedes:
+            // 1. Mostrarlo en un label
+            // lblDestino.setText(destinoSeleccionado);
+            // 2. Pasarlo a otro JPanel (ejemplo con un setter)
+            // otroPanel.setDestino(destinoSeleccionado);
+            // 3. Imprimirlo en consola para pruebas
+            System.out.println("Destino seleccionado: " + destinoSeleccionado);
+
+            // Ejemplo de lógica adicional: cambiar de panel o actualizar tabla
+            // ShowJPanel(otroPanel);
+        }
+
 
     }//GEN-LAST:event_bttnDerivarActionPerformed
 
