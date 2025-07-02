@@ -10,6 +10,7 @@ import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
 import java.awt.BorderLayout;
+import java.awt.event.KeyEvent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -85,8 +86,24 @@ public class RGSTExpediente extends javax.swing.JPanel {
                 txtDNIActionPerformed(evt);
             }
         });
+        txtDNI.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDNIKeyReleased(evt);
+            }
+        });
         jPanel1.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 120, -1));
         jPanel1.add(txtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 120, -1));
+
+        txtTelefono.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefonoActionPerformed(evt);
+            }
+        });
+        txtTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefonoKeyReleased(evt);
+            }
+        });
         jPanel1.add(txtTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 50, 120, -1));
         jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 120, -1));
 
@@ -223,7 +240,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
         RegistrarExpediente.agregar(e);
         RegistrarExpediente.mostrar();
         Limpiar();
-
+//        RellenarDatos();
     }//GEN-LAST:event_bttnRegistrarActionPerformed
 
     //Limpia los campos de los TextFields
@@ -236,12 +253,37 @@ public class RGSTExpediente extends javax.swing.JPanel {
     }
     
     
-    
+
     
     private void txtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIActionPerformed
-        // TODO add your handling code here:
+//    RellenarDatos();        // TODO add your handling code here:
     }//GEN-LAST:event_txtDNIActionPerformed
 
+    private void txtDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDNIKeyReleased
+        String DNI = txtDNI.getText();    
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+                 Interesado i=  RegistrarExpediente.BuscarExpediente(DNI).getInteresado();
+                 if(i!=null){ 
+                 String Nombres = i.getNombre();
+                 String Telefono = i.getTelefono();
+                 String Email = i.getEmail();
+                  txtNombre.setText(Nombres);
+                  txtTelefono.setText(Telefono);
+                  txtEmail.setText(Email);
+            }else{Limpiar();} }
+    }//GEN-LAST:event_txtDNIKeyReleased
+                    // TODO add your handling code here:
+                    // TODO add your handling code here:
+
+    private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoKeyReleased
+
+    private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefonoActionPerformed
+            
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnRegistrar;
