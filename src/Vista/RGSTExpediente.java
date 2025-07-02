@@ -260,6 +260,8 @@ public class RGSTExpediente extends javax.swing.JPanel {
     }//GEN-LAST:event_txtDNIActionPerformed
 
     private void txtDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDNIKeyReleased
+
+        // Evento para autocompletar credenciales del intersado en caso ya ha sido registrado.
         String DNI = txtDNI.getText();    
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
                  Interesado i=  RegistrarExpediente.BuscarExpediente(DNI).getInteresado();
@@ -272,8 +274,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
                   txtEmail.setText(Email);
             }else{Limpiar();} }
     }//GEN-LAST:event_txtDNIKeyReleased
-                    // TODO add your handling code here:
-                    // TODO add your handling code here:
+
 
     private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
         // TODO add your handling code here:
