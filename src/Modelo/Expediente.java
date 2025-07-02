@@ -25,6 +25,7 @@ public class Expediente {
     private Date fechaInicio, fechaFinal;
     private int estado; // 1: Sin derivar, 2: En proceso, 3: Finalizado
     private String documentoResultante;
+    public String Dependencia;
 
     /**
      * Constructor por defecto.
@@ -50,11 +51,20 @@ public class Expediente {
         this.fechaFinal = calcularFechaFinal(this.fechaInicio, this.asunto);
         this.estado = 1;
         this.documentoResultante = null; // Se genera al finalizar
+        this.Dependencia="En proceso de derivacion";
     }
 
     // --- Getters y Setters ---
     public int getId() {
         return id;
+    }
+
+    public String getDependencia() {
+        return Dependencia;
+    }
+
+    public void setDependencia(String Dependencia) {
+        this.Dependencia = Dependencia;
     }
 
     public Interesado getInteresado() {
