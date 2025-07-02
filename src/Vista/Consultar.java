@@ -48,7 +48,7 @@ public class Consultar extends javax.swing.JPanel {
             return;
         }
 
-        Expediente expediente = RegistrarExpediente.BuscarExpediente(dni);
+        Expediente expediente = Administrador.BuscarExpediente(dni);
         model.setRowCount(0);
 
         if (expediente != null && expediente.getInteresado() != null) {
