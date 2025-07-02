@@ -14,6 +14,22 @@ public class Lista<T> {
         cabeza = null;
         ultimo = null;
     }
+
+    public Nodo<T> getCabeza() {
+        return cabeza;
+    }
+
+    public void setCabeza(Nodo<T> cabeza) {
+        this.cabeza = cabeza;
+    }
+
+    public Nodo<T> getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(Nodo<T> ultimo) {
+        this.ultimo = ultimo;
+    }
     
     /*
     * esVacia: determinar si una lista esta vacia
@@ -40,7 +56,7 @@ public class Lista<T> {
     * mostra los elementos de la lista
     */
     public void mostrar(){
-        Nodo<T> aux = cabeza;
+        Nodo<T> aux = this.cabeza;
         // Imgrese al bucle siempre que tenga elementos
         while (aux!=null){ // La lista no esta vacia
             System.out.print(aux.getItem()+"\t");
