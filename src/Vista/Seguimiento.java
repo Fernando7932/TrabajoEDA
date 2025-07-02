@@ -49,7 +49,7 @@ public class Seguimiento extends javax.swing.JPanel {
         DefaultTableModel modelo = (DefaultTableModel) TableEXP2.getModel();
         modelo.setRowCount(0);
 
-        Cola<Expediente> original = RegistrarExpediente.Expedientes;
+        Cola<Expediente> original = Administrador.ExpedientesPrincipal;
         Cola<Expediente> temp = new Cola<>();
         Cola<Expediente> alta = new Cola<>();
         Cola<Expediente> media = new Cola<>();
@@ -205,7 +205,7 @@ public class Seguimiento extends javax.swing.JPanel {
 
     private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
         int filaSeleccionada = TableEXP2.getSelectedRow();
-
+        int columnaselecionada= 2;
         if (filaSeleccionada == -1) {
             // No hay fila seleccionada
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
@@ -226,7 +226,9 @@ public class Seguimiento extends javax.swing.JPanel {
 
         if (opcion == JOptionPane.OK_OPTION) {
             String dependencia = (String) comboBox.getSelectedItem();
-
+            String obj=(String) TableEXP2.getValueAt(filaSeleccionada, columnaselecionada);
+            Expediente exp=Administrador.BuscarExpediente(obj);
+            Administrador.derivarExpediente(exp,dependencia);
             System.out.println("Destino seleccionado: " + dependencia);
 
 
@@ -243,7 +245,7 @@ public class Seguimiento extends javax.swing.JPanel {
             int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
             // Obtener la fecha y hora actual del sistema
             Date fechaActual = new Date();
-            RegistrarExpediente.CompletarExpediente(fechaActual,idSeleccionado);
+            Administrador.CompletarExpediente(fechaActual,idSeleccionado);
             // Buscar el expediente en la cola y actualizar su estado
 //            Cola<Expediente> original = RegistrarExpediente.Expedientes;
 //            Cola<Expediente> temporal = new Cola<>();
@@ -276,7 +278,7 @@ public class Seguimiento extends javax.swing.JPanel {
             mostrarPorPrioridad(checkEstado.isSelected());
 
             // Mostrar mensaje de confirmación
-            if (RegistrarExpediente.CompletarExpedienteCR(fechaActual,idSeleccionado)) {
+            if (Administrador.CompletarExpedienteCR(fechaActual,idSeleccionado)) {
                 JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: Finalizado).");
             }
 

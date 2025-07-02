@@ -3,7 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
-
+import Controlador.RegistrarExpediente;
+import Modelo.Administrador;
+import Modelo.Admision_Class;
+import Modelo.Expediente;
+import Modelo.Interesado;
+import TDA.Cola;
 import static Vista.MenuPrincipal.content;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,8 +16,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,11 +32,15 @@ public class Admision extends javax.swing.JPanel {
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
     JButton[] buttons;
     
-
+    private final DefaultTableModel model;
 
     public Admision() {
         initComponents();
-
+        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "F. Final"};
+        model = new DefaultTableModel(columnas, 0);
+        jTableAdmin.setModel(model);
+        mostrarPorPrioridad(true);
+        
         buttons = new JButton[3];
         buttons[0] = bttnAdmision;
         buttons[1] = bttnAlumEgre;
@@ -42,6 +54,95 @@ public class Admision extends javax.swing.JPanel {
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
+    }
+    public void mostrarPorPrioridad(boolean enProceso) {
+        DefaultTableModel modelo = (DefaultTableModel) jTableAdmin.getModel();
+        modelo.setRowCount(0);
+
+        Cola<Expediente> original = Admision_Class.ExpedientesAdmision;
+        Cola<Expediente> temp = new Cola<>();
+        Cola<Expediente> alta = new Cola<>();
+        Cola<Expediente> media = new Cola<>();
+        Cola<Expediente> baja = new Cola<>();
+
+        int estadoFiltrar = enProceso ? 2 : 1;
+
+        while (!original.esVacia()) {
+            Expediente e = original.desencolar();
+            if (e.getEstado() == estadoFiltrar) {
+                switch (e.getPrioridad()) {
+                    case "Alta":
+                        alta.encolar(e);
+                        break;
+                    case "Media":
+                        media.encolar(e);
+                        break;
+                    case "Baja":
+                        baja.encolar(e);
+                        break;
+                }
+            }
+            temp.encolar(e);
+        }
+
+        while (!temp.esVacia()) {
+            original.encolar(temp.desencolar());
+        }
+
+        agregarColaATabla(alta, modelo);
+        agregarColaATabla(media, modelo);
+        agregarColaATabla(baja, modelo);
+    }
+
+    private void agregarColaATabla(Cola<Expediente> cola, DefaultTableModel modelo) {
+        Cola<Expediente> temp = new Cola<>();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        while (!cola.esVacia()) {
+            Expediente e = cola.desencolar();
+            Interesado i = e.getInteresado();
+            String fechaFinal = (e.getFfinal() != null) ? sdf.format(e.getFfinal()) : "N/A";
+
+            modelo.addRow(new Object[]{
+                e.getId(),
+                i.getDni(),
+                i.getNombre(),
+                e.getPrioridad(),
+                e.getAsunto(),
+                fechaFinal
+            });
+            temp.encolar(e);
+        }
+        // Restaurar la cola original
+        while (!temp.esVacia()) {
+            cola.encolar(temp.desencolar());
+        }
+    }
+        private void buscarExpedientePorDNI() {
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+         if(!dni.matches("\\d{8}")){
+             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Expediente expediente = Admision_Class.BuscarExpediente(dni);
+        model.setRowCount(0);
+
+        if (expediente != null && expediente.getInteresado() != null) {
+            Interesado interesado = expediente.getInteresado();
+            model.addRow(new Object[]{
+                expediente.getId(),
+                interesado.getDni(),
+                interesado.getNombre(),
+                expediente.getPrioridad(),
+                expediente.getAsunto()
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún expediente con el DNI proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     public void setButtonBorder(JButton button) {
@@ -162,12 +263,18 @@ public class Admision extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableAdmin.setCellSelectionEnabled(true);
         jScrollPane1.setViewportView(jTableAdmin);
 
         jPanelAD.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
 
         bttnDerivar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnDerivar.setText("DERIVAR");
+        bttnDerivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnDerivarActionPerformed(evt);
+            }
+        });
         jPanelAD.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 160, 30));
         jPanelAD.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 30));
 
@@ -177,6 +284,11 @@ public class Admision extends javax.swing.JPanel {
 
         bttnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnBuscar.setText("BUSCAR");
+        bttnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnBuscarActionPerformed(evt);
+            }
+        });
         jPanelAD.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, 30));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -211,6 +323,39 @@ public class Admision extends javax.swing.JPanel {
     private void bttnAdmisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAdmisionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bttnAdmisionActionPerformed
+
+    private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
+buscarExpedientePorDNI();        // TODO add your handling code here:
+    }//GEN-LAST:event_bttnBuscarActionPerformed
+
+    private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
+ int filaSeleccionada = jTableAdmin.getSelectedRow();
+  int columnaselecionada= 2;
+        if (filaSeleccionada == -1) {
+            // No hay fila seleccionada
+            JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
+            return;
+        }
+                String[] opciones = {"Alumnos y Egresados", "Matricula","Cola Principal"};
+        JComboBox<String> comboBox = new JComboBox<>(opciones);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                comboBox,
+                "¿A dónde deseas derivar?",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            String dependencia = (String) comboBox.getSelectedItem();
+            String obj=(String) jTableAdmin.getValueAt(filaSeleccionada, columnaselecionada);
+            Expediente exp=Admision_Class.BuscarExpediente(obj);
+            Administrador.derivarExpediente(exp,dependencia);
+            System.out.println("Destino seleccionado: " + dependencia);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bttnDerivarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

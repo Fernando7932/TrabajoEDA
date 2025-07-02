@@ -4,6 +4,12 @@
  */
 package Vista;
 
+import Modelo.Administrador;
+import Modelo.Admision_Class;
+import Modelo.Alumnos_Egresados_class;
+import Modelo.Expediente;
+import Modelo.Interesado;
+import TDA.Cola;
 import static Vista.MenuPrincipal.content;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,8 +17,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,10 +34,13 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
 
     JButton[] buttons;
 
-
+    private final DefaultTableModel model;
     public Alumnos_Egresados() {
         initComponents();
-
+        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "F. Final"};
+        model = new DefaultTableModel(columnas, 0);
+        jTableAlumn_Egr.setModel(model);
+        mostrarPorPrioridad(true);
         buttons = new JButton[3];
         buttons[0] = bttnAdmision;
         buttons[1] = bttnAlumEgre;
@@ -42,6 +54,68 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
+    }
+        public void mostrarPorPrioridad(boolean enProceso) {
+        DefaultTableModel modelo = (DefaultTableModel) jTableAlumn_Egr.getModel();
+        modelo.setRowCount(0);
+
+        Cola<Expediente> original = Alumnos_Egresados_class.ExpedientesAlum_Egre;
+        Cola<Expediente> temp = new Cola<>();
+        Cola<Expediente> alta = new Cola<>();
+        Cola<Expediente> media = new Cola<>();
+        Cola<Expediente> baja = new Cola<>();
+
+        int estadoFiltrar = enProceso ? 2 : 1;
+
+        while (!original.esVacia()) {
+            Expediente e = original.desencolar();
+            if (e.getEstado() == estadoFiltrar) {
+                switch (e.getPrioridad()) {
+                    case "Alta":
+                        alta.encolar(e);
+                        break;
+                    case "Media":
+                        media.encolar(e);
+                        break;
+                    case "Baja":
+                        baja.encolar(e);
+                        break;
+                }
+            }
+            temp.encolar(e);
+        }
+
+        while (!temp.esVacia()) {
+            original.encolar(temp.desencolar());
+        }
+
+        agregarColaATabla(alta, modelo);
+        agregarColaATabla(media, modelo);
+        agregarColaATabla(baja, modelo);
+    }
+
+    private void agregarColaATabla(Cola<Expediente> cola, DefaultTableModel modelo) {
+        Cola<Expediente> temp = new Cola<>();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        while (!cola.esVacia()) {
+            Expediente e = cola.desencolar();
+            Interesado i = e.getInteresado();
+            String fechaFinal = (e.getFfinal() != null) ? sdf.format(e.getFfinal()) : "N/A";
+
+            modelo.addRow(new Object[]{
+                e.getId(),
+                i.getDni(),
+                i.getNombre(),
+                e.getPrioridad(),
+                e.getAsunto(),
+                fechaFinal
+            });
+            temp.encolar(e);
+        }
+        // Restaurar la cola original
+        while (!temp.esVacia()) {
+            cola.encolar(temp.desencolar());
+        }
     }
 
     public void setButtonBorder(JButton button) {
@@ -89,7 +163,33 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
             });
         }
     }
+private void buscarExpedientePorDNI() {
+        String dni = txtBuscar.getText().trim();
+        if (dni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+         if(!dni.matches("\\d{8}")){
+             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
+        Expediente expediente = Alumnos_Egresados_class.BuscarExpediente(dni);
+        model.setRowCount(0);
+
+        if (expediente != null && expediente.getInteresado() != null) {
+            Interesado interesado = expediente.getInteresado();
+            model.addRow(new Object[]{
+                expediente.getId(),
+                interesado.getDni(),
+                interesado.getNombre(),
+                expediente.getPrioridad(),
+                expediente.getAsunto()
+            });
+        } else {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún expediente con el DNI proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
     private void ShowJPanel(JPanel p) {
         /* Muestra el contenido del Jpanel p para que se muestre en content. */
         p.setSize(430, 280);
@@ -148,10 +248,20 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
 
         bttnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnBuscar.setText("BUSCAR");
+        bttnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnBuscarActionPerformed(evt);
+            }
+        });
         jPanelAL.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, 30));
 
         bttnDerivar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnDerivar.setText("DERIVAR");
+        bttnDerivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bttnDerivarActionPerformed(evt);
+            }
+        });
         jPanelAL.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 160, 30));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -217,6 +327,38 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
         // TODO add your handling code here:
         ShowJPanel(new Matricula());
     }//GEN-LAST:event_bttnMatriculaActionPerformed
+
+    private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
+buscarExpedientePorDNI();        // TODO add your handling code here:
+    }//GEN-LAST:event_bttnBuscarActionPerformed
+
+    private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
+int filaSeleccionada = jTableAlumn_Egr.getSelectedRow();
+  int columnaselecionada= 2;
+        if (filaSeleccionada == -1) {
+            // No hay fila seleccionada
+            JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
+            return;
+        }
+                String[] opciones = {"Admision", "Matricula","Cola Principal"};
+        JComboBox<String> comboBox = new JComboBox<>(opciones);
+
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                comboBox,
+                "¿A dónde deseas derivar?",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            String dependencia = (String) comboBox.getSelectedItem();
+            String obj=(String) jTableAlumn_Egr.getValueAt(filaSeleccionada, columnaselecionada);
+            Expediente exp=Alumnos_Egresados_class.BuscarExpediente(obj);
+            Administrador.derivarExpediente(exp,dependencia);
+            System.out.println("Destino seleccionado: " + dependencia);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_bttnDerivarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,6 +1,7 @@
 package Vista;
 
 import Controlador.RegistrarExpediente;
+import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
 import java.awt.event.ActionEvent;
@@ -151,7 +152,7 @@ public class Consultar extends javax.swing.JPanel {
         String dni = (String) model.getValueAt(selectedRow, 1);
 
         // Buscar el expediente correspondiente al DNI obtenido
-        Expediente expediente = RegistrarExpediente.BuscarExpediente(dni);
+        Expediente expediente = Administrador.BuscarExpediente(dni);
 
         // Verificar si se encontró el expediente
         if (expediente != null) {
