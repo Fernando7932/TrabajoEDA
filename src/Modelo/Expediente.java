@@ -96,7 +96,7 @@ public class Expediente {
         this.fechaFinal = calcularFechaFinal(this.fechaInicio, this.asunto);
         this.estado = 1;
         this.documentoResultante = null; // Se genera al finalizar
-        this.Dependencia = "En proceso de derivacion";
+        this.Dependencia = "Administrador";
     }
 
     // --- Getters y Setters ---
