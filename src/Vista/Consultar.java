@@ -1,6 +1,7 @@
 package Vista;
 
 import Modelo.Administrador;
+import static Modelo.Administrador.buscarPorDNI;
 import Modelo.Expediente;
 import Modelo.Interesado;
 import java.awt.event.ActionEvent;
@@ -50,7 +51,7 @@ public class Consultar extends javax.swing.JPanel {
         model.setRowCount(0);
         boolean encontrado = false;
 
-        // Buscar en cola principal
+        // Buscar en cola principal ya que se mantenie en la cola princpial, una copia se manda a las dependencias
         TDA.Cola<Expediente> tempPrincipal = new TDA.Cola<>();
         while (!Modelo.Administrador.ExpedientesPrincipal.esVacia()) {
             Expediente exp = Modelo.Administrador.ExpedientesPrincipal.desencolar();
@@ -69,73 +70,6 @@ public class Consultar extends javax.swing.JPanel {
         }
         while (!tempPrincipal.esVacia()) {
             Modelo.Administrador.ExpedientesPrincipal.encolar(tempPrincipal.desencolar());
-        }
-
-        // Buscar en admisión
-        TDA.Cola<Expediente> tempAdmision = new TDA.Cola<>();
-        while (!Modelo.Admision_Class.ExpedientesAdmision.esVacia()) {
-            Expediente exp = Modelo.Admision_Class.ExpedientesAdmision.desencolar();
-            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
-                model.addRow(new Object[]{
-                    exp.getId(),
-                    exp.getInteresado().getDni(),
-                    exp.getInteresado().getNombre(),
-                    exp.getPrioridad(),
-                    exp.getAsunto(),
-                    exp.Dependencia
-                });
-                encontrado = true;
-            }
-            tempAdmision.encolar(exp);
-        }
-        while (!tempAdmision.esVacia()) {
-            Modelo.Admision_Class.ExpedientesAdmision.encolar(tempAdmision.desencolar());
-        }
-
-        // Buscar en alumnos/egresados
-        TDA.Cola<Expediente> tempAlumEgre = new TDA.Cola<>();
-        while (!Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.esVacia()) {
-            Expediente exp = Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.desencolar();
-            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
-                model.addRow(new Object[]{
-                    exp.getId(),
-                    exp.getInteresado().getDni(),
-                    exp.getInteresado().getNombre(),
-                    exp.getPrioridad(),
-                    exp.getAsunto(),
-                    exp.Dependencia
-                });
-                encontrado = true;
-            }
-            tempAlumEgre.encolar(exp);
-        }
-        while (!tempAlumEgre.esVacia()) {
-            Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.encolar(tempAlumEgre.desencolar());
-        }
-
-        // Buscar en matrícula
-        TDA.Cola<Expediente> tempMatricula = new TDA.Cola<>();
-        while (!Modelo.Matricula_Class.ExpedientesMatricula.esVacia()) {
-            Expediente exp = Modelo.Matricula_Class.ExpedientesMatricula.desencolar();
-            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
-                model.addRow(new Object[]{
-                    exp.getId(),
-                    exp.getInteresado().getDni(),
-                    exp.getInteresado().getNombre(),
-                    exp.getPrioridad(),
-                    exp.getAsunto(),
-                    exp.Dependencia
-                });
-                encontrado = true;
-            }
-            tempMatricula.encolar(exp);
-        }
-        while (!tempMatricula.esVacia()) {
-            Modelo.Matricula_Class.ExpedientesMatricula.encolar(tempMatricula.desencolar());
-        }
-
-        if (!encontrado) {
-            JOptionPane.showMessageDialog(this, "No se encontró ningún expediente con el DNI proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -224,7 +158,7 @@ public class Consultar extends javax.swing.JPanel {
 
         // Obtener el DNI de la fila seleccionada (columna 1 del modelo)
         String dni = (String) model.getValueAt(selectedRow, 1);
-
+        
         // Buscar el expediente correspondiente al DNI obtenido
         Expediente expediente = Administrador.buscarPorDNI(dni);
 
@@ -285,10 +219,10 @@ public class Consultar extends javax.swing.JPanel {
     }//GEN-LAST:event_bttnBuscarActionPerformed
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO add your handling code here:
+        // TODO av}dd your handling code here:
         buscarExpedientePorDNI();
     }//GEN-LAST:event_buscarActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnDetalles;

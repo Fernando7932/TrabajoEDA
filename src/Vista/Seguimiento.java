@@ -218,11 +218,11 @@ public class Seguimiento extends javax.swing.JPanel {
             String dni = (String) TableEXP2.getValueAt(filaSeleccionada, 1);
             Expediente exp = Administrador.buscarPorDNI(dni);
             Administrador.derivarA(dependencia, exp);
-            Administrador.eliminarDeCola(exp);
             mostrarPorPrioridad(false);
             JOptionPane.showMessageDialog(this, "Expediente derivado a " + dependencia + ".");
         }
 
+        
 
     }//GEN-LAST:event_bttnDerivarActionPerformed
 

@@ -333,7 +333,7 @@ public class Admision extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-        String[] opciones = {"Alumnos y Egresados", "Matricula", "Cola Principal"};
+        String[] opciones = {"Alumnos y Egresados", "Matricula", "Administrador"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -351,6 +351,8 @@ public class Admision extends javax.swing.JPanel {
             Admision_Class.derivarA(dependencia, exp);
             mostrarPorPrioridad();
             System.out.println("Destino seleccionado: " + dependencia);
+            Admision_Class.EliminarDeCola(exp);
+            Administrador.buscarPorDNI(dni).setDependencia(dependencia);
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_bttnDerivarActionPerformed

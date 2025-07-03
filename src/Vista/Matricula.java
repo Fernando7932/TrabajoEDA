@@ -126,7 +126,7 @@ public class Matricula extends javax.swing.JPanel {
             return;
         }
 
-        Expediente expediente = Matricula_Class.BuscarExpediente(dni);
+        Expediente expediente = Matricula_Class.buscarPorDNI(dni);
         model.setRowCount(0);
 
         if (expediente != null && expediente.getInteresado() != null) {
@@ -339,7 +339,7 @@ public class Matricula extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-        String[] opciones = {"Admision", "Alumnos y Egresados", "Cola Principal"};
+        String[] opciones = {"Admision", "Alumnos y Egresados", "Administrador"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -353,10 +353,12 @@ public class Matricula extends javax.swing.JPanel {
         if (opcion == JOptionPane.OK_OPTION) {
             String dependencia = (String) comboBox.getSelectedItem();
             String dni = (String) jTableMatricula.getValueAt(filaSeleccionada, 1);
-            Expediente exp = Matricula_Class.BuscarExpediente(dni);
+            Expediente exp = Matricula_Class.buscarPorDNI(dni);
             Matricula_Class.derivarA(dependencia, exp);
             mostrarPorPrioridad();
             System.out.println("Destino seleccionado: " + dependencia);
+            Matricula_Class.EliminarDeCola(exp);
+            Administrador.buscarPorDNI(dni).setDependencia(dependencia);
         }              
     }//GEN-LAST:event_bttnDerivarActionPerformed
     
