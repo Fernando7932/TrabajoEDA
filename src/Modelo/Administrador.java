@@ -5,7 +5,6 @@
  */
 package Modelo;
 
-import static Modelo.Admision_Class.ExpedientesAdmision;
 import TDA.*;
 import java.util.Date;
 
@@ -45,7 +44,9 @@ public class Administrador {
         ExpedientesPrincipal.desencolar();
 
     }
-
+    public static boolean esVacio(){
+       return ExpedientesPrincipal.esVacia();
+    }
     public static void mostrar() {
         Cola<Expediente> temp = new Cola<>();
 
@@ -241,10 +242,7 @@ public class Administrador {
             exp.setDependencia("Matricula");
             Matricula_Class.agregar(exp);
         }
-        if (Dependencia.equalsIgnoreCase("cola princiapal")) {
-            String dni = exp.getInteresado().getDni();
-            buscarPorDNI(dni).setDependencia("Vuelta a la cola principal");
-        }
+
     }
 
     public static void eliminarDeCola(Expediente expediente) {
@@ -263,5 +261,5 @@ public class Administrador {
             ExpedientesPrincipal.encolar(temp.desencolar());
         }
     }
-
+    
 }

@@ -39,7 +39,9 @@ public class Matricula_Class {
     public static void desencolarExpediente() {
         ExpedientesMatricula.desencolar();
     }
-
+public static boolean esVacio(){
+       return ExpedientesMatricula.esVacia();
+    }
     /**
      * Deriva un expediente desde Matrícula hacia otra dependencia o al administrador.
      * @param destino Nombre de la dependencia destino ("Administrador", "Admision", "Alumnos_Egresados")
@@ -48,7 +50,6 @@ public class Matricula_Class {
     public static void derivarA(String destino, Expediente expediente) {
         switch (destino) {
             case "Cola Principal":
-                Modelo.Administrador.agregar(expediente);
                 expediente.Dependencia = "Administrador";
                 break;
             case "Admision":
@@ -104,7 +105,7 @@ public class Matricula_Class {
      * @param dni DNI a buscar
      * @return El expediente encontrado, o null si no existe
      */
-    public static Expediente BuscarExpediente(String dni) {
+    public static Expediente buscarPorDNI(String dni) {
         Cola<Expediente> temp = new Cola<>();
         Expediente EAux = new Expediente();
         Interesado IAux = new Interesado();

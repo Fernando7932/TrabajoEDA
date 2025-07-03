@@ -38,7 +38,9 @@ public class Alumnos_Egresados_class {
         // Elimina el primer expediente de la cola
         ExpedientesAlum_Egre.desencolar();
     }
-    
+    public static boolean esVacio(){
+       return ExpedientesAlum_Egre.esVacia();
+    }
     /**
      * Deriva un expediente desde Alumnos/Egresados hacia otra dependencia o al administrador.
      * @param destino Nombre de la dependencia destino ("Administrador", "Admision", "Matricula")
@@ -49,7 +51,6 @@ public class Alumnos_Egresados_class {
         switch (destino) {
             case "Cola Principal":
                 // Deriva el expediente al administrador
-                Modelo.Administrador.agregar(expediente);
                 expediente.Dependencia = "Administrador";
                 break;
             case "Admision":
@@ -119,7 +120,7 @@ public class Alumnos_Egresados_class {
      * @param dni DNI a buscar
      * @return El expediente encontrado, o null si no existe
      */
-    public static Expediente BuscarExpediente(String dni){
+    public static Expediente buscarPorDNI(String dni){
         // Crea una cola temporal para almacenar los expedientes
         Cola<Expediente> temp = new Cola<>();
         // Crea un expediente auxiliar para almacenar el resultado

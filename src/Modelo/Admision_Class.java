@@ -37,7 +37,12 @@ public class Admision_Class {
         ExpedientesAdmision.desencolar();
 
     }
-    
+    /**
+     * Verifica si es vacia
+     */
+    public static boolean esVacio(){
+       return ExpedientesAdmision.esVacia();
+    }
     /**
      * Deriva un expediente desde Admisión hacia otra dependencia o al administrador.
      * @param destino Nombre de la dependencia destino ("Administrador", "Alumnos_Egresados", "Matricula")
@@ -48,7 +53,6 @@ public class Admision_Class {
         switch (destino) {
             case "Cola Principal":
                 // Deriva el expediente al administrador
-                Modelo.Administrador.agregar(expediente);
                 expediente.Dependencia = "Administrador";
                 break;
             case "Alumnos y Egresados":
@@ -136,8 +140,6 @@ public class Admision_Class {
         }
         return EAux;
     }
-        
-        
         
         
 }
