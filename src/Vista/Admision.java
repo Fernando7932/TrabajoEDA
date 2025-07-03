@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Vista;
-import Controlador.RegistrarExpediente;
+
 import Modelo.Administrador;
 import Modelo.Admision_Class;
 import Modelo.Expediente;
@@ -31,22 +31,20 @@ public class Admision extends javax.swing.JPanel {
     Border default_border = BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(153, 153, 153));
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
     JButton[] buttons;
-    
-    private final DefaultTableModel model;
+
+    DefaultTableModel model;
 
     public Admision() {
         initComponents();
         String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "F. Final"};
         model = new DefaultTableModel(columnas, 0);
         jTableAdmin.setModel(model);
-        mostrarPorPrioridad(true);
-        
+        mostrarPorPrioridad();
+
         buttons = new JButton[3];
         buttons[0] = bttnAdmision;
         buttons[1] = bttnAlumEgre;
         buttons[2] = bttnMatricula;
-        
-
 
         //Aplicar el mismo formato de borde a todos los botones
         for (JButton button : buttons) {
@@ -55,7 +53,8 @@ public class Admision extends javax.swing.JPanel {
 
         addAction(); //Cargar el metodo para la interacción con los botones.
     }
-    public void mostrarPorPrioridad(boolean enProceso) {
+
+    public void mostrarPorPrioridad() {
         DefaultTableModel modelo = (DefaultTableModel) jTableAdmin.getModel();
         modelo.setRowCount(0);
 
@@ -65,11 +64,10 @@ public class Admision extends javax.swing.JPanel {
         Cola<Expediente> media = new Cola<>();
         Cola<Expediente> baja = new Cola<>();
 
-        int estadoFiltrar = enProceso ? 2 : 1;
 
         while (!original.esVacia()) {
             Expediente e = original.desencolar();
-            if (e.getEstado() == estadoFiltrar) {
+            if (e.getEstado() == 2) {
                 switch (e.getPrioridad()) {
                     case "Alta":
                         alta.encolar(e);
@@ -117,18 +115,19 @@ public class Admision extends javax.swing.JPanel {
             cola.encolar(temp.desencolar());
         }
     }
-        private void buscarExpedientePorDNI() {
+
+    private void buscarExpedientePorDNI() {
         String dni = txtBuscar.getText().trim();
         if (dni.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
-         if(!dni.matches("\\d{8}")){
-             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+        if (!dni.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Expediente expediente = Admision_Class.BuscarExpediente(dni);
+        Expediente expediente = Admision_Class.buscarPorDNI(dni);
         model.setRowCount(0);
 
         if (expediente != null && expediente.getInteresado() != null) {
@@ -210,14 +209,14 @@ public class Admision extends javax.swing.JPanel {
         bttnMatricula = new javax.swing.JButton();
         bttnAlumEgre = new javax.swing.JButton();
         bttnAdmision = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableAdmin = new javax.swing.JTable();
         bttnDerivar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         bttnBuscar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        JScrollPane = new javax.swing.JScrollPane();
+        jTableAdmin = new javax.swing.JTable();
 
         jPanelAD.setBackground(new java.awt.Color(255, 255, 255));
         jPanelAD.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -252,22 +251,6 @@ public class Admision extends javax.swing.JPanel {
         });
         jPanelAD.add(bttnAdmision, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 100, 30));
 
-        jTableAdmin.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jTableAdmin.setCellSelectionEnabled(true);
-        jScrollPane1.setViewportView(jTableAdmin);
-
-        jPanelAD.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
-
         bttnDerivar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnDerivar.setText("DERIVAR");
         bttnDerivar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,13 +272,28 @@ public class Admision extends javax.swing.JPanel {
                 bttnBuscarActionPerformed(evt);
             }
         });
-        jPanelAD.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, 30));
+        jPanelAD.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, -1, 30));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanelAD.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 20, 40));
 
         jLabel1.setText("Prueba - ad");
         jPanelAD.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
+
+        jTableAdmin.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        JScrollPane.setViewportView(jTableAdmin);
+
+        jPanelAD.add(JScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -317,7 +315,7 @@ public class Admision extends javax.swing.JPanel {
     private void bttnAlumEgreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAlumEgreActionPerformed
         // TODO add your handling code here:
         ShowJPanel(new Alumnos_Egresados());
-        
+
     }//GEN-LAST:event_bttnAlumEgreActionPerformed
 
     private void bttnAdmisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnAdmisionActionPerformed
@@ -325,18 +323,17 @@ public class Admision extends javax.swing.JPanel {
     }//GEN-LAST:event_bttnAdmisionActionPerformed
 
     private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
-buscarExpedientePorDNI();        // TODO add your handling code here:
+        buscarExpedientePorDNI();        // TODO add your handling code here:
     }//GEN-LAST:event_bttnBuscarActionPerformed
 
     private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
- int filaSeleccionada = jTableAdmin.getSelectedRow();
-  int columnaselecionada= 2;
+        int filaSeleccionada = jTableAdmin.getSelectedRow();
         if (filaSeleccionada == -1) {
             // No hay fila seleccionada
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-                String[] opciones = {"Alumnos y Egresados", "Matricula","Cola Principal"};
+        String[] opciones = {"Alumnos y Egresados", "Matricula", "Cola Principal"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -349,9 +346,10 @@ buscarExpedientePorDNI();        // TODO add your handling code here:
 
         if (opcion == JOptionPane.OK_OPTION) {
             String dependencia = (String) comboBox.getSelectedItem();
-            String obj=(String) jTableAdmin.getValueAt(filaSeleccionada, columnaselecionada);
-            Expediente exp=Admision_Class.BuscarExpediente(obj);
-            Administrador.derivarExpediente(exp,dependencia);
+            String dni = (String) jTableAdmin.getValueAt(filaSeleccionada, 1);
+            Expediente exp = Admision_Class.buscarPorDNI(dni);
+            Admision_Class.derivarA(dependencia, exp);
+            mostrarPorPrioridad();
             System.out.println("Destino seleccionado: " + dependencia);
         }
         // TODO add your handling code here:
@@ -359,6 +357,7 @@ buscarExpedientePorDNI();        // TODO add your handling code here:
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane JScrollPane;
     private javax.swing.JButton bttnAdmision;
     private javax.swing.JButton bttnAlumEgre;
     private javax.swing.JButton bttnBuscar;
@@ -367,7 +366,6 @@ buscarExpedientePorDNI();        // TODO add your handling code here:
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanelAD;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTableAdmin;
     private javax.swing.JTextField txtBuscar;

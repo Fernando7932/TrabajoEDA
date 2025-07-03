@@ -9,23 +9,68 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Representa un expediente dentro del sistema de trámite documentario. Contiene
- * información sobre el interesado, asunto, fechas y estado del trámite.
- *
- * @author YUSTIN
+ * Clase que representa un expediente (caso o trámite) dentro del sistema.
+ * Cada expediente tiene información del interesado, prioridad, asunto, estado y dependencia actual.
+ * Se utiliza para gestionar el flujo de documentos entre dependencias.
  */
 public class Expediente {
 
+    // Contador de ID para expedientes
     private static int contadorID = 1;
+
+    // Atributos del expediente
+    /**
+     * ID único del expediente
+     */
     private int id;
+
+    /**
+     * Prioridad del expediente (puede ser "Alta", "Media" o "Baja")
+     */
     private String prioridad;
+
+    /**
+     * Persona o entidad que solicita el trámite
+     */
     private Interesado interesado;
+
+    /**
+     * Descripción breve del trámite o petición
+     */
     private String asunto;
+
+    /**
+     * Nombre del documento adjunto o referencia asociada
+     */
     private String documentoReferencia;
-    private Date fechaInicio, fechaFinal;
-    private int estado; // 1: Sin derivar, 2: En proceso, 3: Finalizado
-    private String documentoResultante;
+
+    /**
+     * Estado del expediente:
+     * 1: En proceso de derivación
+     * 2: En cola principal del Administrador
+     * 3: Finalizado
+     */
+    private int estado;
+
+    /**
+     * Nombre de la dependencia actual donde está el expediente
+     */
     public String Dependencia;
+
+    /**
+     * Fecha en que se inició el trámite
+     */
+    private Date fechaInicio;
+
+    /**
+     * Fecha en que se finalizó el trámite (puede ser null si no ha finalizado)
+     */
+    private Date fechaFinal;
+
+    /**
+     * Documento generado como resultado del trámite (puede ser null)
+     */
+    private String documentoResultante;
 
     /**
      * Constructor por defecto.
@@ -51,70 +96,141 @@ public class Expediente {
         this.fechaFinal = calcularFechaFinal(this.fechaInicio, this.asunto);
         this.estado = 1;
         this.documentoResultante = null; // Se genera al finalizar
-        this.Dependencia="En proceso de derivacion";
+        this.Dependencia = "En proceso de derivacion";
     }
 
     // --- Getters y Setters ---
+    /**
+     * Devuelve el ID del expediente.
+     *
+     * @return ID del expediente
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * Devuelve la dependencia actual del expediente.
+     *
+     * @return Nombre de la dependencia
+     */
     public String getDependencia() {
         return Dependencia;
     }
 
-    public void setDependencia(String Dependencia) {
-        this.Dependencia = Dependencia;
+    /**
+     * Establece la dependencia actual del expediente.
+     *
+     * @param dependencia Nombre de la dependencia
+     */
+    public void setDependencia(String dependencia) {
+        this.Dependencia = dependencia;
     }
 
+    /**
+     * Devuelve el interesado (solicitante) de este expediente.
+     *
+     * @return Objeto Interesado
+     */
     public Interesado getInteresado() {
         return interesado;
     }
 
+    /**
+     * Establece el interesado (solicitante) de este expediente.
+     *
+     * @param interesado Objeto Interesado a asignar
+     */
+    public void setInteresado(Interesado interesado) {
+        this.interesado = interesado;
+    }
+
+    /**
+     * Devuelve el asunto del expediente.
+     *
+     * @return Asunto (descripción del trámite)
+     */
     public String getAsunto() {
         return asunto;
     }
 
+    /**
+     * Devuelve la fecha de inicio del expediente.
+     *
+     * @return Fecha de inicio
+     */
     public Date getFechaInicio() {
         return fechaInicio;
     }
 
+    /**
+     * Establece la fecha de inicio del expediente.
+     *
+     * @param fechaInicio Fecha de inicio
+     */
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
+    /**
+     * Devuelve la fecha de finalización del expediente.
+     *
+     * @return Fecha de finalización (puede ser null)
+     */
     public Date getFechaFinal() {
         return fechaFinal;
     }
 
+    /**
+     * Establece la fecha de finalización del expediente.
+     *
+     * @param fechaFinal Fecha de finalización
+     */
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
 
+    /**
+     * Devuelve el estado actual del expediente.
+     *
+     * @return Estado (1: en proceso, 2: en administrador, 3: finalizado)
+     */
     public int getEstado() {
         return estado;
     }
 
+    /**
+     * Establece el estado del expediente.
+     *
+     * @param estado Valor entero (1, 2 o 3)
+     */
     public void setEstado(int estado) {
         this.estado = estado;
     }
 
+    /**
+     * Devuelve el documento resultante generado por el trámite.
+     *
+     * @return Nombre del documento resultante (puede ser null)
+     */
     public String getDocumentoResultante() {
         return documentoResultante;
     }
 
-    public Date getFinicio() {
-        return fechaInicio;
-    }
-
+    /**
+     * Establece el documento resultante del expediente.
+     *
+     * @param documentoResultante Nombre del documento resultante
+     */
     public void setDocumentoResultante(String documentoResultante) {
         this.documentoResultante = documentoResultante;
     }
 
-    public void setFinicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
 
+    /**
+     * Devuelve la prioridad del expediente.
+     * @return Prioridad ("Alta", "Media" o "Baja")
+     */
     public String getPrioridad() {
         return prioridad;
     }
@@ -127,6 +243,10 @@ public class Expediente {
         this.fechaFinal = fechaFinal;
     }
 
+    /**
+     * Devuelve el documento de referencia asociado al expediente.
+     * @return Nombre del documento de referencia
+     */
     public String getDocumentoReferencia() {
         return documentoReferencia;
     }

@@ -1,9 +1,9 @@
-74291234;Juan Carlos Perez Gomez;999888777;Alumno UL;juan.perez@email.com;Alta;Constancia de Matricula;solicitud_matricula.pdf;2;2024-05-20 10:30:00;2024-05-22 10:30:00;null
-12345678;Maria Elena Lopez Diaz;987654321;Docente;maria.lopez@email.com;Media;Constancia de Rendimiento Academico;record_notas.pdf;2;2024-05-19 15:00:00;2024-05-22 15:00:00;null
-87654321;Carlos Alberto Garcia Ruiz;911222333;Alumno UL;carlos.garcia@email.com;Baja;Constacia de Egresados;solicitud_egreso.pdf;3;2024-05-15 09:00:00;2024-05-19 09:00:00;CEGR213.pdf
-11223344;Ana Lucia Martinez Flores;944555666;Externo;ana.martinez@email.com;Alta;Constancia de Matricula;pago_tasa.pdf;1;2024-05-21 08:45:15;2024-05-23 08:45:15;null
-55667788;Luis Fernando Torres Soto;933444555;Alumno UL;luis.torres@email.com;Media;Constancia de Rendimiento Academico;solicitud_notas_2023.pdf;2;2024-05-20 11:00:00;2024-05-23 11:00:00;null
-99887766;Sofia Vargas Castro;922111000;Docente;sofia.vargas@email.com;Alta;Constancia de Matricula;constancia_trabajo.pdf;3;2024-05-18 14:20:30;2024-05-20 14:20:30;CMCo666.pdf
-72522645;Fernando Quispe Gamez;962526810;Alumno UL;fernando.quispe@email.com;Media;Constacia de Egresados;chapter2.pdf;2;2024-05-21 20:59:19;2024-05-25 20:59:19;null
-45678912;Laura Jimenez Ponce;958741236;Externo;laura.jimenez@email.com;Baja;Constancia de Matricula;doc_externo.pdf;1;2024-05-22 12:00:00;2024-05-24 12:00:00;null
-72522645;Fernando Quispe;962526810;Alumno UL;fernandoquispegamezb1@gmail.com;Alta;Constancia de Rendimiento Academico;no aplica;1;2025-06-29 21:14:58;2025-07-02 21:14:58;null
+74291234;Juan Carlos Perez Gomez;999888777;Alumno UL;juan.perez@email.com;Alta;Constancia de Matricula;solicitud_matricula.pdf;2;2024-05-20 00:00:00;2024-05-22 00:00:00;null;Administrador
+11223344;Ana Lucia Martinez Flores;944555666;Externo;ana.martinez@email.com;Alta;Constancia de Matricula;pago_tasa.pdf;1;2024-05-21 00:00:00;2024-05-23 00:00:00;null;En proceso de derivacion
+72522645;Fernando Quispe Gamez;962526810;Alumno UL;fernando.quispe@email.com;Media;Constacia de Egresados;chapter2.pdf;2;2024-05-21 00:00:00;2024-05-25 00:00:00;null;Administrador
+45678912;Laura Jimenez Ponce;958741236;Externo;laura.jimenez@email.com;Baja;Constancia de Matricula;doc_externo.pdf;1;2024-05-22 00:00:00;2024-05-24 00:00:00;null;En proceso de derivacion
+12345678;Maria Elena Lopez Diaz;987654321;Docente;maria.lopez@email.com;Media;Constancia de Rendimiento Academico;record_notas.pdf;2;2024-05-19 00:00:00;2024-05-22 00:00:00;null;Administrador
+72522645;Fernando Quispe;962526810;Alumno UL;fernandoquispegamezb1@gmail.com;Alta;Constancia de Rendimiento Academico;no aplica;1;2025-06-29 00:00:00;2025-07-02 00:00:00;null;Admision
+87654321;Carlos Alberto Garcia Ruiz;911222333;Alumno UL;carlos.garcia@email.com;Baja;Constacia de Egresados;solicitud_egreso.pdf;3;2024-05-15 00:00:00;2024-05-19 00:00:00;CEGR213.pdf;Alumnos_Egresados
+99887766;Sofia Vargas Castro;922111000;Docente;sofia.vargas@email.com;Alta;Constancia de Matricula;constancia_trabajo.pdf;3;2024-05-18 00:00:00;2024-05-20 00:00:00;CMCo666.pdf;Alumnos_Egresados
+55667788;Luis Fernando Torres Soto;933444555;Alumno UL;luis.torres@email.com;Media;Constancia de Rendimiento Academico;solicitud_notas_2023.pdf;2;2024-05-20 00:00:00;2024-05-23 00:00:00;null;Matricula

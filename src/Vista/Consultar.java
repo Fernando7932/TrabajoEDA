@@ -1,6 +1,5 @@
 package Vista;
 
-import Controlador.RegistrarExpediente;
 import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
@@ -23,7 +22,7 @@ public class Consultar extends javax.swing.JPanel {
      */
     public Consultar() {
         initComponents();
-        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto"};
+        String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "Dependencia"};
         model = new DefaultTableModel(columnas, 0);
         jTable1.setModel(model);
         
@@ -43,24 +42,99 @@ public class Consultar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
-         if(!dni.matches("\\d{8}")){
-             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+        if (!dni.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 dígitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        Expediente expediente = Administrador.BuscarExpediente(dni);
         model.setRowCount(0);
+        boolean encontrado = false;
 
-        if (expediente != null && expediente.getInteresado() != null) {
-            Interesado interesado = expediente.getInteresado();
-            model.addRow(new Object[]{
-                expediente.getId(),
-                interesado.getDni(),
-                interesado.getNombre(),
-                expediente.getPrioridad(),
-                expediente.getAsunto()
-            });
-        } else {
+        // Buscar en cola principal
+        TDA.Cola<Expediente> tempPrincipal = new TDA.Cola<>();
+        while (!Modelo.Administrador.ExpedientesPrincipal.esVacia()) {
+            Expediente exp = Modelo.Administrador.ExpedientesPrincipal.desencolar();
+            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.Dependencia
+                });
+                encontrado = true;
+            }
+            tempPrincipal.encolar(exp);
+        }
+        while (!tempPrincipal.esVacia()) {
+            Modelo.Administrador.ExpedientesPrincipal.encolar(tempPrincipal.desencolar());
+        }
+
+        // Buscar en admisión
+        TDA.Cola<Expediente> tempAdmision = new TDA.Cola<>();
+        while (!Modelo.Admision_Class.ExpedientesAdmision.esVacia()) {
+            Expediente exp = Modelo.Admision_Class.ExpedientesAdmision.desencolar();
+            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.Dependencia
+                });
+                encontrado = true;
+            }
+            tempAdmision.encolar(exp);
+        }
+        while (!tempAdmision.esVacia()) {
+            Modelo.Admision_Class.ExpedientesAdmision.encolar(tempAdmision.desencolar());
+        }
+
+        // Buscar en alumnos/egresados
+        TDA.Cola<Expediente> tempAlumEgre = new TDA.Cola<>();
+        while (!Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.esVacia()) {
+            Expediente exp = Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.desencolar();
+            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.Dependencia
+                });
+                encontrado = true;
+            }
+            tempAlumEgre.encolar(exp);
+        }
+        while (!tempAlumEgre.esVacia()) {
+            Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.encolar(tempAlumEgre.desencolar());
+        }
+
+        // Buscar en matrícula
+        TDA.Cola<Expediente> tempMatricula = new TDA.Cola<>();
+        while (!Modelo.Matricula_Class.ExpedientesMatricula.esVacia()) {
+            Expediente exp = Modelo.Matricula_Class.ExpedientesMatricula.desencolar();
+            if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni())) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.Dependencia
+                });
+                encontrado = true;
+            }
+            tempMatricula.encolar(exp);
+        }
+        while (!tempMatricula.esVacia()) {
+            Modelo.Matricula_Class.ExpedientesMatricula.encolar(tempMatricula.desencolar());
+        }
+
+        if (!encontrado) {
             JOptionPane.showMessageDialog(this, "No se encontró ningún expediente con el DNI proporcionado.", "Sin resultados", JOptionPane.INFORMATION_MESSAGE);
         }
     }
@@ -152,7 +226,7 @@ public class Consultar extends javax.swing.JPanel {
         String dni = (String) model.getValueAt(selectedRow, 1);
 
         // Buscar el expediente correspondiente al DNI obtenido
-        Expediente expediente = Administrador.BuscarExpediente(dni);
+        Expediente expediente = Administrador.buscarPorDNI(dni);
 
         // Verificar si se encontró el expediente
         if (expediente != null) {
@@ -193,6 +267,7 @@ public class Consultar extends javax.swing.JPanel {
                     + "Asunto: " + expediente.getAsunto() + "\n"
                     + "Prioridad: " + expediente.getPrioridad() + "\n"
                     + "Estado: " + estado + "\n"
+                    + "Dependencia: " + expediente.getDependencia() + "\n"
                     + "Fecha de Finalización: " + fechaFinal + "\n"
                     + "Documento de Referencia: " + expediente.getDocumentoReferencia() + "\n"
                     + "Documento Resultante: " + docResultante + "\n";

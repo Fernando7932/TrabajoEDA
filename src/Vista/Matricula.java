@@ -33,18 +33,18 @@ public class Matricula extends javax.swing.JPanel {
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
 
     JButton[] buttons;
-    private final DefaultTableModel model;
+    DefaultTableModel model;
+
     public Matricula() {
         initComponents();
         String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "F. Final"};
         model = new DefaultTableModel(columnas, 0);
         jTableMatricula.setModel(model); //jTableMatricula
-        mostrarPorPrioridad(true);
+        mostrarPorPrioridad();
         buttons = new JButton[3];
         buttons[0] = bttnAdmision;
         buttons[1] = bttnAlumEgre;
         buttons[2] = bttnMatricula;
-
 
         //Aplicar el mismo formato de borde a todos los botones
         for (JButton button : buttons) {
@@ -53,7 +53,8 @@ public class Matricula extends javax.swing.JPanel {
 
         addAction(); //Cargar el metodo para la interacción con los botones.
     }
-    public void mostrarPorPrioridad(boolean enProceso) {
+
+    public void mostrarPorPrioridad() {
         DefaultTableModel modelo = (DefaultTableModel) jTableMatricula.getModel();
         modelo.setRowCount(0);
 
@@ -63,11 +64,9 @@ public class Matricula extends javax.swing.JPanel {
         Cola<Expediente> media = new Cola<>();
         Cola<Expediente> baja = new Cola<>();
 
-        int estadoFiltrar = enProceso ? 2 : 1;
-
         while (!original.esVacia()) {
             Expediente e = original.desencolar();
-            if (e.getEstado() == estadoFiltrar) {
+            if (e.getEstado() == 2) {
                 switch (e.getPrioridad()) {
                     case "Alta":
                         alta.encolar(e);
@@ -115,14 +114,15 @@ public class Matricula extends javax.swing.JPanel {
             cola.encolar(temp.desencolar());
         }
     }
+
     private void buscarExpedientePorDNI() {
         String dni = txtBuscar.getText().trim();
         if (dni.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, ingrese un DNI para buscar.", "Campo vacío", JOptionPane.WARNING_MESSAGE);
             return;
         }
-         if(!dni.matches("\\d{8}")){
-             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+        if (!dni.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -252,7 +252,7 @@ public class Matricula extends javax.swing.JPanel {
                 bttnBuscarActionPerformed(evt);
             }
         });
-        jPanelMT.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, 30));
+        jPanelMT.add(bttnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, -1, 30));
 
         bttnDerivar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         bttnDerivar.setText("DERIVAR");
@@ -307,7 +307,7 @@ public class Matricula extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelMT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelMT, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -328,19 +328,18 @@ public class Matricula extends javax.swing.JPanel {
     }//GEN-LAST:event_bttnMatriculaActionPerformed
 
     private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
-buscarExpedientePorDNI();        // TODO add your handling code here:
+        buscarExpedientePorDNI();        // TODO add your handling code here:
     }//GEN-LAST:event_bttnBuscarActionPerformed
 
     private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
-                                        
-int filaSeleccionada = jTableMatricula.getSelectedRow();
-  int columnaselecionada= 2;
+
+        int filaSeleccionada = jTableMatricula.getSelectedRow();
         if (filaSeleccionada == -1) {
             // No hay fila seleccionada
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-                String[] opciones = {"Admision", "Alumnos y Egresados","Cola Principal"};
+        String[] opciones = {"Admision", "Alumnos y Egresados", "Cola Principal"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -353,13 +352,14 @@ int filaSeleccionada = jTableMatricula.getSelectedRow();
 
         if (opcion == JOptionPane.OK_OPTION) {
             String dependencia = (String) comboBox.getSelectedItem();
-            String obj=(String) jTableMatricula.getValueAt(filaSeleccionada, columnaselecionada);
-            Expediente exp=Matricula_Class.BuscarExpediente(obj);
-            Administrador.derivarExpediente(exp,dependencia);
+            String dni = (String) jTableMatricula.getValueAt(filaSeleccionada, 1);
+            Expediente exp = Matricula_Class.BuscarExpediente(dni);
+            Matricula_Class.derivarA(dependencia, exp);
+            mostrarPorPrioridad();
             System.out.println("Destino seleccionado: " + dependencia);
-        }        // TODO add your handling code here:        // TODO add your handling code here:
+        }              
     }//GEN-LAST:event_bttnDerivarActionPerformed
-
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnAdmision;

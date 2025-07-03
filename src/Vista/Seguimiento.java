@@ -5,7 +5,6 @@
  */
 package Vista;
 
-import Controlador.RegistrarExpediente;
 import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
@@ -193,26 +192,16 @@ public class Seguimiento extends javax.swing.JPanel {
 
     private void checkEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEstadoActionPerformed
         // TODO add your handling code here:
-        if (checkEstado.isSelected()) {
-            mostrarPorPrioridad(true);
-        } else {
-            mostrarPorPrioridad(false);
-
-        }
-
-
+        mostrarPorPrioridad(checkEstado.isSelected());
     }//GEN-LAST:event_checkEstadoActionPerformed
 
     private void bttnDerivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDerivarActionPerformed
         int filaSeleccionada = TableEXP2.getSelectedRow();
-        int columnaselecionada= 2;
         if (filaSeleccionada == -1) {
-            // No hay fila seleccionada
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
 
-        // Opciones de derivación
         String[] opciones = {"Admision", "Alumnos y Egresados", "Matricula"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
@@ -226,12 +215,12 @@ public class Seguimiento extends javax.swing.JPanel {
 
         if (opcion == JOptionPane.OK_OPTION) {
             String dependencia = (String) comboBox.getSelectedItem();
-            String obj=(String) TableEXP2.getValueAt(filaSeleccionada, columnaselecionada);
-            Expediente exp=Administrador.BuscarExpediente(obj);
-            Administrador.derivarExpediente(exp,dependencia);
-            System.out.println("Destino seleccionado: " + dependencia);
-
-
+            String dni = (String) TableEXP2.getValueAt(filaSeleccionada, 1);
+            Expediente exp = Administrador.buscarPorDNI(dni);
+            Administrador.derivarA(dependencia, exp);
+            Administrador.eliminarDeCola(exp);
+            mostrarPorPrioridad(false);
+            JOptionPane.showMessageDialog(this, "Expediente derivado a " + dependencia + ".");
         }
 
 
@@ -241,49 +230,18 @@ public class Seguimiento extends javax.swing.JPanel {
         int filaSeleccionada = TableEXP2.getSelectedRow();
 
         if (filaSeleccionada != -1) {
-            // Obtener el ID del expediente desde la tabla
             int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
-            // Obtener la fecha y hora actual del sistema
             Date fechaActual = new Date();
-            Administrador.CompletarExpediente(fechaActual,idSeleccionado);
-            // Buscar el expediente en la cola y actualizar su estado
-//            Cola<Expediente> original = RegistrarExpediente.Expedientes;
-//            Cola<Expediente> temporal = new Cola<>();
-//            boolean cambiado = false;
-//
-//            while (!original.esVacia()) {
-//                Expediente e = original.desencolar();
-//
-//                if (e.getId() == idSeleccionado) {
-//                    if (e.getEstado() == 1) {
-//                        javax.swing.JOptionPane.showMessageDialog(this, "ERROR: Primero se tiene que derivar un Expediente.");
-//                    } else {
-//                        e.setEstado(3); // Cambiar estado a "Finalizado"
-//                        cambiado = true;
-//                        e.setFfinal(fechaActual); // Asignar fecha actual como fecha de finalización
-//                        Administrador.completarExpediente(e);
-//                    }
-//
-//                }
-//
-//                temporal.encolar(e);
-//            }
-//
-//            // Restaurar la cola original
-//            while (!temporal.esVacia()) {
-//                original.encolar(temporal.desencolar());
-//            }
 
-            // Refrescar tabla
-            mostrarPorPrioridad(checkEstado.isSelected());
-
-            // Mostrar mensaje de confirmación
-            if (Administrador.CompletarExpedienteCR(fechaActual,idSeleccionado)) {
-                JOptionPane.showMessageDialog(this, "El expediente ha sido derivado correctamente (estado: Finalizado).");
+            if (Administrador.CompletarExpedienteCR(fechaActual, idSeleccionado)) {
+                JOptionPane.showMessageDialog(this, "El expediente ha sido completado correctamente (estado: Finalizado).");
+            } else {
+                JOptionPane.showMessageDialog(this, "Primero debes derivar este expediente antes de completarlo.");
             }
 
+            mostrarPorPrioridad(checkEstado.isSelected());
         } else {
-            JOptionPane.showMessageDialog(this, "Selecciona un expediente para derivar/completar.");
+            JOptionPane.showMessageDialog(this, "Selecciona un expediente para completar.");
         }
     }//GEN-LAST:event_bttnCompletar1ActionPerformed
 

@@ -1,5 +1,6 @@
 package Controlador;
 
+import Modelo.Administrador;
 import Modelo.Expediente;
 import TDA.Cola;
 import TDA.ListaDoble;
@@ -11,12 +12,13 @@ import javax.swing.JOptionPane;
  * Gestiona las notificaciones automáticas sobre el estado de los expedientes.
  */
 public class Notificador {
-
     private final Timer timer;
 
     /**
      * Constructor que inicializa el temporizador.
      */
+    
+    
     public Notificador() {
         this.timer = new Timer();
     }
@@ -35,43 +37,48 @@ public class Notificador {
     }
 
     /**
-     * Realiza el conteo de expedientes y muestra una notificación.
-     * Utiliza una ListaDoble para procesar los datos sin alterar la cola original.
+     * Cuenta y notifica expedientes en todas las colas (principal, admisión, alumnos/egresados, matrícula).
      */
     private void contarYNotificarExpedientes() {
         int sinDerivar = 0;
         int enProceso = 0;
+        int finalizados = 0;
 
-        // Copiamos la cola a una lista doble para no modificar la original
-        ListaDoble<Expediente> listaExpedientes = new ListaDoble<>();
-        Cola<Expediente> expedientesOriginal = RegistrarExpediente.Expedientes;
-        Cola<Expediente> tempCola = new Cola<>();
+        // Procesar cola principal (Administrador)
+        sinDerivar += contarEstadoCola(Administrador.ExpedientesPrincipal, 1);
+        enProceso += contarEstadoCola(Administrador.ExpedientesPrincipal, 2);
+        finalizados += contarEstadoCola(Administrador.ExpedientesPrincipal, 3);
 
-        while (!expedientesOriginal.esVacia()) {
-            Expediente exp = expedientesOriginal.desencolar();
-            listaExpedientes.agregar(exp);
-            tempCola.encolar(exp);
-        }
-        // Restauramos la cola original
-        while(!tempCola.esVacia()){
-            expedientesOriginal.encolar(tempCola.desencolar());
-        }
+        // Procesar cola de Admisión
+        enProceso += contarEstadoCola(Modelo.Admision_Class.ExpedientesAdmision, 2);
 
-        // Contamos los expedientes desde la lista doble
-        for (int i = 1; i <= listaExpedientes.longitud(); i++) {
-            Expediente exp = listaExpedientes.iesimo(i);
-            if (exp.getEstado() == 1) { // Sin derivar
-                sinDerivar++;
-            } else if (exp.getEstado() == 2) { // En proceso
-                enProceso++;
-            }
-        }
+        // Procesar cola de Alumnos/Egresados
+        enProceso += contarEstadoCola(Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre, 2);
 
-        String mensaje = "Resumen de Expedientes:\n\n"
-                + "Sin derivar: " + sinDerivar + "\n"
-                + "En proceso: " + enProceso;
+        // Procesar cola de Matrícula
+        enProceso += contarEstadoCola(Modelo.Matricula_Class.ExpedientesMatricula, 2);
 
+        String mensaje = "Expedientes sin derivar: " + sinDerivar + "\n" +
+                "Expedientes en proceso: " + enProceso + "\n" +
+                "Expedientes finalizados: " + finalizados;
         JOptionPane.showMessageDialog(null, mensaje, "Notificación de Expedientes", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Cuenta cuántos expedientes de un estado hay en una cola dada.
+     */
+    private int contarEstadoCola(TDA.Cola<Modelo.Expediente> cola, int estado) {
+        int contador = 0;
+        TDA.Cola<Modelo.Expediente> temp = new TDA.Cola<>();
+        while (!cola.esVacia()) {
+            Modelo.Expediente exp = cola.desencolar();
+            if (exp.getEstado() == estado) contador++;
+            temp.encolar(exp);
+        }
+        while (!temp.esVacia()) {
+            cola.encolar(temp.desencolar());
+        }
+        return contador;
     }
 
     /**
@@ -80,4 +87,5 @@ public class Notificador {
     public void detener() {
         timer.cancel();
     }
+   
 }

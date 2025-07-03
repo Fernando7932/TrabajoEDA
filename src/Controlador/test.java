@@ -14,6 +14,7 @@ public class test {
  
     // lo mismo pero finishtramite
     public static void main(String[] args) {
+        /*
         Interesado i1 = new Interesado("7429", "yustin","9978" ,"hola","@");
         Expediente e1 = new Expediente("alta", i1, "comite","doc");
           Interesado i2 = new Interesado("9680", "hernan","9978" ,"gaa","@");
@@ -28,6 +29,6 @@ public class test {
          
         RegistrarExpediente.BuscarExpediente("9680").mostrar();
     
-    
+        */
     }
 }

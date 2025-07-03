@@ -22,7 +22,7 @@ public class Login extends javax.swing.JFrame {
         setResizable(false); //Evitar el redimensionamiento.
         setLocationRelativeTo(null);
         setTitle("Login"); //Titulo.
-        setSize(new Dimension(520, 320)); //Tamaño del JFrame
+        setSize(new Dimension(500, 320)); //Tamaño del JFrame
     }
 
     @SuppressWarnings("unchecked")
@@ -150,7 +150,7 @@ public class Login extends javax.swing.JFrame {
         FlatMacLightLaf.setup();
         
         // Cargar datos iniciales desde el archivo de texto
-        //CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
+        CargadorDatos.cargarExpedientesDesdeTxt("expedientes.txt");
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {

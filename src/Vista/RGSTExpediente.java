@@ -5,7 +5,6 @@
  */
 package Vista;
 
-import Controlador.RegistrarExpediente;
 import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
@@ -208,39 +207,33 @@ public class RGSTExpediente extends javax.swing.JPanel {
     }//GEN-LAST:event_bttnVerActionPerformed
 
     private void bttnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnRegistrarActionPerformed
-        // TODO add your handling code here:
         String DNI = txtDNI.getText();
         String Nombres = txtNombre.getText();
         String Telefono = txtTelefono.getText();
         String Email = txtEmail.getText();
-        if(!DNI.matches("\\d{8}")){
-             JOptionPane.showMessageDialog(this, "Por favor, El DNI debe tener 8 digitos", "DNI invalido", JOptionPane.ERROR_MESSAGE);
+
+        if (!DNI.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, "Por favor, el DNI debe tener 8 dígitos.", "DNI inválido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!Telefono.matches("\\d{9}")){
-             JOptionPane.showMessageDialog(this, "Por favor, El número teléfonico debe tener 9 digitos", "Teléfono invalido", JOptionPane.ERROR_MESSAGE);
+        if (!Telefono.matches("\\d{9}")) {
+            JOptionPane.showMessageDialog(this, "Por favor, el número telefónico debe tener 9 dígitos.", "Teléfono inválido", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        String documento = "no aplica";
 
-        if (nombre_archivo != null) {
-            documento = nombre_archivo;
-        }
+        String documento = (nombre_archivo != null) ? nombre_archivo : "no aplica";
 
-        //Con fines de prueba se remplazará despues.
         String Tipo = "Alumno UL";
         Interesado i = new Interesado(DNI, Nombres, Telefono, Tipo, Email);
 
         String prioridad = cbxPrioridad.getSelectedItem().toString();
         String asunto = cbxAsunto.getSelectedItem().toString();
 
-        //(int id, String prioridad, Interesado Interesado, String Asunto, String DocumentoReferencia)
         Expediente e = Administrador.crearExpediente(prioridad, i, asunto, documento);
 
-        RegistrarExpediente.agregar(e);
-        RegistrarExpediente.mostrar();
+        Administrador.agregar(e);
+        Administrador.mostrar();
         Limpiar();
-//        RellenarDatos();
     }//GEN-LAST:event_bttnRegistrarActionPerformed
 
     //Limpia los campos de los TextFields
@@ -251,28 +244,25 @@ public class RGSTExpediente extends javax.swing.JPanel {
         this.txtTelefono.setText("");
 
     }
-    
-    
 
-    
+
     private void txtDNIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDNIActionPerformed
 //    RellenarDatos();        // TODO add your handling code here:
     }//GEN-LAST:event_txtDNIActionPerformed
 
     private void txtDNIKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDNIKeyReleased
-
-        // Evento para autocompletar credenciales del intersado en caso ya ha sido registrado.
-        String DNI = txtDNI.getText();    
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-                 Interesado i=  RegistrarExpediente.BuscarExpediente(DNI).getInteresado();
-                 if(i!=null){ 
-                 String Nombres = i.getNombre();
-                 String Telefono = i.getTelefono();
-                 String Email = i.getEmail();
-                  txtNombre.setText(Nombres);
-                  txtTelefono.setText(Telefono);
-                  txtEmail.setText(Email);
-            }else{Limpiar();} }
+        String DNI = txtDNI.getText();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            Expediente exp = Administrador.buscarPorDNI(DNI);
+            if (exp != null) {
+                Interesado i = exp.getInteresado();
+                txtNombre.setText(i.getNombre());
+                txtTelefono.setText(i.getTelefono());
+                txtEmail.setText(i.getEmail());
+            } else {
+                Limpiar();
+            }
+        }
     }//GEN-LAST:event_txtDNIKeyReleased
 
 
@@ -283,8 +273,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
-            
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnRegistrar;

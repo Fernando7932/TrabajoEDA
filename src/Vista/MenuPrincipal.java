@@ -38,18 +38,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setTitle("Sistema de Trámite Documentario");
-        setSize(new Dimension(620, 375));
+        setSize(new Dimension(610, 375));
 
         Controlador.Notificador notificador = new Controlador.Notificador();
         notificador.iniciar();
 
-        /* Quitado hasta solucionar problemas
         this.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e) {
                 GuardadorDatos.guardarExpedientesEnTxt("expedientes.txt");
             }
-        });*/
+        });
     }
 
     /**
@@ -262,6 +261,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bttnDependenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDependenciasActionPerformed
         if (content.getComponentCount() == 0 || content.getComponent(0) != viewDependencias) {
+            viewDependencias.mostrarPorPrioridad();
             ShowJPanelPila(viewDependencias, true);
         }
     }//GEN-LAST:event_bttnDependenciasActionPerformed

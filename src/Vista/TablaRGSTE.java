@@ -5,13 +5,13 @@
  */
 package Vista;
 
+import Modelo.Administrador;
 import Modelo.Expediente;
 import Modelo.Interesado;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import Controlador.RegistrarExpediente;
 import TDA.Cola;
 
 /**
@@ -37,7 +37,7 @@ public class TablaRGSTE extends javax.swing.JPanel {
     public void actualizarTabla() {
         model.setRowCount(0); // Limpiar tabla
 
-        Cola<Expediente> cola = RegistrarExpediente.Expedientes;
+        Cola<Expediente> cola = Administrador.ExpedientesPrincipal;
         Cola<Expediente> temp = new Cola<>();
 
         while (!cola.esVacia()) {
