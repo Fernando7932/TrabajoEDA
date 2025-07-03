@@ -217,6 +217,11 @@ public class Seguimiento extends javax.swing.JPanel {
             String dependencia = (String) comboBox.getSelectedItem();
             String dni = (String) TableEXP2.getValueAt(filaSeleccionada, 1);
             Expediente exp = Administrador.buscarPorDNI(dni);
+            String actual = exp.getDependencia();
+            if (!actual.equalsIgnoreCase("Administrador")) {
+            javax.swing.JOptionPane.showMessageDialog(this, " Este expediente ya fue derivado a " + actual + ". No se puede derivar nuevamente.");             
+            return;
+            }
             Administrador.derivarA(dependencia, exp);
             mostrarPorPrioridad(false);
             JOptionPane.showMessageDialog(this, "Expediente derivado a " + dependencia + ".");
