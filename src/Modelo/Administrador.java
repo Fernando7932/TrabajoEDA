@@ -66,29 +66,12 @@ public class Administrador {
     }
 
     public static void mostrarFinalizado() {
-        int i = 1;
-        int j = 1;
         Nodo<Expediente> aux = ExpedientesFinalizados.getCabeza();
         //Imgrese al bucle siempre que tenga elementos
         while (aux != null) { // La lista no esta vacia
             aux.getItem().mostrar();
             aux = aux.getSgteNodo();
         }
-//    Lista<Expediente> temp = new Lista<>();
-//
-//        while (i<ExpedientesFinalizados.longitud()) {
-//            Expediente tmp = ExpedientesFinalizados.iesimo(i);
-//            tmp.mostrar();
-//            ExpedientesFinalizados.eliminar(i);
-//            temp.agregar(tmp);
-//            i++;
-//        }
-//
-//        while (j<temp.longitud()) {
-//            ExpedientesFinalizados.agregar(temp.iesimo(j));
-//            j++;
-//        }
-
     }
 
     public static Expediente buscarPorDNI(String dni) {
@@ -127,48 +110,6 @@ public class Administrador {
 
     }
 
-    // funcion que cambia de estado al expediente
-    public static void CambiarEstado(int idSeleccionado) {
-        Cola<Expediente> temporal = new Cola<>();
-        boolean cambiado = false;
-        while (!ExpedientesPrincipal.esVacia()) {
-            Expediente e = ExpedientesPrincipal.desencolar();
-
-            if (e.getId() == idSeleccionado) {
-                e.setEstado(2); // Cambiar estado a "En proceso"
-                cambiado = true;
-            }
-
-            temporal.encolar(e);
-        }
-
-        // Restaurar la cola original
-        while (!temporal.esVacia()) {
-            ExpedientesPrincipal.encolar(temporal.desencolar());
-        }
-    }
-    //misma funcion pero con return para poder utilizar funciones
-
-    public static boolean CambiarEstadoCR(int idSeleccionado) {
-        Cola<Expediente> temporal = new Cola<>();
-        boolean cambiado = false;
-        while (!ExpedientesPrincipal.esVacia()) {
-            Expediente e = ExpedientesPrincipal.desencolar();
-
-            if (e.getId() == idSeleccionado) {
-                e.setEstado(2); // Cambiar estado a "En proceso"
-                cambiado = true;
-            }
-
-            temporal.encolar(e);
-        }
-
-        // Restaurar la cola original
-        while (!temporal.esVacia()) {
-            ExpedientesPrincipal.encolar(temporal.desencolar());
-        }
-        return cambiado;
-    }
 
     public static boolean CompletarExpedienteCR(Date fechaActual, int idSeleccionado) {
         Cola<Expediente> temporal = new Cola();
@@ -197,30 +138,6 @@ public class Administrador {
             ExpedientesPrincipal.encolar(temporal.desencolar());
         }
         return cambiado;
-    }
-
-    public static void CompletarExpediente(Date fechaActual, int idSeleccionado) {
-        Cola<Expediente> temporal = new Cola();
-        boolean cambiado = false;
-        while (!ExpedientesPrincipal.esVacia()) {
-            Expediente e = ExpedientesPrincipal.desencolar();
-
-            if (e.getId() == idSeleccionado) {
-                if (e.getEstado() == 1) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "ERROR");
-                } else {
-                    e.setEstado(3); // Cambiar estado a "Finalizado"
-                    cambiado = true;
-                    e.setFfinal(fechaActual); // Asignar fecha actual como fecha de finalización
-                    e.completarTramite();
-                }
-            }
-            temporal.encolar(e);
-        }
-        // Restaurar la cola original
-        while (!temporal.esVacia()) {
-            ExpedientesPrincipal.encolar(temporal.desencolar());
-        }
     }
 
     public static Expediente crearExpediente(String prioridad, Interesado interesado,
