@@ -9,7 +9,7 @@ import Modelo.Admision_Class;
 import Modelo.Alumnos_Egresados_class;
 import Modelo.Expediente;
 import Modelo.Interesado;
-import TDA.Cola;
+import TDA.*;
 import static Vista.MenuPrincipal.content;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -31,8 +31,8 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
 
     Border default_border = BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(153, 153, 153));
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
-
-    JButton[] buttons;
+    Lista<JButton> botones= new Lista<>();
+    
 
     private final DefaultTableModel model;
 
@@ -42,14 +42,14 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
         model = new DefaultTableModel(columnas, 0);
         jTableAlumn_Egr.setModel(model);
         mostrarPorPrioridad();
-        buttons = new JButton[3];
-        buttons[0] = bttnAdmision;
-        buttons[1] = bttnAlumEgre;
-        buttons[2] = bttnMatricula;
-
+       botones.agregar(bttnAdmision);
+        botones.agregar(bttnAlumEgre);
+        botones.agregar(bttnMatricula);
         //Aplicar el mismo formato de borde a todos los botones
-        for (JButton button : buttons) {
-            button.setBorder(default_border);
+        Nodo<JButton> aux = botones.getCabeza();
+        while(aux!=null){
+            aux.getItem().setBorder(default_border);
+            aux=aux.getSgteNodo();      
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
@@ -117,50 +117,64 @@ public class Alumnos_Egresados extends javax.swing.JPanel {
     }
 
     public void setButtonBorder(JButton button) {
-        for (JButton btn : buttons) {
-            //Volver todos los botones al color y formato inicial
-            btn.setBorder(default_border);
-            btn.setForeground(new Color(153, 153, 153));
-
+        Nodo<JButton> aux = botones.getCabeza();
+             while(aux!=null){
+            aux.getItem().setBorder(default_border);
+            aux.getItem().setForeground(new Color(153, 153, 153));
+            aux=aux.getSgteNodo();      
         }
 
         // Borde rojo para el boton seleccionado
         button.setBorder(red_border);
         button.setForeground(Color.black);
     }
-
-    public void addAction() {
-        for (JButton button : buttons) {
-            button.addMouseListener(new MouseListener() {
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    //Cuando el puntero presiona el botton el borde se pone rojo nuevamente.
-                    setButtonBorder(button);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    //Cuando el mouse pase encima del boton se pondra el borde rojo
-                    button.setBorder(red_border);
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    //Cuando el puntero salga del rango del boton el borde se pondrá normal.
-                    button.setBorder(default_border);
-                }
-            });
+     public void resaltarBoton(JButton seleccionado) {
+    Nodo<JButton> aux = botones.getCabeza();
+    while (aux != null) {
+        JButton boton = aux.getItem();
+        if (boton == seleccionado) {
+            boton.setEnabled(true);
+            boton.setForeground(Color.BLACK);
+            boton.setBackground(Color.WHITE);
+        } else {
+            boton.setEnabled(false);
+            boton.setForeground(new Color(180, 180, 180)); // gris claro
+            boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
         }
+        aux = aux.getSgteNodo();
     }
+}
+     public void addAction() {
+        Nodo<JButton> aux = botones.getCabeza();
+        while (aux != null) {
+        JButton button = aux.getItem();
+        button.addMouseListener(new MouseListener() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+             setButtonBorder(button);
+            resaltarBoton(button);
+        }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            button.setBorder(red_border);
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+            button.setBorder(default_border);
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+              }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+    });
+    aux = aux.getSgteNodo();
+}
+    }
+
 
     private void buscarExpedientePorDNI() {
         String dni = txtBuscar.getText().trim();
