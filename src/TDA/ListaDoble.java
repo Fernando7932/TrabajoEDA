@@ -30,6 +30,22 @@ public class ListaDoble<T> {
         }
     }
 
+    public NodoDoble<T> getCabeza() {
+        return cabeza;
+    }
+
+    public void setCabeza(NodoDoble<T> cabeza) {
+        this.cabeza = cabeza;
+    }
+
+    public NodoDoble<T> getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(NodoDoble<T> ultimo) {
+        this.ultimo = ultimo;
+    }
+
     public void mostrar() {
         NodoDoble<T> aux = cabeza;
         while (aux != null) {
