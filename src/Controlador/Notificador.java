@@ -2,7 +2,7 @@ package Controlador;
 
 import Modelo.Administrador;
 import Modelo.Expediente;
-import TDA.Cola;
+import TDA.*;
 import TDA.ListaDoble;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -40,28 +40,28 @@ public class Notificador {
      * Cuenta y notifica expedientes en todas las colas (principal, admisión, alumnos/egresados, matrícula).
      */
     private void contarYNotificarExpedientes() {
-        int sinDerivar = 0;
-        int enProceso = 0;
-        int finalizados = 0;
-
-        // Procesar cola principal (Administrador)
-        sinDerivar += contarEstadoCola(Administrador.ExpedientesPrincipal, 1);
-        enProceso += contarEstadoCola(Administrador.ExpedientesPrincipal, 2);
-        finalizados += contarEstadoCola(Administrador.ExpedientesPrincipal, 3);
-
-        // Procesar cola de Admisión
-        enProceso += contarEstadoCola(Modelo.Admision_Class.ExpedientesAdmision, 2);
-
-        // Procesar cola de Alumnos/Egresados
-        enProceso += contarEstadoCola(Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre, 2);
-
-        // Procesar cola de Matrícula
-        enProceso += contarEstadoCola(Modelo.Matricula_Class.ExpedientesMatricula, 2);
-
-        String mensaje = "Expedientes sin derivar: " + sinDerivar + "\n" +
-                "Expedientes en proceso: " + enProceso + "\n" +
-                "Expedientes finalizados: " + finalizados;
+        ListaDoble<Integer> Procesos=new ListaDoble<>();
+        int sinDerivar = contarEstadoCola(Administrador.ExpedientesPrincipal, 1);
+        int enProceso = contarEstadoCola(Administrador.ExpedientesPrincipal, 2)+
+                contarEstadoCola(Modelo.Admision_Class.ExpedientesAdmision, 2)+
+                contarEstadoCola(Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre, 2)+
+                contarEstadoCola(Modelo.Matricula_Class.ExpedientesMatricula, 2);
+        int finalizados = contarEstadoCola(Administrador.ExpedientesPrincipal, 3);
+        Procesos.agregar(sinDerivar);
+        Procesos.agregar(enProceso);
+        Procesos.agregar(finalizados);
+        
+        String[] etiquetas = {"Sin derivar", "En proceso", "Finalizados"};
+        NodoDoble<Integer> actual = Procesos.getCabeza();
+        int i = 0;
+        String mensaje = "";
+        while (actual != null) {
+            mensaje += etiquetas[i] + ": " + actual.getItem() + "\n";
+            actual = actual.getSgteNodo();
+            i++;
+        }
         JOptionPane.showMessageDialog(null, mensaje, "Notificación de Expedientes", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     /**
