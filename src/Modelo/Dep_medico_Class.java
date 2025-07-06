@@ -4,8 +4,8 @@
  */
 package Modelo;
 
-import static Modelo.Admision_Class.ExpedientesAdmision;
 import TDA.Cola;
+import static Modelo.Bienestar_Class.ExpedientesBienestar;
 
 /**
  * Clase que representa la dependencia de Matrícula.
@@ -13,16 +13,16 @@ import TDA.Cola;
  *
  * @author YUSTIN
  */
-public class Matricula_Class {
+public class Dep_medico_Class {
 
     // Cola de expedientes asignados a la dependencia de Matrícula
-    public static Cola<Expediente> ExpedientesMatricula;
+    public static Cola<Expediente> ExpedientesDepMedico;
 
     /**
      * Inicializa la cola de expedientes de Matrícula.
      */
     static {
-        ExpedientesMatricula = new Cola<>();
+        ExpedientesDepMedico = new Cola<>();
     }
 
     /**
@@ -30,17 +30,17 @@ public class Matricula_Class {
      * @param item Expediente a agregar
      */
     public static void agregar(Expediente item) {
-        ExpedientesMatricula.encolar(item);
+        ExpedientesDepMedico.encolar(item);
     }
 
     /**
      * Elimina el primer expediente de la cola de Matrícula.
      */
     public static void desencolarExpediente() {
-        ExpedientesMatricula.desencolar();
+        ExpedientesDepMedico.desencolar();
     }
 public static boolean esVacio(){
-       return ExpedientesMatricula.esVacia();
+       return ExpedientesDepMedico.esVacia();
     }
     /**
      * Deriva un expediente desde Matrícula hacia otra dependencia o al administrador.
@@ -49,16 +49,16 @@ public static boolean esVacio(){
      */
     public static void derivarA(String destino, Expediente expediente) {
         switch (destino) {
-            case "Cola Principal":
+            case "Administrador":
                 expediente.Dependencia = "Administrador";
                 break;
-            case "Admision":
-                Modelo.Admision_Class.agregar(expediente);
-                expediente.Dependencia = "Admision";
+            case "Bienestar":
+                Modelo.Bienestar_Class.agregar(expediente);
+                expediente.Dependencia = "Bienestar";
                 break;
-            case "Alumnos y Egresados":
-                Modelo.Alumnos_Egresados_class.agregar(expediente);
-                expediente.Dependencia = "Alumnos_Egresados";
+            case "Empleabilidad":
+                Modelo.Empleabilidad_Class.agregar(expediente);
+                expediente.Dependencia = "Empleabilidad";
                 break;
             default:
                 break;
@@ -72,14 +72,14 @@ public static boolean esVacio(){
      */
     public static void EliminarDeCola(Expediente expediente) {
         Cola<Expediente> temp = new Cola<>();
-        while (!ExpedientesMatricula.esVacia()) {
-            Expediente tmp = ExpedientesMatricula.desencolar();
+        while (!ExpedientesDepMedico.esVacia()) {
+            Expediente tmp = ExpedientesDepMedico.desencolar();
             if (tmp.getId() != expediente.getId()) {
                 temp.encolar(tmp);
             }
         }
         while (!temp.esVacia()) {
-            ExpedientesMatricula.encolar(temp.desencolar());
+            ExpedientesDepMedico.encolar(temp.desencolar());
         }
     }
 
@@ -89,14 +89,14 @@ public static boolean esVacio(){
     public static void mostrar() {
         Cola<Expediente> temp = new Cola<>();
 
-        while (!ExpedientesMatricula.esVacia()) {
-            Expediente tmp = ExpedientesMatricula.desencolar();
+        while (!ExpedientesDepMedico.esVacia()) {
+            Expediente tmp = ExpedientesDepMedico.desencolar();
             tmp.mostrar();
             temp.encolar(tmp);
         }
 
         while (!temp.esVacia()) {
-            ExpedientesMatricula.encolar(temp.desencolar());
+            ExpedientesDepMedico.encolar(temp.desencolar());
         }
     }
 
@@ -109,8 +109,8 @@ public static boolean esVacio(){
         Cola<Expediente> temp = new Cola<>();
         Expediente EAux = new Expediente();
         Interesado IAux = new Interesado();
-        while (!ExpedientesMatricula.esVacia()) {
-            Expediente tmp = ExpedientesMatricula.desencolar();
+        while (!ExpedientesDepMedico.esVacia()) {
+            Expediente tmp = ExpedientesDepMedico.desencolar();
             IAux = tmp.getInteresado();
             String Saux = IAux.getDni();
             if (Saux.equals(dni)) {
@@ -119,7 +119,7 @@ public static boolean esVacio(){
             temp.encolar(tmp);
         }
         while (!temp.esVacia()) {
-            ExpedientesMatricula.encolar(temp.desencolar());
+            ExpedientesDepMedico.encolar(temp.desencolar());
         }
         return EAux;
     }

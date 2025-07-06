@@ -10,16 +10,16 @@ import TDA.Cola;
  * Clase que representa la dependencia de Alumnos y Egresados.
  * Administra su propia cola de expedientes y permite derivar, agregar, eliminar y buscar expedientes.
  */
-public class Alumnos_Egresados_class {
+public class Empleabilidad_Class {
     
     // Cola de expedientes asignados a la dependencia de Alumnos/Egresados
     /**
      * Cola de expedientes que se encuentran actualmente en la dependencia de Alumnos/Egresados.
      * Esta cola se utiliza para almacenar y gestionar los expedientes que están siendo procesados.
      */
-    public static Cola<Expediente> ExpedientesAlum_Egre;
+    public static Cola<Expediente> ExpedientesEmpleabilidad;
     static  {
-        ExpedientesAlum_Egre = new Cola<>();
+        ExpedientesEmpleabilidad = new Cola<>();
     }
 
     /**
@@ -28,7 +28,7 @@ public class Alumnos_Egresados_class {
      */
     public static void agregar(Expediente item) {
         // Agrega el expediente a la cola
-        ExpedientesAlum_Egre.encolar(item);
+        ExpedientesEmpleabilidad.encolar(item);
     }
 
     /**
@@ -36,10 +36,10 @@ public class Alumnos_Egresados_class {
      */
     public static void desencolarExpediente() {
         // Elimina el primer expediente de la cola
-        ExpedientesAlum_Egre.desencolar();
+        ExpedientesEmpleabilidad.desencolar();
     }
     public static boolean esVacio(){
-       return ExpedientesAlum_Egre.esVacia();
+       return ExpedientesEmpleabilidad.esVacia();
     }
     /**
      * Deriva un expediente desde Alumnos/Egresados hacia otra dependencia o al administrador.
@@ -49,19 +49,19 @@ public class Alumnos_Egresados_class {
     public static void derivarA(String destino, Expediente expediente) {
         // Utiliza un switch para determinar la dependencia destino
         switch (destino) {
-            case "Cola Principal":
+            case "Administrador":
                 // Deriva el expediente al administrador
                 expediente.Dependencia = "Administrador";
                 break;
-            case "Admision":
+            case "Bienestar":
                 // Deriva el expediente a Admision
-                Modelo.Admision_Class.agregar(expediente);
-                expediente.Dependencia = "Admision";
+                Modelo.Bienestar_Class.agregar(expediente);
+                expediente.Dependencia = "Bienestar";
                 break;
-            case "Matricula":
+            case "Dep. Médico":
                 // Deriva el expediente a Matricula
-                Modelo.Matricula_Class.agregar(expediente);
-                expediente.Dependencia = "Matricula";
+                Modelo.Dep_medico_Class.agregar(expediente);
+                expediente.Dependencia = "Dep. Médico";
                 break;
             default:
                 // No realiza ninguna acción si el destino no es válido
@@ -79,9 +79,9 @@ public class Alumnos_Egresados_class {
         // Crea una cola temporal para almacenar los expedientes que no se van a eliminar
         Cola<Expediente> temp = new Cola<>();
         // Recorre la cola de Alumnos/Egresados
-        while (!ExpedientesAlum_Egre.esVacia()) {
+        while (!ExpedientesEmpleabilidad.esVacia()) {
             // Obtiene el primer expediente de la cola
-            Expediente tmp = ExpedientesAlum_Egre.desencolar();
+            Expediente tmp = ExpedientesEmpleabilidad.desencolar();
             // Verifica si el expediente es el que se va a eliminar
             if (tmp.getId() != expediente.getId()) {
                 // Si no es el expediente a eliminar, lo agrega a la cola temporal
@@ -90,7 +90,7 @@ public class Alumnos_Egresados_class {
         }
         // Recorre la cola temporal y agrega los expedientes de vuelta a la cola de Alumnos/Egresados
         while (!temp.esVacia()) {
-            ExpedientesAlum_Egre.encolar(temp.desencolar());
+            ExpedientesEmpleabilidad.encolar(temp.desencolar());
         }
     }
 
@@ -101,9 +101,9 @@ public class Alumnos_Egresados_class {
         // Crea una cola temporal para almacenar los expedientes
         Cola<Expediente> temp = new Cola<>();
         // Recorre la cola de Alumnos/Egresados
-        while (!ExpedientesAlum_Egre.esVacia()) {
+        while (!ExpedientesEmpleabilidad.esVacia()) {
             // Obtiene el primer expediente de la cola
-            Expediente tmp = ExpedientesAlum_Egre.desencolar();
+            Expediente tmp = ExpedientesEmpleabilidad.desencolar();
             // Muestra el expediente
             tmp.mostrar();
             // Agrega el expediente a la cola temporal
@@ -111,7 +111,7 @@ public class Alumnos_Egresados_class {
         }
         // Recorre la cola temporal y agrega los expedientes de vuelta a la cola de Alumnos/Egresados
         while (!temp.esVacia()) {
-            ExpedientesAlum_Egre.encolar(temp.desencolar());
+            ExpedientesEmpleabilidad.encolar(temp.desencolar());
         }
     } 
     
@@ -128,9 +128,9 @@ public class Alumnos_Egresados_class {
         // Crea un interesado auxiliar para almacenar el interesado del expediente
         Interesado IAux= new Interesado();
         // Recorre la cola de Alumnos/Egresados
-        while (!ExpedientesAlum_Egre.esVacia()) {
+        while (!ExpedientesEmpleabilidad.esVacia()) {
             // Obtiene el primer expediente de la cola
-            Expediente tmp = ExpedientesAlum_Egre.desencolar();
+            Expediente tmp = ExpedientesEmpleabilidad.desencolar();
             // Obtiene el interesado del expediente
             IAux=tmp.getInteresado();
             // Obtiene el DNI del interesado
@@ -141,7 +141,7 @@ public class Alumnos_Egresados_class {
             temp.encolar(tmp);
         }
         while (!temp.esVacia()) {
-            ExpedientesAlum_Egre.encolar(temp.desencolar());
+            ExpedientesEmpleabilidad.encolar(temp.desencolar());
         }
         return EAux;
     }

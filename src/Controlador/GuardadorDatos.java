@@ -69,8 +69,8 @@ public class GuardadorDatos {
 
             // Guardar expedientes de Admisión
             Cola<Expediente> tempAdmision = new Cola<>();
-            while (!Modelo.Admision_Class.ExpedientesAdmision.esVacia()) {
-                Expediente exp = Modelo.Admision_Class.ExpedientesAdmision.desencolar();
+            while (!Modelo.Bienestar_Class.ExpedientesBienestar.esVacia()) {
+                Expediente exp = Modelo.Bienestar_Class.ExpedientesBienestar.desencolar();
                 tempAdmision.encolar(exp);
                 String fechaInicioStr = (exp.getFechaInicio() != null) ? sdf.format(exp.getFechaInicio()) : "null";
                 String fechaFinalStr = (exp.getFechaFinal() != null) ? sdf.format(exp.getFechaFinal()) : "null";
@@ -93,13 +93,13 @@ public class GuardadorDatos {
                 bw.newLine();
             }
             while (!tempAdmision.esVacia()) {
-                Modelo.Admision_Class.ExpedientesAdmision.encolar(tempAdmision.desencolar());
+                Modelo.Bienestar_Class.ExpedientesBienestar.encolar(tempAdmision.desencolar());
             }
 
             // Guardar expedientes de Alumnos/Egresados
             Cola<Expediente> tempAlumEgre = new Cola<>();
-            while (!Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.esVacia()) {
-                Expediente exp = Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.desencolar();
+            while (!Modelo.Empleabilidad_Class.ExpedientesEmpleabilidad.esVacia()) {
+                Expediente exp = Modelo.Empleabilidad_Class.ExpedientesEmpleabilidad.desencolar();
                 tempAlumEgre.encolar(exp);
                 String fechaInicioStr = (exp.getFechaInicio() != null) ? sdf.format(exp.getFechaInicio()) : "null";
                 String fechaFinalStr = (exp.getFechaFinal() != null) ? sdf.format(exp.getFechaFinal()) : "null";
@@ -122,13 +122,13 @@ public class GuardadorDatos {
                 bw.newLine();
             }
             while (!tempAlumEgre.esVacia()) {
-                Modelo.Alumnos_Egresados_class.ExpedientesAlum_Egre.encolar(tempAlumEgre.desencolar());
+                Modelo.Empleabilidad_Class.ExpedientesEmpleabilidad.encolar(tempAlumEgre.desencolar());
             }
 
             // Guardar expedientes de Matrícula
             Cola<Expediente> tempMatricula = new Cola<>();
-            while (!Modelo.Matricula_Class.ExpedientesMatricula.esVacia()) {
-                Expediente exp = Modelo.Matricula_Class.ExpedientesMatricula.desencolar();
+            while (!Modelo.Dep_medico_Class.ExpedientesDepMedico.esVacia()) {
+                Expediente exp = Modelo.Dep_medico_Class.ExpedientesDepMedico.desencolar();
                 tempMatricula.encolar(exp);
                 String fechaInicioStr = (exp.getFechaInicio() != null) ? sdf.format(exp.getFechaInicio()) : "null";
                 String fechaFinalStr = (exp.getFechaFinal() != null) ? sdf.format(exp.getFechaFinal()) : "null";
@@ -151,7 +151,7 @@ public class GuardadorDatos {
                 bw.newLine();
             }
             while (!tempMatricula.esVacia()) {
-                Modelo.Matricula_Class.ExpedientesMatricula.encolar(tempMatricula.desencolar());
+                Modelo.Dep_medico_Class.ExpedientesDepMedico.encolar(tempMatricula.desencolar());
             }
             // Mensaje de éxito en consola
             System.out.println("Datos de expedientes guardados correctamente en " + rutaArchivo);

@@ -68,11 +68,11 @@ public class CargadorDatos {
                     if (dependencia.equalsIgnoreCase("Administrador") || dependencia.equalsIgnoreCase("En proceso de derivacion")) {
                         Modelo.Administrador.agregar(expediente);
                     } else if (dependencia.equalsIgnoreCase("Admision")) {
-                        Modelo.Admision_Class.agregar(expediente);
+                        Modelo.Bienestar_Class.agregar(expediente);
                     } else if (dependencia.equalsIgnoreCase("Alumnos_Egresados")) {
-                        Modelo.Alumnos_Egresados_class.agregar(expediente);
+                        Modelo.Empleabilidad_Class.agregar(expediente);
                     } else if (dependencia.equalsIgnoreCase("Matricula")) {
-                        Modelo.Matricula_Class.agregar(expediente);
+                        Modelo.Dep_medico_Class.agregar(expediente);
                     } else {
                         // Si la dependencia no es reconocida, agregar a la cola principal por defecto
                         Modelo.Administrador.agregar(expediente);

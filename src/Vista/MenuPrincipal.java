@@ -19,7 +19,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     Seguimiento viewSeguimiento;
     RGSTExpediente viewExpediente;
     Consultar viewConsultar;
-    Admision viewDependencias;
+    Bienestar viewDependencias;
     private final Pila<JPanel> historialPaneles;
 
     /**
@@ -31,7 +31,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         viewSeguimiento = new Seguimiento();
         viewExpediente = new RGSTExpediente();
         viewConsultar = new Consultar();
-        viewDependencias = new Admision();
+        viewDependencias = new Bienestar();
         historialPaneles = new Pila<>();
 
         ShowJPanelPila(viewPrincipal, false);

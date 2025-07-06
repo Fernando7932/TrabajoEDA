@@ -10,16 +10,16 @@ import TDA.Cola;
  * Clase que representa la dependencia de Admisión.
  * Administra su propia cola de expedientes y permite derivar, agregar, eliminar y buscar expedientes.
  */
-public class Admision_Class {
+public class Bienestar_Class {
     
     // Cola de expedientes asignados a la dependencia de Admisión
-    public static Cola<Expediente> ExpedientesAdmision;
+    public static Cola<Expediente> ExpedientesBienestar;
     
     /**
      * Inicializa la cola de expedientes de Admisión.
      */
     static  {
-        ExpedientesAdmision = new Cola<>();
+        ExpedientesBienestar = new Cola<>();
     }
 
     /**
@@ -27,21 +27,21 @@ public class Admision_Class {
      * @param item Expediente a agregar
      */
     public static void agregar(Expediente item) {
-        ExpedientesAdmision.encolar(item);
+        ExpedientesBienestar.encolar(item);
     }
 
     /**
      * Elimina el primer expediente de la cola de Admisión.
      */
     public static void desencolarExpediente() {
-        ExpedientesAdmision.desencolar();
+        ExpedientesBienestar.desencolar();
 
     }
     /**
      * Verifica si es vacia
      */
     public static boolean esVacio(){
-       return ExpedientesAdmision.esVacia();
+       return ExpedientesBienestar.esVacia();
     }
     /**
      * Deriva un expediente desde Admisión hacia otra dependencia o al administrador.
@@ -51,19 +51,19 @@ public class Admision_Class {
     public static void derivarA(String destino, Expediente expediente) {
         // Utiliza un switch para determinar la dependencia destino
         switch (destino) {
-            case "Cola Principal":
+            case "Administrador":
                 // Deriva el expediente al administrador
                 expediente.Dependencia = "Administrador";
                 break;
-            case "Alumnos y Egresados":
-                // Deriva el expediente a Alumnos y Egresados
-                Modelo.Alumnos_Egresados_class.agregar(expediente);
-                expediente.Dependencia = "Alumnos_Egresados";
+            case "Empleabilidad":
+                // Deriva el expediente a empleabilidad
+                Modelo.Empleabilidad_Class.agregar(expediente);
+                expediente.Dependencia = "Empleabilidad";
                 break;
-            case "Matricula":
-                // Deriva el expediente a Matricula
-                Modelo.Matricula_Class.agregar(expediente);
-                expediente.Dependencia = "Matricula";
+            case "Dep. Médico":
+                // Deriva el expediente a dep medico
+                Modelo.Dep_medico_Class.agregar(expediente);
+                expediente.Dependencia = "Dep. Médico";
                 break;
             default:
                 // No realiza ninguna acción si el destino no es válido
@@ -81,8 +81,8 @@ public class Admision_Class {
         // Crea una cola temporal para almacenar los expedientes que no se eliminarán
         Cola<Expediente> temp = new Cola<>();
         // Recorre la cola de Admisión y elimina el expediente especificado
-        while (!ExpedientesAdmision.esVacia()) {
-            Expediente tmp = ExpedientesAdmision.desencolar();
+        while (!ExpedientesBienestar.esVacia()) {
+            Expediente tmp = ExpedientesBienestar.desencolar();
             if (tmp.getId() != expediente.getId()) {
                 // Agrega el expediente a la cola temporal si no es el que se busca eliminar
                 temp.encolar(tmp);
@@ -90,7 +90,7 @@ public class Admision_Class {
         }
         // Vuelve a agregar los expedientes de la cola temporal a la cola de Admisión
         while (!temp.esVacia()) {
-            ExpedientesAdmision.encolar(temp.desencolar());
+            ExpedientesBienestar.encolar(temp.desencolar());
         }
     }
 
@@ -102,8 +102,8 @@ public class Admision_Class {
         Cola<Expediente> temp = new Cola<>();
 
         // Recorre la cola de Admisión y muestra cada expediente
-        while (!ExpedientesAdmision.esVacia()) {
-            Expediente tmp = ExpedientesAdmision.desencolar();
+        while (!ExpedientesBienestar.esVacia()) {
+            Expediente tmp = ExpedientesBienestar.desencolar();
             tmp.mostrar();
             // Agrega el expediente a la cola temporal después de mostrarlo
             temp.encolar(tmp);
@@ -111,7 +111,7 @@ public class Admision_Class {
 
         // Vuelve a agregar los expedientes de la cola temporal a la cola de Admisión
         while (!temp.esVacia()) {
-            ExpedientesAdmision.encolar(temp.desencolar());
+            ExpedientesBienestar.encolar(temp.desencolar());
         }
     } 
     
@@ -126,8 +126,8 @@ public class Admision_Class {
         Expediente EAux= new Expediente();
         Interesado IAux= new Interesado();
         // Recorre la cola de Admisión y busca el expediente con el DNI especificado
-        while (!ExpedientesAdmision.esVacia()) {
-            Expediente tmp = ExpedientesAdmision.desencolar();
+        while (!ExpedientesBienestar.esVacia()) {
+            Expediente tmp = ExpedientesBienestar.desencolar();
             IAux=tmp.getInteresado();
             String Saux=IAux.getDni();
             if(Saux.equals(dni)){
@@ -136,7 +136,7 @@ public class Admision_Class {
             temp.encolar(tmp);
         }
         while (!temp.esVacia()) {
-            ExpedientesAdmision.encolar(temp.desencolar());
+            ExpedientesBienestar.encolar(temp.desencolar());
         }
         return EAux;
     }

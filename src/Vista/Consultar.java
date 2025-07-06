@@ -122,7 +122,12 @@ public class Consultar extends javax.swing.JPanel {
         jPanel1.add(bttnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 10, 140, 60));
 
         jCheckBox1.setText("Finalizados");
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, -1, -1));
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -211,6 +216,10 @@ public class Consultar extends javax.swing.JPanel {
 
     private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
     }//GEN-LAST:event_bttnBuscarActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

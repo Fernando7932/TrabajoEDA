@@ -202,7 +202,7 @@ public class Seguimiento extends javax.swing.JPanel {
             return;
         }
 
-        String[] opciones = {"Admision", "Alumnos y Egresados", "Matricula"};
+        String[] opciones = {"Bienestar","Empleabilidad","Dep. Médico"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -219,7 +219,7 @@ public class Seguimiento extends javax.swing.JPanel {
             Expediente exp = Administrador.buscarPorDNI(dni);
             String actual = exp.getDependencia();
             if (!actual.equalsIgnoreCase("Administrador")) {
-            javax.swing.JOptionPane.showMessageDialog(this, " Este expediente ya fue derivado a " + actual + ". No se puede derivar nuevamente.");             
+            javax.swing.JOptionPane.showMessageDialog(this, "Este expediente ya fue derivado a " + actual + ". No se puede derivar nuevamente.");             
             return;
             }
             Administrador.derivarA(dependencia, exp);
@@ -236,9 +236,10 @@ public class Seguimiento extends javax.swing.JPanel {
 
         if (filaSeleccionada != -1) {
             int idSeleccionado = (int) TableEXP2.getValueAt(filaSeleccionada, 0);
+            String dni=(String) TableEXP2.getValueAt(filaSeleccionada, 1);
             Date fechaActual = new Date();
-
             if (Administrador.CompletarExpedienteCR(fechaActual, idSeleccionado)) {
+                Administrador.agregarFinalizado(Administrador.buscarPorDNI(dni));
                 JOptionPane.showMessageDialog(this, "El expediente ha sido completado correctamente (estado: Finalizado).");
             } else {
                 JOptionPane.showMessageDialog(this, "Primero debes derivar este expediente antes de completarlo.");

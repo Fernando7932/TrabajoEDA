@@ -16,17 +16,17 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelMT" alignment="0" pref="430" max="32767" attributes="0"/>
+          <Component id="jPanelAL" alignment="0" pref="430" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanelMT" alignment="0" pref="280" max="32767" attributes="0"/>
+          <Component id="jPanelAL" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelMT">
+    <Container class="javax.swing.JPanel" name="jPanelAL">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -49,7 +49,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTableMatricula">
+            <Component class="javax.swing.JTable" name="jTableAlumn_Egr">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="4" rowCount="4">
@@ -127,7 +127,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Prueba - Mt"/>
+            <Property name="text" type="java.lang.String" value="Prueba - al"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -137,7 +137,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="bttnAdmision">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Admision"/>
+            <Property name="text" type="java.lang.String" value="Bienestar"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -154,7 +154,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="bttnAlumEgre">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Alumnos / Egresados"/>
+            <Property name="text" type="java.lang.String" value="Empleabilidad"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -171,7 +171,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="bttnMatricula">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Matricula"/>
+            <Property name="text" type="java.lang.String" value="Dep. M&#xe9;dico"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>

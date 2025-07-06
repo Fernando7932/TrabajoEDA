@@ -131,7 +131,12 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel7.setText(" Asunto");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 60, 20));
 
-        cbxAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Constancia de Matricula", "Constancia de Rendimiento Academico", "Constacia de Egresados" }));
+        cbxAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bienestar", "Empleabilidad", "Dep. Médico" }));
+        cbxAsunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxAsuntoActionPerformed(evt);
+            }
+        });
         jPanel1.add(cbxAsunto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 120, -1));
 
         jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 10)); // NOI18N
@@ -280,6 +285,10 @@ public class RGSTExpediente extends javax.swing.JPanel {
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTelefonoActionPerformed
+
+    private void cbxAsuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxAsuntoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxAsuntoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

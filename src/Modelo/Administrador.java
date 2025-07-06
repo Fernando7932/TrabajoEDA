@@ -92,6 +92,21 @@ public class Administrador {
         }
         return EAux;
     }
+        public static Cola<Expediente> buscarPorEstado(int estado) {
+         Cola<Expediente> SinDerivar = new Cola<>();
+        Cola<Expediente> temp = new Cola<>();
+        while (!ExpedientesPrincipal.esVacia()) {
+            Expediente tmp = ExpedientesPrincipal.desencolar();
+            if (tmp.getEstado()==estado) {
+                SinDerivar.encolar(tmp);
+            }
+            temp.encolar(tmp);
+        }
+        while (!temp.esVacia()) {
+            ExpedientesPrincipal.encolar(temp.desencolar());
+        }
+        return SinDerivar;
+    }
 
     public static void ExpedienteFinalizados(int estado) {
         Cola<Expediente> temp = new Cola<>();
@@ -147,17 +162,17 @@ public class Administrador {
 
     public static void derivarA(String Dependencia, Expediente exp) {
         exp.derivarTramite();
-        if (Dependencia.equalsIgnoreCase("Admision")) {
-            exp.setDependencia("Admision");
-            Admision_Class.agregar(exp);
+        if (Dependencia.equalsIgnoreCase("Bienestar")) {
+            exp.setDependencia("Bienestar");
+            Bienestar_Class.agregar(exp);
         }
-        if (Dependencia.equalsIgnoreCase("Alumnos y Egresados")) {
-            exp.setDependencia("Alumnos y Egresados");
-            Alumnos_Egresados_class.agregar(exp);
+        if (Dependencia.equalsIgnoreCase("Empleabilidad")) {
+            exp.setDependencia("Empleabilidad");
+            Empleabilidad_Class.agregar(exp);
         }
-        if (Dependencia.equalsIgnoreCase("Matricula")) {
-            exp.setDependencia("Matricula");
-            Matricula_Class.agregar(exp);
+        if (Dependencia.equalsIgnoreCase("Dep. Medico")) {
+            exp.setDependencia("Dep. Médico");
+            Dep_medico_Class.agregar(exp);
         }
 
     }
