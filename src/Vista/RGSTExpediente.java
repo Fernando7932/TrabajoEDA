@@ -69,6 +69,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         bttnVer = new javax.swing.JButton();
         cbxPrioridad = new javax.swing.JComboBox<>();
+        cbxEsMiembro = new javax.swing.JCheckBox();
 
         setPreferredSize(new java.awt.Dimension(410, 280));
 
@@ -170,6 +171,9 @@ public class RGSTExpediente extends javax.swing.JPanel {
         cbxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alta", "Media", "Baja" }));
         jPanel1.add(cbxPrioridad, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 120, -1));
 
+        cbxEsMiembro.setText("Miembro UL");
+        jPanel1.add(cbxEsMiembro, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, 130, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,9 +226,14 @@ public class RGSTExpediente extends javax.swing.JPanel {
         }
 
         String documento = (nombre_archivo != null) ? nombre_archivo : "no aplica";
-
-        String Tipo = "Alumno UL";
-        Interesado i = new Interesado(DNI, Nombres, Telefono, Tipo, Email);
+        String tipo = "Externo";
+        
+        if (cbxEsMiembro.isSelected()) {
+            tipo = "Miembro UL";
+        }
+        
+        
+        Interesado i = new Interesado(DNI, Nombres, Telefono, tipo, Email);
 
         String prioridad = cbxPrioridad.getSelectedItem().toString();
         String asunto = cbxAsunto.getSelectedItem().toString();
@@ -280,6 +289,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
     private javax.swing.JButton bttnSeleccionar;
     private javax.swing.JButton bttnVer;
     private javax.swing.JComboBox<String> cbxAsunto;
+    private javax.swing.JCheckBox cbxEsMiembro;
     private javax.swing.JComboBox<String> cbxPrioridad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

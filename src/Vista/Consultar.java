@@ -84,7 +84,7 @@ public class Consultar extends javax.swing.JPanel {
         txtBúsuqeda = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         bttnDetalles = new javax.swing.JButton();
-        buscar = new javax.swing.JButton();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -110,25 +110,19 @@ public class Consultar extends javax.swing.JPanel {
         jPanel1.add(txtBúsuqeda, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 36, 130, 30));
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 10, 70));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 0, 10, 70));
 
-        bttnDetalles.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
+        bttnDetalles.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         bttnDetalles.setText("VER DETALLES");
         bttnDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bttnDetallesActionPerformed(evt);
             }
         });
-        jPanel1.add(bttnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(262, 10, 150, 60));
+        jPanel1.add(bttnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 10, 140, 60));
 
-        buscar.setFont(new java.awt.Font("Lucida Grande", 1, 13)); // NOI18N
-        buscar.setText("Buscar");
-        buscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buscarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(buscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(149, 40, 80, 30));
+        jCheckBox1.setText("Finalizados");
+        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -217,16 +211,11 @@ public class Consultar extends javax.swing.JPanel {
 
     private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
     }//GEN-LAST:event_bttnBuscarActionPerformed
-
-    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO av}dd your handling code here:
-        buscarExpedientePorDNI();
-    }//GEN-LAST:event_buscarActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnDetalles;
-    private javax.swing.JButton buscar;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
