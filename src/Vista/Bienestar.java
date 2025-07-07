@@ -30,7 +30,7 @@ public class Bienestar extends javax.swing.JPanel {
 
     Border default_border = BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(153, 153, 153));
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
-    Lista<JButton> botones= new Lista<>();
+    Lista<JButton> botones = new Lista<>();
     DefaultTableModel model;
 
     public Bienestar() {
@@ -44,9 +44,9 @@ public class Bienestar extends javax.swing.JPanel {
         botones.agregar(bttnMatricula);
         //Aplicar el mismo formato de borde a todos los botones
         Nodo<JButton> aux = botones.getCabeza();
-        while(aux!=null){
+        while (aux != null) {
             aux.getItem().setBorder(default_border);
-            aux=aux.getSgteNodo();      
+            aux = aux.getSgteNodo();
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
@@ -61,7 +61,6 @@ public class Bienestar extends javax.swing.JPanel {
         Cola<Expediente> alta = new Cola<>();
         Cola<Expediente> media = new Cola<>();
         Cola<Expediente> baja = new Cola<>();
-
 
         while (!original.esVacia()) {
             Expediente e = original.desencolar();
@@ -143,62 +142,66 @@ public class Bienestar extends javax.swing.JPanel {
     }
 
     public void setButtonBorder(JButton button) {
-         Nodo<JButton> aux = botones.getCabeza();
-             while(aux!=null){
+        Nodo<JButton> aux = botones.getCabeza();
+        while (aux != null) {
             aux.getItem().setBorder(default_border);
             aux.getItem().setForeground(new Color(153, 153, 153));
-            aux=aux.getSgteNodo();      
+            aux = aux.getSgteNodo();
         }
 
         // Borde rojo para el boton seleccionado
         button.setBorder(red_border);
         button.setForeground(Color.black);
     }
- public void resaltarBoton(JButton seleccionado) {
-    Nodo<JButton> aux = botones.getCabeza();
-    while (aux != null) {
-        JButton boton = aux.getItem();
-        if (boton == seleccionado) {
-            boton.setEnabled(true);
-            boton.setForeground(Color.BLACK);
-            boton.setBackground(Color.WHITE);
-        } else {
-            boton.setEnabled(false);
-            boton.setForeground(new Color(180, 180, 180)); // gris claro
-            boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
+
+    public void resaltarBoton(JButton seleccionado) {
+        Nodo<JButton> aux = botones.getCabeza();
+        while (aux != null) {
+            JButton boton = aux.getItem();
+            if (boton == seleccionado) {
+                boton.setEnabled(true);
+                boton.setForeground(Color.BLACK);
+                boton.setBackground(Color.WHITE);
+            } else {
+                boton.setEnabled(false);
+                boton.setForeground(new Color(180, 180, 180)); // gris claro
+                boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
+            }
+            aux = aux.getSgteNodo();
         }
-        aux = aux.getSgteNodo();
     }
-}
+
     public void addAction() {
         Nodo<JButton> aux = botones.getCabeza();
         while (aux != null) {
-        JButton button = aux.getItem();
-        button.addMouseListener(new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-             setButtonBorder(button);
-            resaltarBoton(button);
-        }
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            button.setBorder(red_border);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            button.setBorder(default_border);
-        }
+            JButton button = aux.getItem();
+            button.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    setButtonBorder(button);
+                    resaltarBoton(button);
+                }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-              }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(red_border);
+                }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(default_border);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+            });
+            aux = aux.getSgteNodo();
         }
-    });
-    aux = aux.getSgteNodo();
-}
     }
 
     private void ShowJPanel(JPanel p) {
@@ -270,7 +273,7 @@ public class Bienestar extends javax.swing.JPanel {
                 bttnDerivarActionPerformed(evt);
             }
         });
-        jPanelAD.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 160, 30));
+        jPanelAD.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 160, 50));
         jPanelAD.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 30));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
@@ -289,8 +292,9 @@ public class Bienestar extends javax.swing.JPanel {
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanelAD.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 20, 40));
 
-        jLabel1.setText("Prueba - ad");
-        jPanelAD.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setText("Bienestar");
+        jPanelAD.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, -1, 30));
 
         jTableAdmin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -305,7 +309,7 @@ public class Bienestar extends javax.swing.JPanel {
         ));
         JScrollPane.setViewportView(jTableAdmin);
 
-        jPanelAD.add(JScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
+        jPanelAD.add(JScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 150));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -315,7 +319,7 @@ public class Bienestar extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelAD, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(jPanelAD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -345,7 +349,7 @@ public class Bienestar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-        String[] opciones = {"Administrador","Empleabilidad","Dep. Médico"};
+        String[] opciones = {"Administrador", "Empleabilidad", "Dep. Médico"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(

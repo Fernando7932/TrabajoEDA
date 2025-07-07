@@ -30,8 +30,8 @@ public class GuardadorDatos {
      *                    Si el archivo ya existe, será sobrescrito.
      */
     public static void guardarExpedientesEnTxt(String rutaArchivo) {
-        // Formato de fecha para guardar las fechas en el archivo (año-mes-día hora:min:seg)
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // Formato de fecha para guardar las fechas en el archivo (año-mes-día)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         // El 'false' en FileWriter indica que se debe sobrescribir el archivo.
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(rutaArchivo, false))) {
             // Guardar expedientes de la cola principal (Administrador)
@@ -40,8 +40,7 @@ public class GuardadorDatos {
             while (!Modelo.Administrador.ExpedientesPrincipal.esVacia()) {
                 Expediente exp = Modelo.Administrador.ExpedientesPrincipal.desencolar();
                 tempAdmin.encolar(exp);
-                // Si el expediente está en estado 1, es "En proceso de derivacion"; si es 2, está bajo el Administrador
-                String dependenciaStr = (exp.getEstado() == 1) ? "En proceso de derivacion" : "Administrador";
+                // Si el expediente está en estado 1, es "En proceso de derivacion"; si no, está bajo el Administrador
                 String fechaInicioStr = (exp.getFechaInicio() != null) ? sdf.format(exp.getFechaInicio()) : "null";
                 String fechaFinalStr = (exp.getFechaFinal() != null) ? sdf.format(exp.getFechaFinal()) : "null";
                 String docResultanteStr = (exp.getDocumentoResultante() != null && !exp.getDocumentoResultante().isEmpty()) ? exp.getDocumentoResultante() : "null";
@@ -58,7 +57,7 @@ public class GuardadorDatos {
                         fechaInicioStr,
                         fechaFinalStr,
                         docResultanteStr,
-                        dependenciaStr);
+                        "Administrador");
                 bw.write(linea);
                 bw.newLine();
             }
@@ -74,7 +73,7 @@ public class GuardadorDatos {
                 tempAdmision.encolar(exp);
                 String fechaInicioStr = (exp.getFechaInicio() != null) ? sdf.format(exp.getFechaInicio()) : "null";
                 String fechaFinalStr = (exp.getFechaFinal() != null) ? sdf.format(exp.getFechaFinal()) : "null";
-                String docResultanteStr = (exp.getDocumentoResultante() != null && !exp.getDocumentoResultante().isEmpty()) ? exp.getDocumentoResultante() : "null";
+                String docResultanteStr = (exp.getDocumentoResultante() != null) ? exp.getDocumentoResultante() : "null";
                 String linea = String.join(";",
                         exp.getInteresado().getDni(),
                         exp.getInteresado().getNombre(),
@@ -88,8 +87,10 @@ public class GuardadorDatos {
                         fechaInicioStr,
                         fechaFinalStr,
                         docResultanteStr,
-                        "Admision");
+                        "Bienestar");
+                //Escritura
                 bw.write(linea);
+                //Espacio
                 bw.newLine();
             }
             while (!tempAdmision.esVacia()) {
@@ -117,7 +118,7 @@ public class GuardadorDatos {
                         fechaInicioStr,
                         fechaFinalStr,
                         docResultanteStr,
-                        "Alumnos_Egresados");
+                        "Empleabilidad");
                 bw.write(linea);
                 bw.newLine();
             }
@@ -146,7 +147,7 @@ public class GuardadorDatos {
                         fechaInicioStr,
                         fechaFinalStr,
                         docResultanteStr,
-                        "Matricula");
+                        "Dep. Médico");
                 bw.write(linea);
                 bw.newLine();
             }

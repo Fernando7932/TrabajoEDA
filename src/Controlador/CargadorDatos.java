@@ -30,6 +30,7 @@ public class CargadorDatos {
         // Lee el archivo línea por línea
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
+            //Mientras la ultima linea sea diferente de null se va a leer el archivo
             while ((linea = br.readLine()) != null) {
                 // Omitir líneas vacías
                 if (linea.trim().isEmpty()) {
@@ -67,11 +68,11 @@ public class CargadorDatos {
                     // Distribuye el expediente en la cola correspondiente según la dependencia
                     if (dependencia.equalsIgnoreCase("Administrador") || dependencia.equalsIgnoreCase("En proceso de derivacion")) {
                         Modelo.Administrador.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Admision")) {
+                    } else if (dependencia.equalsIgnoreCase("Bienestar")) {
                         Modelo.Bienestar_Class.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Alumnos_Egresados")) {
+                    } else if (dependencia.equalsIgnoreCase("Empleabilidad")) {
                         Modelo.Empleabilidad_Class.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Matricula")) {
+                    } else if (dependencia.equalsIgnoreCase("Dep. Médico")) {
                         Modelo.Dep_medico_Class.agregar(expediente);
                     } else {
                         // Si la dependencia no es reconocida, agregar a la cola principal por defecto

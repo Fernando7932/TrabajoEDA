@@ -131,7 +131,7 @@ public class RGSTExpediente extends javax.swing.JPanel {
         jLabel7.setText(" Asunto");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 220, 60, 20));
 
-        cbxAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bienestar", "Empleabilidad", "Dep. Médico" }));
+        cbxAsunto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Solicitud psicológica", "Apoyo social", "Registro laboral", "Certificado prácticas", "Cita médica", "Certificado salud" }));
         cbxAsunto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxAsuntoActionPerformed(evt);

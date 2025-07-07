@@ -175,10 +175,13 @@
         <Component class="javax.swing.JComboBox" name="cbxAsunto">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="Bienestar"/>
-                <StringItem index="1" value="Empleabilidad"/>
-                <StringItem index="2" value="Dep. M&#xe9;dico"/>
+              <StringArray count="6">
+                <StringItem index="0" value="Solicitud psicol&#xf3;gica"/>
+                <StringItem index="1" value="Apoyo social"/>
+                <StringItem index="2" value="Registro laboral"/>
+                <StringItem index="3" value="Certificado pr&#xe1;cticas"/>
+                <StringItem index="4" value="Cita m&#xe9;dica"/>
+                <StringItem index="5" value="Certificado salud"/>
               </StringArray>
             </Property>
           </Properties>

@@ -254,6 +254,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bttnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnConsultarActionPerformed
         // Solo apilamos si no estamos ya en este panel
+        viewConsultar.mostrarPorPrioridad();
         if (content.getComponentCount() == 0 || content.getComponent(0) != viewConsultar) {
             ShowJPanelPila(viewConsultar, true);
         }

@@ -12,13 +12,12 @@ import javax.swing.JOptionPane;
  * Gestiona las notificaciones automáticas sobre el estado de los expedientes.
  */
 public class Notificador {
+
     private final Timer timer;
 
     /**
      * Constructor que inicializa el temporizador.
      */
-    
-    
     public Notificador() {
         this.timer = new Timer();
     }
@@ -37,28 +36,34 @@ public class Notificador {
     }
 
     /**
-     * Cuenta y notifica expedientes en todas las colas (principal, admisión, alumnos/egresados, matrícula).
+     * Cuenta y notifica expedientes en todas las colas (principal, admisión,
+     * alumnos/egresados, matrícula).
      */
     private void MostrarExpedientesSd() {
         //mostrar todos los expedientes sin derivar
-        String detalles="";
-        Cola<Expediente> Sd=Administrador.buscarPorEstado(1);
+        String detalles = "";
+        Cola<Expediente> Sd = Administrador.buscarPorEstado(1);
         while (!Sd.esVacia()) {
-            Expediente expediente=Sd.desencolar();
-            Interesado interesado=expediente.getInteresado();
-            detalles +="\nId: "+expediente.getId() 
-                    +"\t"+" | DNI: " + interesado.getDni() 
-                    + "\t"+" | Prioridad: " + expediente.getPrioridad() 
-                    + "\t"+" | Estado: Sin derivar";
+            Expediente expediente = Sd.desencolar();
+            Interesado interesado = expediente.getInteresado();
+            detalles += "\nId: " + expediente.getId()
+                    + "\t" + " | DNI: " + interesado.getDni()
+                    + "\t" + " | Prioridad: " + expediente.getPrioridad()
+                    + "\t" + " | Estado: Sin derivar";
         }
-        JOptionPane.showMessageDialog(null, detalles, "Notificación de Expedientes sin derivar", JOptionPane.INFORMATION_MESSAGE);
+        if (detalles.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay expedientes pendientes.", "Notificación de Expedientes sin derivar", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, detalles, "Notificación de Expedientes sin derivar", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }
+
     /**
      * Detiene el temporizador de notificaciones.
      */
     public void detener() {
         timer.cancel();
     }
-   
+
 }

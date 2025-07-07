@@ -231,10 +231,10 @@ public class Empleabilidad extends javax.swing.JPanel {
         bttnBuscar = new javax.swing.JButton();
         bttnDerivar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
         bttnAdmision = new javax.swing.JButton();
         bttnAlumEgre = new javax.swing.JButton();
         bttnMatricula = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanelAL.setBackground(new java.awt.Color(255, 255, 255));
         jPanelAL.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -252,7 +252,7 @@ public class Empleabilidad extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableAlumn_Egr);
 
-        jPanelAL.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
+        jPanelAL.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 150));
         jPanelAL.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 30));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
@@ -275,13 +275,10 @@ public class Empleabilidad extends javax.swing.JPanel {
                 bttnDerivarActionPerformed(evt);
             }
         });
-        jPanelAL.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 160, 30));
+        jPanelAL.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 160, 50));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanelAL.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 20, 40));
-
-        jLabel1.setText("Prueba - al");
-        jPanelAL.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
 
         bttnAdmision.setText("Bienestar");
         bttnAdmision.setBorder(null);
@@ -313,6 +310,10 @@ public class Empleabilidad extends javax.swing.JPanel {
         });
         jPanelAL.add(bttnMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 100, 30));
 
+        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel3.setText("Empleabilidad");
+        jPanelAL.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 250, -1, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,7 +322,9 @@ public class Empleabilidad extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelAL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanelAL, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -382,8 +385,8 @@ public class Empleabilidad extends javax.swing.JPanel {
     private javax.swing.JButton bttnBuscar;
     private javax.swing.JButton bttnDerivar;
     private javax.swing.JButton bttnMatricula;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelAL;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

@@ -25,9 +25,10 @@ public class Interesado {
      * @param dni DNI del interesado.
      * @param nombres Nombres y apellidos del interesado.
      * @param telefono Número de teléfono.
-     * @param tipo Tipo de interesado (ej. "Alumno", "Docente").
+     * @param tipo Tipo de interesado (ej. "Externo").
      * @param email Correo electrónico.
      */
+    
     public Interesado(String dni, String nombres, String telefono, String tipo, String email) {
         this.dni = dni;
         this.nombres = nombres;

@@ -4,6 +4,8 @@ import Modelo.Administrador;
 import static Modelo.Administrador.buscarPorDNI;
 import Modelo.Expediente;
 import Modelo.Interesado;
+import TDA.Cola;
+import TDA.ListaDoble;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
@@ -16,7 +18,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Consultar extends javax.swing.JPanel {
 
-    private final DefaultTableModel model;
+    DefaultTableModel model;
+    DefaultTableModel modelFinalizados;
 
     /**
      * Crea un nuevo panel de consulta.
@@ -25,8 +28,13 @@ public class Consultar extends javax.swing.JPanel {
         initComponents();
         String[] columnas = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "Dependencia"};
         model = new DefaultTableModel(columnas, 0);
-        jTable1.setModel(model);
+        jtableExp.setModel(model);
+        mostrarPorPrioridad();
         
+
+        // Modelo para expedientes finalizados
+        String[] columnasFinalizados = {"ID", "DNI", "Nombre", "Prioridad", "Asunto", "Dependencia"};
+        modelFinalizados = new DefaultTableModel(columnasFinalizados, 0);
         
         //Para que funcione presionando enter
         txtBúsuqeda.addActionListener((ActionEvent e) -> {
@@ -65,7 +73,19 @@ public class Consultar extends javax.swing.JPanel {
                     exp.Dependencia
                 });
                 encontrado = true;
+
+            } else if (exp.getInteresado() != null && dni.equals(exp.getInteresado().getDni()) && esFinalizados.isSelected()) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.Dependencia
+                });
+                encontrado = true;
             }
+
             tempPrincipal.encolar(exp);
         }
         while (!tempPrincipal.esVacia()) {
@@ -79,17 +99,17 @@ public class Consultar extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtableExp = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         txtBúsuqeda = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
         bttnDetalles = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        esFinalizados = new javax.swing.JCheckBox();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtableExp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -100,7 +120,7 @@ public class Consultar extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jtableExp);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 410, 190));
 
@@ -121,13 +141,13 @@ public class Consultar extends javax.swing.JPanel {
         });
         jPanel1.add(bttnDetalles, new org.netbeans.lib.awtextra.AbsoluteConstraints(282, 10, 140, 60));
 
-        jCheckBox1.setText("Finalizados");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        esFinalizados.setText("Finalizados");
+        esFinalizados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                esFinalizadosActionPerformed(evt);
             }
         });
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 40, -1, -1));
+        jPanel1.add(esFinalizados, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -143,7 +163,7 @@ public class Consultar extends javax.swing.JPanel {
 
     private void bttnDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnDetallesActionPerformed
         // Obtener la fila seleccionada en la tabla (jTable1)
-        int selectedRow = jTable1.getSelectedRow();
+        int selectedRow = jtableExp.getSelectedRow();
 
         // Verificar si no se ha seleccionado ninguna fila
         if (selectedRow == -1) {
@@ -157,7 +177,7 @@ public class Consultar extends javax.swing.JPanel {
 
         // Obtener el DNI de la fila seleccionada (columna 1 del modelo)
         String dni = (String) model.getValueAt(selectedRow, 1);
-        
+
         // Buscar el expediente correspondiente al DNI obtenido
         Expediente expediente = Administrador.buscarPorDNI(dni);
 
@@ -182,10 +202,14 @@ public class Consultar extends javax.swing.JPanel {
             // Convertir el código numérico del estado a texto legible
             String estado;
             estado = switch (expediente.getEstado()) {
-                case 1 -> "Sin derivar";
-                case 2 -> "En proceso";
-                case 3 -> "Finalizado";
-                default -> "Desconocido";
+                case 1 ->
+                    "Sin derivar";
+                case 2 ->
+                    "En proceso";
+                case 3 ->
+                    "Finalizado";
+                default ->
+                    "Desconocido";
             };
 
             // Construir el mensaje con todos los detalles
@@ -217,19 +241,105 @@ public class Consultar extends javax.swing.JPanel {
     private void bttnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttnBuscarActionPerformed
     }//GEN-LAST:event_bttnBuscarActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void esFinalizadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_esFinalizadosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-    
+        if (esFinalizados.isSelected()) {
+            cargarExpedientesFinalizados();
+        } else {
+            mostrarPorPrioridad();
+        }
+    }//GEN-LAST:event_esFinalizadosActionPerformed
+
+    public void mostrarPorPrioridad() {
+        DefaultTableModel modelo = (DefaultTableModel) jtableExp.getModel();
+        modelo.setRowCount(0);
+
+        Cola<Expediente> original = Modelo.Administrador.ExpedientesPrincipal;
+        Cola<Expediente> temp = new Cola<>();
+        Cola<Expediente> alta = new Cola<>();
+        Cola<Expediente> media = new Cola<>();
+        Cola<Expediente> baja = new Cola<>();
+
+        while (!original.esVacia()) {
+            Expediente e = original.desencolar();
+            if (e.getEstado() == 1 || e.getEstado() == 2) {
+                switch (e.getPrioridad()) {
+                    case "Alta":
+                        alta.encolar(e);
+                        break;
+                    case "Media":
+                        media.encolar(e);
+                        break;
+                    case "Baja":
+                        baja.encolar(e);
+                        break;
+                }
+            }
+            temp.encolar(e);
+        }
+
+        while (!temp.esVacia()) {
+            original.encolar(temp.desencolar());
+        }
+
+        agregarColaATabla(alta, modelo);
+        agregarColaATabla(media, modelo);
+        agregarColaATabla(baja, modelo);
+    }
+
+    private void agregarColaATabla(Cola<Expediente> cola, DefaultTableModel modelo) {
+        Cola<Expediente> temp = new Cola<>();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        while (!cola.esVacia()) {
+            Expediente e = cola.desencolar();
+            Interesado i = e.getInteresado();
+            String fechaFinal = (e.getFfinal() != null) ? sdf.format(e.getFfinal()) : "N/A";
+
+            modelo.addRow(new Object[]{
+                e.getId(),
+                i.getDni(),
+                i.getNombre(),
+                e.getPrioridad(),
+                e.getAsunto(),
+                fechaFinal
+            });
+            temp.encolar(e);
+        }
+        // Restaurar la cola original
+        while (!temp.esVacia()) {
+            cola.encolar(temp.desencolar());
+        }
+    }
+
+    private void cargarExpedientesFinalizados() {
+        model.setRowCount(0); // Limpiar la tabla
+        TDA.ListaDoble<Expediente> lista = Administrador.ExpedientesFinalizados;
+
+        for (int i = 1; i <= lista.longitud(); i++) {
+            Expediente exp = lista.iesimo(i);
+            if (exp != null && exp.getInteresado() != null) {
+                model.addRow(new Object[]{
+                    exp.getId(),
+                    exp.getInteresado().getDni(),
+                    exp.getInteresado().getNombre(),
+                    exp.getPrioridad(),
+                    exp.getAsunto(),
+                    exp.getDependencia()
+                });
+            }
+        }
+
+        jtableExp.setModel(model); // Por si acaso, actualizar el modelo
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttnDetalles;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox esFinalizados;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jtableExp;
     private javax.swing.JTextField txtBúsuqeda;
     // End of variables declaration//GEN-END:variables
 }

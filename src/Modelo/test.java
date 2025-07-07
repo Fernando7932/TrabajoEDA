@@ -14,7 +14,6 @@ public class test {public static void main(String[] args) {
           Interesado i2 = new Interesado("9680", "hernan","9978" ,"gaa","@");
         Expediente e2 = new Expediente("medio", i2, "comite","doc");
         Administrador.agregarFinalizado(e2);
-        Administrador.mostrarFinalizado();
     }
     
 }

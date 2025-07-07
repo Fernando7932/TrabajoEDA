@@ -7,7 +7,7 @@ package Modelo;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
+import java.util.Random;
 /**
  * Clase que representa un expediente (caso o trámite) dentro del sistema.
  * Cada expediente tiene información del interesado, prioridad, asunto, estado y dependencia actual.
@@ -55,7 +55,7 @@ public class Expediente {
     /**
      * Nombre de la dependencia actual donde está el expediente
      */
-    public String Dependencia="Administrador";
+    public String Dependencia = "Administrador";
 
     /**
      * Fecha en que se inició el trámite
@@ -68,7 +68,7 @@ public class Expediente {
     private Date fechaFinal;
 
     /**
-     * Documento generado como resultado del trámite (puede ser null)
+     * Documento generado como resultado del trámite (es null cuando el expediente no esta compltado)
      */
     private String documentoResultante;
 
@@ -265,14 +265,9 @@ public class Expediente {
         calendar.setTime(fechaInicio);
 
         // 3. Establecer un plazo por defecto de 2 días
-        int diasASumar = 2;
+        Random rand = new Random();
+        int diasASumar = rand.nextInt(4);
 
-        // 4. Verificar el tipo de asunto para ajustar el plazo
-        if (asunto.equalsIgnoreCase("Constancia de Rendimiento Academico")) {
-            diasASumar = 3; // Si es una constancia de rendimiento, se dan 3 días
-        } else if (asunto.equalsIgnoreCase("Constacia de Egresados")) {
-            diasASumar = 4; // Si es una constancia de egresados, se dan 4 días
-        }
 
         // 5. Sumar los días calculados a la fecha inicial
         calendar.add(Calendar.DAY_OF_YEAR, diasASumar);

@@ -229,10 +229,10 @@ public class Dep_medico extends javax.swing.JPanel {
         bttnBuscar = new javax.swing.JButton();
         bttnDerivar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
         bttnAdmision = new javax.swing.JButton();
         bttnAlumEgre = new javax.swing.JButton();
         bttnMatricula = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         jPanelMT.setBackground(new java.awt.Color(255, 255, 255));
         jPanelMT.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -250,7 +250,7 @@ public class Dep_medico extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(jTableMatricula);
 
-        jPanelMT.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 170));
+        jPanelMT.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 410, 150));
         jPanelMT.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 130, 30));
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 1, 12)); // NOI18N
@@ -273,13 +273,10 @@ public class Dep_medico extends javax.swing.JPanel {
                 bttnDerivarActionPerformed(evt);
             }
         });
-        jPanelMT.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 60, 160, 30));
+        jPanelMT.add(bttnDerivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, 160, 50));
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanelMT.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 50, 20, 40));
-
-        jLabel1.setText("Prueba - Mt");
-        jPanelMT.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
 
         bttnAdmision.setText("Bienestar");
         bttnAdmision.setBorder(null);
@@ -311,6 +308,10 @@ public class Dep_medico extends javax.swing.JPanel {
         });
         jPanelMT.add(bttnMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 0, 100, 30));
 
+        jLabel3.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel3.setText("Departamento Médico");
+        jPanelMT.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 250, -1, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -319,7 +320,7 @@ public class Dep_medico extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelMT, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(jPanelMT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -381,8 +382,8 @@ public class Dep_medico extends javax.swing.JPanel {
     private javax.swing.JButton bttnBuscar;
     private javax.swing.JButton bttnDerivar;
     private javax.swing.JButton bttnMatricula;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelMT;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

@@ -18,7 +18,7 @@ public class Administrador {
     public static String usuario;
     public static String contraseña;
     public static Cola<Expediente> ExpedientesPrincipal;
-    public static Lista<Expediente> ExpedientesFinalizados;
+    public static ListaDoble<Expediente> ExpedientesFinalizados;
 
     public static String getUsuario() {
         return usuario;
@@ -33,7 +33,7 @@ public class Administrador {
     }
 
     static {
-        ExpedientesFinalizados = new Lista<>();
+        ExpedientesFinalizados = new ListaDoble<>();
     }
 
     public static void agregar(Expediente item) {
@@ -65,14 +65,7 @@ public class Administrador {
         ExpedientesFinalizados.agregar(item);
     }
 
-    public static void mostrarFinalizado() {
-        Nodo<Expediente> aux = ExpedientesFinalizados.getCabeza();
-        //Imgrese al bucle siempre que tenga elementos
-        while (aux != null) { // La lista no esta vacia
-            aux.getItem().mostrar();
-            aux = aux.getSgteNodo();
-        }
-    }
+
 
     public static Expediente buscarPorDNI(String dni) {
         Cola<Expediente> temp = new Cola<>();
@@ -92,7 +85,8 @@ public class Administrador {
         }
         return EAux;
     }
-        public static Cola<Expediente> buscarPorEstado(int estado) {
+    
+    public static Cola<Expediente> buscarPorEstado(int estado) {
          Cola<Expediente> SinDerivar = new Cola<>();
         Cola<Expediente> temp = new Cola<>();
         while (!ExpedientesPrincipal.esVacia()) {
