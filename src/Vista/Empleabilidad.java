@@ -30,8 +30,7 @@ public class Empleabilidad extends javax.swing.JPanel {
 
     Border default_border = BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(153, 153, 153));
     Border red_border = BorderFactory.createMatteBorder(0, 0, 3, 0, Color.RED);
-    Lista<JButton> botones= new Lista<>();
-    
+    Lista<JButton> botones = new Lista<>();
 
     private final DefaultTableModel model;
 
@@ -41,14 +40,13 @@ public class Empleabilidad extends javax.swing.JPanel {
         model = new DefaultTableModel(columnas, 0);
         jTableAlumn_Egr.setModel(model);
         mostrarPorPrioridad();
-       botones.agregar(bttnAdmision);
+        botones.agregar(bttnAdmision);
         botones.agregar(bttnAlumEgre);
         botones.agregar(bttnMatricula);
         //Aplicar el mismo formato de borde a todos los botones
-        Nodo<JButton> aux = botones.getCabeza();
-        while(aux!=null){
-            aux.getItem().setBorder(default_border);
-            aux=aux.getSgteNodo();      
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton boton = botones.iesimo(i);
+            boton.setBorder(default_border);
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
@@ -116,64 +114,65 @@ public class Empleabilidad extends javax.swing.JPanel {
     }
 
     public void setButtonBorder(JButton button) {
-        Nodo<JButton> aux = botones.getCabeza();
-             while(aux!=null){
-            aux.getItem().setBorder(default_border);
-            aux.getItem().setForeground(new Color(153, 153, 153));
-            aux=aux.getSgteNodo();      
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton b = botones.iesimo(i);
+            b.setBorder(default_border);
+            b.setForeground(new Color(153, 153, 153));
         }
 
-        // Borde rojo para el boton seleccionado
+        // Borde rojo para el botón seleccionado
         button.setBorder(red_border);
-        button.setForeground(Color.black);
+        button.setForeground(Color.BLACK);
     }
-     public void resaltarBoton(JButton seleccionado) {
-    Nodo<JButton> aux = botones.getCabeza();
-    while (aux != null) {
-        JButton boton = aux.getItem();
-        if (boton == seleccionado) {
-            boton.setEnabled(true);
-            boton.setForeground(Color.BLACK);
-            boton.setBackground(Color.WHITE);
-        } else {
-            boton.setEnabled(false);
-            boton.setForeground(new Color(180, 180, 180)); // gris claro
-            boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
+
+    public void resaltarBoton(JButton seleccionado) {
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton boton = botones.iesimo(i);
+
+            if (boton == seleccionado) {
+                boton.setEnabled(true);
+                boton.setForeground(Color.BLACK);
+                boton.setBackground(Color.WHITE);
+            } else {
+                boton.setEnabled(false);
+                boton.setForeground(new Color(180, 180, 180)); // gris claro
+                boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
+            }
         }
-        aux = aux.getSgteNodo();
     }
-}
-     public void addAction() {
+
+    public void addAction() {
         Nodo<JButton> aux = botones.getCabeza();
         while (aux != null) {
-        JButton button = aux.getItem();
-        button.addMouseListener(new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-             setButtonBorder(button);
-            resaltarBoton(button);
-        }
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            button.setBorder(red_border);
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-            button.setBorder(default_border);
-        }
+            JButton button = aux.getItem();
+            button.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    setButtonBorder(button);
+                    resaltarBoton(button);
+                }
 
-        @Override
-        public void mousePressed(MouseEvent e) {
-              }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    button.setBorder(red_border);
+                }
 
-        @Override
-        public void mouseReleased(MouseEvent e) {
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    button.setBorder(default_border);
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                }
+            });
+            aux = aux.getSgteNodo();
         }
-    });
-    aux = aux.getSgteNodo();
-}
     }
-
 
     private void buscarExpedientePorDNI() {
         String dni = txtBuscar.getText().trim();
@@ -355,7 +354,7 @@ public class Empleabilidad extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione una fila antes de derivar.");
             return;
         }
-        String[] opciones = {"Bienestar","Administrador","Dep. Médico"};
+        String[] opciones = {"Bienestar", "Administrador", "Dep. Médico"};
         JComboBox<String> comboBox = new JComboBox<>(opciones);
 
         int opcion = JOptionPane.showConfirmDialog(
@@ -375,7 +374,7 @@ public class Empleabilidad extends javax.swing.JPanel {
             System.out.println("Destino seleccionado: " + dependencia);
             Modelo.Empleabilidad_Class.EliminarDeCola(exp);
             Administrador.buscarPorDNI(dni).setDependencia(dependencia);
-        }       
+        }
     }//GEN-LAST:event_bttnDerivarActionPerformed
 
 

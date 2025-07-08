@@ -2,10 +2,10 @@ package Controlador;
 
 import Modelo.Expediente;
 import Modelo.Interesado;
+import TDA.Lista;
 import java.io.BufferedReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JOptionPane;
@@ -21,74 +21,89 @@ public class CargadorDatos {
      * El archivo debe tener el siguiente formato por línea:
      * dni;nombres;telefono;tipo;email;prioridad;asunto;documentoReferencia;estado;fechaInicio;fechaFinal;documentoResultante;dependencia
      * @param rutaArchivo Ruta absoluta o relativa del archivo .txt de entrada
-     * @throws IOException Si ocurre un error al leer el archivo
      */
     public static void cargarExpedientesDesdeTxt(String rutaArchivo) {
         // Formato de fecha para interpretar las fechas del archivo
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
-        // Lee el archivo línea por línea
+
         try (BufferedReader br = new BufferedReader(new FileReader(rutaArchivo))) {
             String linea;
-            //Mientras la ultima linea sea diferente de null se va a leer el archivo
+
             while ((linea = br.readLine()) != null) {
-                // Omitir líneas vacías
-                if (linea.trim().isEmpty()) {
-                    // Si la línea está vacía, saltar a la siguiente iteración
-                    continue; 
-                }
+                if (linea.trim().isEmpty()) continue; // Ignorar líneas vacías
 
-                // Divide la línea en campos usando el punto y coma como separador
-                String[] datos = linea.split(";");
-                // Si la línea tiene 13 campos, incluye la dependencia
-                if (datos.length == 13) { // Incluye dependencia como campo 13
-                    // Crea el objeto Interesado y el objeto Expediente usando los datos del archivo
-                    Interesado interesado = new Interesado(datos[0].trim(), datos[1].trim(), datos[2].trim(), datos[3].trim(), datos[4].trim());
-                    Expediente expediente = new Expediente(datos[5].trim(), interesado, datos[6].trim(), datos[7].trim());
+                // Reemplazo de String[] con TDA Lista
+                Lista<String> datos = new Lista<>();
+                String temp = "";
 
-                    // Cargar los datos adicionales usando setters
-                    // Asigna el estado del expediente (1, 2 o 3)
-                    expediente.setEstado(Integer.parseInt(datos[8].trim()));
-                    // Intenta asignar las fechas de inicio y finalización si existen
-                    try {
-                        if (!datos[9].trim().equals("null")) expediente.setFechaInicio(sdf.parse(datos[9].trim()));
-                        if (!datos[10].trim().equals("null")) expediente.setFechaFinal(sdf.parse(datos[10].trim()));
-                    } catch (ParseException e) {
-                        System.err.println("Error al parsear la fecha para la línea: " + linea);
-                    }
-                    // Asigna el documento resultante si existe
-                    String docResultante = datos[11].trim();
-                    if (!docResultante.equals("null")) {
-                        expediente.setDocumentoResultante(docResultante);
-                    }
-                    // Asigna la dependencia leída del archivo
-                    String dependencia = datos[12].trim();
-                    expediente.Dependencia = dependencia;
-
-                    // Distribuye el expediente en la cola correspondiente según la dependencia
-                    if (dependencia.equalsIgnoreCase("Administrador") || dependencia.equalsIgnoreCase("En proceso de derivacion")) {
-                        Modelo.Administrador.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Bienestar")) {
-                        Modelo.Bienestar_Class.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Empleabilidad")) {
-                        Modelo.Empleabilidad_Class.agregar(expediente);
-                    } else if (dependencia.equalsIgnoreCase("Dep. Médico")) {
-                        Modelo.Dep_medico_Class.agregar(expediente);
+                // Recorremos cada carácter para dividir la línea manualmente por ';'
+                for (int i = 0; i < linea.length(); i++) {
+                    char c = linea.charAt(i);
+                    if (c == ';') {
+                        datos.agregar(temp.trim());
+                        temp = "";
                     } else {
-                        // Si la dependencia no es reconocida, agregar a la cola principal por defecto
-                        Modelo.Administrador.agregar(expediente);
+                        temp += c;
+                    }
+                }
+                if (!temp.isEmpty()) datos.agregar(temp.trim()); // Agregar último campo
+
+                // Validamos si hay 13 campos como se espera
+                if (datos.longitud() == 13) {
+                    try {
+                        Interesado interesado = new Interesado(
+                            datos.iesimo(1), datos.iesimo(2), datos.iesimo(3),
+                            datos.iesimo(4), datos.iesimo(5)
+                        );
+
+                        Expediente expediente = new Expediente(
+                            datos.iesimo(6), interesado, datos.iesimo(7), datos.iesimo(8)
+                        );
+
+                        expediente.setEstado(Integer.parseInt(datos.iesimo(9)));
+
+                        if (!datos.iesimo(10).equals("null")) {
+                            expediente.setFechaInicio(sdf.parse(datos.iesimo(10)));
+                        }
+                        if (!datos.iesimo(11).equals("null")) {
+                            expediente.setFechaFinal(sdf.parse(datos.iesimo(11)));
+                        }
+
+                        String docResultante = datos.iesimo(12);
+                        if (!docResultante.equals("null")) {
+                            expediente.setDocumentoResultante(docResultante);
+                        }
+
+                        String dependencia = datos.iesimo(13);
+                        expediente.Dependencia = dependencia;
+
+                        // Distribución por dependencia
+                        if (dependencia.equalsIgnoreCase("Administrador") || dependencia.equalsIgnoreCase("En proceso de derivacion")) {
+                            Modelo.Administrador.agregar(expediente);
+                        } else if (dependencia.equalsIgnoreCase("Bienestar")) {
+                            Modelo.Bienestar_Class.agregar(expediente);
+                        } else if (dependencia.equalsIgnoreCase("Empleabilidad")) {
+                            Modelo.Empleabilidad_Class.agregar(expediente);
+                        } else if (dependencia.equalsIgnoreCase("Dep. Médico")) {
+                            Modelo.Dep_medico_Class.agregar(expediente);
+                        } else {
+                            Modelo.Administrador.agregar(expediente); // Valor por defecto
+                        }
+                    } catch (ParseException e) {
+                        System.err.println("Error al parsear fechas para la línea: " + linea);
                     }
                 } else {
-                    // Si la línea no tiene el formato esperado, mostrar error en consola
                     System.err.println("Línea con formato incorrecto en el archivo: " + linea);
                 }
             }
+
             System.out.println("Datos de expedientes cargados correctamente desde " + rutaArchivo);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "No se encontró el archivo 'expedientes.txt' o ocurrió un error al leerlo.\nEl programa iniciará sin datos precargados.", "Advertencia de Carga", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,
+                "No se encontró el archivo 'expedientes.txt' o ocurrió un error al leerlo.\nEl programa iniciará sin datos precargados.",
+                "Advertencia de Carga", JOptionPane.WARNING_MESSAGE);
         }
     }
-    
 }
 
 

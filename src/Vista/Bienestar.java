@@ -43,10 +43,9 @@ public class Bienestar extends javax.swing.JPanel {
         botones.agregar(bttnAlumEgre);
         botones.agregar(bttnMatricula);
         //Aplicar el mismo formato de borde a todos los botones
-        Nodo<JButton> aux = botones.getCabeza();
-        while (aux != null) {
-            aux.getItem().setBorder(default_border);
-            aux = aux.getSgteNodo();
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton boton = botones.iesimo(i);
+            boton.setBorder(default_border);
         }
 
         addAction(); //Cargar el metodo para la interacción con los botones.
@@ -142,22 +141,21 @@ public class Bienestar extends javax.swing.JPanel {
     }
 
     public void setButtonBorder(JButton button) {
-        Nodo<JButton> aux = botones.getCabeza();
-        while (aux != null) {
-            aux.getItem().setBorder(default_border);
-            aux.getItem().setForeground(new Color(153, 153, 153));
-            aux = aux.getSgteNodo();
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton b = botones.iesimo(i);
+            b.setBorder(default_border);
+            b.setForeground(new Color(153, 153, 153));
         }
 
-        // Borde rojo para el boton seleccionado
+        // Borde rojo para el botón seleccionado
         button.setBorder(red_border);
-        button.setForeground(Color.black);
+        button.setForeground(Color.BLACK);
     }
 
     public void resaltarBoton(JButton seleccionado) {
-        Nodo<JButton> aux = botones.getCabeza();
-        while (aux != null) {
-            JButton boton = aux.getItem();
+        for (int i = 1; i <= botones.longitud(); i++) {
+            JButton boton = botones.iesimo(i);
+
             if (boton == seleccionado) {
                 boton.setEnabled(true);
                 boton.setForeground(Color.BLACK);
@@ -167,7 +165,6 @@ public class Bienestar extends javax.swing.JPanel {
                 boton.setForeground(new Color(180, 180, 180)); // gris claro
                 boton.setBackground(new Color(230, 230, 230)); // fondo más pálido
             }
-            aux = aux.getSgteNodo();
         }
     }
 
