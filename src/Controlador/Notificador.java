@@ -32,7 +32,8 @@ public class Notificador {
             public void run() {
                 MostrarExpedientesSd();
             }
-        }, 0, 10 * 60 * 1000);
+        }, 0, 600000);
+        //10000
     }
 
     /**
