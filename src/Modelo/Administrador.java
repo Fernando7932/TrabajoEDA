@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Modelo;
 
 import TDA.*;
@@ -36,9 +31,6 @@ public class Administrador {
         ExpedientesFinalizados = new ListaDoble<>();
     }
 
-    public static void agregar(Expediente item) {
-        ExpedientesPrincipal.encolar(item);
-    }
 
     public static void desencolarExpediente() {
         ExpedientesPrincipal.desencolar();
@@ -64,8 +56,6 @@ public class Administrador {
     public static void agregarFinalizado(Expediente item) {
         ExpedientesFinalizados.agregar(item);
     }
-
-
 
     public static Expediente buscarPorDNI(String dni) {
         Cola<Expediente> temp = new Cola<>();
@@ -152,6 +142,11 @@ public class Administrador {
     public static Expediente crearExpediente(String prioridad, Interesado interesado,
             String asunto, String documento) {
         return new Expediente(prioridad, interesado, asunto, documento);
+    }
+    
+    
+    public static void agregar(Expediente item) {
+        ExpedientesPrincipal.encolar(item);
     }
 
     public static void derivarA(String Dependencia, Expediente exp) {
