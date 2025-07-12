@@ -8,4 +8,4 @@ Menú Principal → Derivar Trámite → Buscar expediente → Derivar → Volve
 
 Menú Principal → Consultar Estado → Buscar → Ver historial → Volver al menú.
 
-
+Clean and build para corer el programa 
